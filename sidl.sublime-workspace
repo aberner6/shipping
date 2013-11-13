@@ -1,0 +1,484 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"select",
+				"selectAll"
+			],
+			[
+				"fon",
+				"font-size"
+			],
+			[
+				"font-",
+				"font-family"
+			],
+			[
+				"par",
+				"parseInt"
+			],
+			[
+				"Y",
+				"yColumn"
+			],
+			[
+				"con",
+				"console"
+			],
+			[
+				"sele",
+				"selectAll"
+			],
+			[
+				"mar",
+				"margin-bottom"
+			],
+			[
+				"pa",
+				"padding-left"
+			],
+			[
+				"colu",
+				"columnNames"
+			],
+			[
+				"dropdow",
+				"dropdownIDs"
+			],
+			[
+				"dro",
+				"dropdownIDs"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"class",
+				"classed"
+			],
+			[
+				"cou",
+				"countries"
+			],
+			[
+				"view",
+				"viewYear"
+			],
+			[
+				"ztc",
+				"ztcOptions"
+			],
+			[
+				"ind",
+				"indicatorID"
+			],
+			[
+				"pro",
+				"properties"
+			],
+			[
+				"json",
+				"jsonCode"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 146.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Applications/MAMP/htdocs/xarts/index.html",
+		"/Applications/MAMP/htdocs/sidl/style/style.css",
+		"/Applications/MAMP/htdocs/sidl/js/map.js",
+		"/Applications/MAMP/htdocs/sidl/data/paths.json",
+		"/Applications/MAMP/htdocs/mod-d3-workshop/12_sp_500.html",
+		"/Applications/MAMP/htdocs/d3-book/chapter_10/14_div_tooltip.html",
+		"/Applications/MAMP/htdocs/d3-book/chapter_10/13_svg_tooltip.html",
+		"/Applications/MAMP/htdocs/mod-d3-workshop/11_cds.html",
+		"/Applications/MAMP/htdocs/visweek/v2/More examples/07-final.html",
+		"/Users/shmurray/Documents/Talks/2013-02 Strata/z VisWeek D3 Tutorial code/01_svg.html",
+		"/Applications/MAMP/htdocs/edp-d3-workshop/08_tooltip.html",
+		"/Users/shmurray/Dropbox/Clients (active)/SIDL/notes",
+		"/Applications/MAMP/htdocs/sidl/data/places.json",
+		"/Applications/MAMP/htdocs/sidl/data/placestest.json",
+		"/Applications/MAMP/htdocs/sidl/data/shipping_paths.json",
+		"/Applications/MAMP/htdocs/sidl/data/shipping_paths_flipped.json",
+		"/Applications/MAMP/htdocs/sidl/js/d3.v3.js",
+		"/Applications/MAMP/htdocs/sidl/index.html",
+		"/Applications/MAMP/htdocs/mod-d3-workshop/11_sp_500.html",
+		"/Applications/MAMP/htdocs/ydi/js/map.js",
+		"/Applications/MAMP/htdocs/mod-d3-workshop/10_scatterplot_random.html",
+		"/Applications/MAMP/htdocs/mod-d3-workshop/10_sp_500.html",
+		"/Applications/MAMP/htdocs/mod-d3-workshop/50_cjart.html",
+		"/Applications/MAMP/htdocs/mod-d3-workshop/11_random.html",
+		"/Applications/MAMP/htdocs/mod-d3-workshop/09_map.html",
+		"/Applications/MAMP/htdocs/mod-d3-workshop/us-cities.csv",
+		"/Applications/MAMP/htdocs/mod-d3-workshop/us-states.json",
+		"/Applications/MAMP/htdocs/mod-d3-workshop/README.md",
+		"/Applications/MAMP/htdocs/mod-d3-workshop/.gitignore",
+		"/Users/shmurray/Desktop/index.html",
+		"/Applications/MAMP/htdocs/kirby/Boxfile",
+		"/Applications/MAMP/htdocs/gti/js/custom.js",
+		"/Applications/MAMP/htdocs/downton-ipsum/css/style.css",
+		"/Applications/MAMP/htdocs/noraheins.com/index.html",
+		"/Applications/MAMP/htdocs/noraheins.com/style.css",
+		"/Users/shmurray/Dropbox/Fastmail sieve script.txt",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/XML_getIntContent.xml",
+		"/Users/shmurray/Documents/pdevgit/processing/core/src/processing/data/XML.java",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/XML_getFloatContent.xml",
+		"/Users/shmurray/Dropbox/pdev/XML Examples/getFloatContent/data/positions.xml",
+		"/Users/shmurray/Dropbox/pdev/XML Examples/getIntContent/data/positions.xml",
+		"/Users/shmurray/Dropbox/pdev/XML Examples/getIntContent/data/mammals.xml",
+		"/Users/shmurray/Documents/pdevgit/processing/core/src/processing/data/Table.java",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/include/HashMap.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/include/boolean.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/include/String.xml",
+		"/Users/shmurray/Documents/pdevgit/processing/core/src/processing/core/PApplet.java",
+		"/Users/shmurray/Documents/pdevgit/processing/app/src/processing/app/Base.java",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_findRow.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_findRows.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_matchRow.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_matchRows.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_getInt.xml",
+		"/Users/shmurray/Dropbox/pdev/JSON Examples/JSONArray_test/data/new.json",
+		"/Users/shmurray/Documents/pdevgit/processing/core/src/processing/data/TableRow.java",
+		"/Users/shmurray/Dropbox/pdev/JSON Examples/saveJSONArray/data/new.json",
+		"/Users/shmurray/Documents/pdevgit/processing/core/src/processing/data/JSONObject.java",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/JSONObject_getJSONArray.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/loadJSONArray.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/loadJSONObject.xml",
+		"/Users/shmurray/Dropbox/pdev/JSON Examples/JSONOBJECT EXAMPLES/getJSONArray/data/data.json",
+		"/Users/shmurray/Documents/pdevgit/processing/core/src/processing/data/JSONArray.java",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/saveJSONArray.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/JSONArray.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/saveTable.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/saveJSONObject.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/JSONObject.xml",
+		"/Users/shmurray/Dropbox/pdev/JSON Examples/saveJSONObject/data/new.json",
+		"/Users/shmurray/Dropbox/pdev/JSON Examples/LoadSaveJSON/data/data.json",
+		"/Users/shmurray/Dropbox/pdev/JSON Examples/loadJSONArray/data/data.json",
+		"/Users/shmurray/Dropbox/pdev/JSON Examples/loadJSONObject/data/data.json",
+		"/Users/shmurray/Documents/pdevgit/processing/core/src/processing/opengl/PGraphics2D.java",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/XML.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table.xml",
+		"/Users/shmurray/Dropbox/pdev/JSON Examples/JSONObject_test/data/new.json",
+		"/Users/shmurray/Dropbox/pdev/JSON Examples/JSONObject/data/data.json",
+		"/Users/shmurray/Desktop/firstnames.txt",
+		"/Users/shmurray/Documents/pdevgit/processing/build/build.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/TableRow.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/TableRow_setInt.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_setInt.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/TableRow_getInt.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/TableRow_getFloat.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_getFloat.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/TableRow_getString.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_getString.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/TableRow_setFloat.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_setFloat.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/TableRow_setString.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_setString.xml",
+		"/Users/shmurray/Documents/pdevgit/processing/core/src/processing/core/PImage.java",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_trim.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_removeTokens.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_getStringColumn.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_getRowCount.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_getColumnCount.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_rows.xml",
+		"/Applications/MAMP/htdocs/alignedleft.com/templates/partials/tutorial-feedback.html",
+		"/Applications/MAMP/htdocs/alignedleft.com/content/2.work/300.d3-book/project.yml",
+		"/Applications/MAMP/htdocs/alignedleft.com/content/3.tutorials/tutorial-index.yml",
+		"/Applications/MAMP/htdocs/alignedleft.com/templates/tutorial.html",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_addRow.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_clearRows.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_getRow.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_removeColumn.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_addColumn.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/Table_removeRow.xml",
+		"/Users/shmurray/Dropbox/pdev/Table Examples/addColumn/data/new.csv",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/PVector_mult.xml",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/PVector_div.xml",
+		"/Users/shmurray/Documents/pdevgit/processing/core/src/processing/core/PVector.java",
+		"/Users/shmurray/Documents/pdevgit/processing-web/content/api_en/PVector_add.xml",
+		"/Users/shmurray/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/shmurray/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/Users/shmurray/Documents/pdevgit/processing-web/distribution/Table.html",
+		"/Applications/MAMP/htdocs/gpi/v22/styles/style.css",
+		"/Applications/MAMP/htdocs/ukpi/data/2012.csv",
+		"/Users/shmurray/Desktop/test.html",
+		"/Applications/MAMP/htdocs/d3-book/chapter_10/03_hover copy.html",
+		"/Users/shmurray/Desktop/03_hover copy.html",
+		"/Users/shmurray/Dropbox/UKPI/Geodata/Python Scripts/joiners v3 new WLS ENG added Nuneaton and Bedworth/geo.json",
+		"/Users/shmurray/Dropbox/UKPI/Geodata/Python Scripts/CSVs/eng.csv",
+		"/Users/shmurray/Dropbox/UKPI/Geodata/Python Scripts/mapit.py",
+		"/Applications/MAMP/htdocs/ukpi/js/map.js",
+		"/Users/shmurray/Dropbox/UKPI/Geodata/ne_10m_admin_0_map_subunits/subunits.json",
+		"/Applications/MAMP/htdocs/ukpi/index.html",
+		"/Applications/MAMP/htdocs/ukpi/data/2011.csv",
+		"/Applications/MAMP/htdocs/ukpi/data/2010.csv"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"font",
+			".json",
+			"json",
+			"dropdown",
+			"dropdownIDs",
+			"dropdown",
+			"padding",
+			"ydi score",
+			">",
+			"<",
+			"count",
+			"see XML",
+			"getstring(",
+			"getint(",
+			"defaultvalue",
+			"rows(",
+			"@see Table#",
+			"getjsonarray",
+			"get the",
+			"list)",
+			"size(",
+			"loadtable(",
+			"setting",
+			"loadtable(",
+			"json",
+			"append(",
+			"size(",
+			"get",
+			"setint(",
+			"getstring(",
+			"getfloat(",
+			"getint(",
+			"tablerow",
+			"removetokens(",
+			"removetokens",
+			"token",
+			"getstringcolumn(",
+			"trim(",
+			"namecolumnName",
+			"name",
+			"col",
+			"getstringcolumn",
+			"getcolumncount(",
+			"getrowcount(",
+			"getrowcount",
+			"getcolumncount",
+			"the table",
+			"getrowcount(",
+			"getrowcount({",
+			"getrowcount(",
+			"set(",
+			"col",
+			"column to search",
+			"id value",
+			"column to search",
+			"columnname",
+			"getint(",
+			"matchrow(",
+			"columnname",
+			"matchrow",
+			"findrow",
+			"rows(",
+			"@usfca.edu",
+			"id number",
+			"the id",
+			"findrow(",
+			"rows(",
+			"clearrows(",
+			"xxx",
+			"removerow(",
+			"getrow(",
+			"removerow",
+			"getrow(",
+			"removerow(",
+			"removerow",
+			"addrow(",
+			"addrow",
+			"mult(",
+			"set",
+			"get",
+			"window",
+			"tab",
+			"addrow",
+			"print",
+			"string",
+			"column",
+			"get",
+			"getid",
+			"gettitle",
+			"getname",
+			"get",
+			"div(",
+			"mult(",
+			"div(",
+			"mult(",
+			"div(",
+			"David Wicks nowebref",
+			"mult(",
+			"multi(",
+			"div(",
+			"scroll",
+			"bristol",
+			"north de",
+			"torri",
+			"nir",
+			"(\"\");",
+			"\"Less\"",
+			"parseurl",
+			"recolor",
+			"Vis.viewIndicatorName",
+			"url",
+			"bristol",
+			"//",
+			"console.log",
+			".country",
+			"country",
+			"00hb",
+			"polygon",
+			"00hb",
+			"bristol",
+			"00hb",
+			"bristol",
+			"oohb",
+			"bristol",
+			"north",
+			"Vis.gridLabelWidth",
+			"generatelegen",
+			"tur"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"&gt;",
+			"&lt;",
+			"position",
+			"/",
+			"",
+			"getAreaName",
+			"code",
+			"Vis.ztcParams",
+			"Vis.geo.",
+			"Vis.countriesDropdown",
+			"Vis.areas",
+			".laas."
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 221.0,
+	"status_bar_visible": true
+}

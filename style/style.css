@@ -1,0 +1,499 @@
+body {
+	margin: 0;
+	padding: 0;
+	background-color: black;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+}
+
+#header {
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	width: 1100px;
+	height: 75px;
+	color: #ccc;
+}
+
+#header h1 {
+	position: absolute;
+	margin: 0;
+	top: 10px;
+	left: 20px;
+	font-size: 46px;
+	font-weight: 800;
+	letter-spacing: 2px;
+}
+
+#header #oneliner {
+	position: absolute;
+	top: 10px;
+	left: 410px;
+	width: 350px;
+	font-size: 14px;
+	line-height: 16px;
+}
+
+#header #aboutLink {
+	position: absolute;
+	top: 10px;
+	left: 800px;
+	font-size: 14px;
+	color: lime;
+	/*font-weight: bold;*/
+	cursor: pointer;
+}
+
+#header #aboutLink:hover {
+	color: yellow;
+}
+
+#header #aboutContent {
+	position: absolute;
+	top: 50px;
+	left: 770px;
+	z-index: 50;
+	width: 300px;
+	padding: 0 30px 30px 30px;
+	font-size: 14px;
+	line-height: 17px;
+	cursor: pointer;
+	background-color: black;
+	display: none;
+	opacity: 0.0;
+}
+
+#container {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	line-height: 0;
+	overflow: hidden;
+}
+
+.intro {
+	position: absolute;
+	z-index: 20;
+	color: #ccc;
+	font-size: 15px;
+	line-height: 18px;
+	background-color: rgba(0, 0, 0, 0.9);
+	padding: 0;
+	width: 25%;
+	top: 250px;
+	left: 37%;
+	display: none;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.intro p {
+	margin: 20px;
+}
+
+.intro .button {
+	display: inline-block;
+	padding: 15px;
+	color: #FFF000;
+	font-weight: bold;
+	background-color: #67CD00;
+}
+
+.intro .button:hover {
+	color: #67CD00;
+	background-color: #FFF000;
+}
+
+
+
+
+
+
+
+
+.background {
+	fill: black;
+}
+
+.land {
+	fill: #231F20;
+	stroke-opacity: 1;
+}
+
+.countries path {
+	stroke: rgb(80, 64, 39);  
+	stroke-linejoin: round;
+	stroke-width: 0.5;
+	fill: rgb(117, 87, 57);
+	opacity: 0.2;
+}
+
+/* uncomment to add hover outlines */
+/*.countries path:hover {
+	fill-opacity:.1;
+	stroke-width:1;
+	opacity: 1;
+}*/
+
+.graticule {
+	fill: none;
+	stroke: none;
+}
+
+
+
+
+
+
+
+
+/* Shipping Paths */
+
+.paths path.background {
+	fill: none;
+	stroke: black;
+	stroke-width: 5;
+	opacity: 0.0;
+}
+
+.paths path.visible {
+	fill: none;
+	stroke: #99CD74;
+	stroke-width: 0.5;
+}
+
+.paths path.selected {
+	stroke: yellow;
+	stroke-width: 2;
+}
+
+
+
+/* Ports */
+
+.port circle {
+	fill: #6FCCDD;
+	opacity: 0.5;
+}
+
+.port.clickable circle {
+	fill: #6FCCDD;
+	stroke: #FFF200;
+	opacity: 0.5;
+}
+
+.port .label {
+	font-size: 15px;
+	fill: #999;
+}
+
+/* styles for clickable labels */
+.port.clickable .label {
+	cursor: pointer;
+	text-anchor: end;
+}
+
+.port.clickable:hover .label {
+	fill: lime;
+}
+
+.port.selected circle,
+.port.selected .label {
+	fill: yellow;
+}
+
+
+
+
+/* Energy Bars */
+
+#energyBars rect {
+	fill: lime;
+}
+
+#energyBars text {
+	pointer-events: none;
+}
+
+#energyBars line {
+	stroke: yellow;
+	pointer-events: none;
+}
+
+#energyBars g.rollover text,
+#energyBars g.rollover line {;
+	opacity: 0.0;
+}
+
+#energyBars g.rollover:hover text,
+#energyBars g.rollover:hover line {
+	opacity: 1.0;
+}
+
+
+
+/* Hoverbox */
+
+#hoverbox {
+	pointer-events: none;
+}
+
+#hoverbox rect {
+	shape-rendering: crispEdges;
+}
+
+#hoverbox rect.background {
+	fill: black;
+	opacity: 0.9;
+}
+
+#hoverbox text {
+	font-size: 14px;
+	/*fill: yellow;*/
+	/*opacity: ;*/
+}
+
+#hoverbox .title {
+	fill: white;
+}
+
+#hoverbox .label {
+	fill: white;
+}
+#hoverbox .shipnames {
+	fill: yellow;
+}
+
+#hoverbox text.imports {
+	fill: lime;
+}
+
+#hoverbox text.exports {
+	fill: green;
+}
+#hoverbox text.total {
+	fill: white;
+}
+#hoverbox rect.imports {
+	fill: lime;
+}
+
+#hoverbox rect.exports {
+	fill: green;
+}
+
+#hoverbox.hidden {
+	display: none;
+}
+
+
+
+
+
+/* Story Mode */
+
+#storyContainer {
+	position: absolute;
+	z-index: 10;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 100px;
+	overflow: hidden;
+	cursor: pointer;
+	background-color: rgba(0, 0, 0, 0.9);
+	line-height: 20px;
+}
+
+#storyContainer .nav {
+	height: 100px;
+	width: 100%;
+	position: relative;
+	left: 0;
+	color: white;
+	cursor: pointer;
+	text-align: center;
+}
+
+#storyContainer .nav p {
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	height: 100px;
+	width: 100%;
+	font-size: 36px;
+	line-height: 48px;
+	text-transform: uppercase;
+}
+
+#storyContainer .nav #heading .thumb {
+	display: inline;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	max-height: 80%;
+	border: solid 10px black;
+	cursor: pointer;
+}
+
+#storyContainer .nav #heading .thumb:hover {
+	border: solid 10px yellow;
+}
+
+#storyContainer .nav #heading .thumb.selected {
+	border: solid 10px lime;
+}
+
+#storyContainer .nav #prevStory,
+#storyContainer .nav #nextStory,
+#storyContainer .nav #closeStories {
+	display: inline-block;
+	display: none;
+	opacity: 0.0;
+	position: absolute;
+	top: 0;
+	height: 100px;
+	width: 100px;
+	text-align: center;
+	font-size: 48px;
+	line-height: 100px;
+	font-weight: bold;
+}
+
+#storyContainer .nav #prevStory:hover,
+#storyContainer .nav #nextStory:hover,
+#storyContainer .nav #closeStories:hover {
+	color: yellow;
+}
+
+#storyContainer .nav #prevStory {
+	left: 0;
+}
+
+#storyContainer .nav #nextStory,
+#storyContainer .nav #closeStories {
+	right: 0;
+}
+
+#storyContainer .photoNav {
+	position: relative;
+	width: 1000px;
+}
+
+#storyContainer .photoNav #prevImage,
+#storyContainer .photoNav #nextImage {
+	display: block;
+	position: absolute;
+	top: -30px;
+	height: 50px;
+	width: 50px;
+	z-index: 150;
+	text-align: center;
+	font-size: 48px;
+	font-weight: bold;
+	color: white;
+	cursor: pointer;
+}
+
+#storyContainer .photoNav #prevImage:hover,
+#storyContainer .photoNav #nextImage:hover {
+	color: yellow;
+} 
+
+#storyContainer .photoNav #prevImage {
+	left: 0;
+}
+
+#storyContainer .photoNav #nextImage {
+	left: 450px;
+}
+
+
+
+
+
+
+#storyFrame {
+	width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+
+
+
+#stories {
+	width: 100%;
+	height: 450px;
+	z-index: 0;
+}
+
+.story {
+	width: 1000px;
+	color: #ccc;
+}
+
+.story .slides {
+	float: left;
+	width: 50%;
+}
+
+.story .text {
+	position: absolute;
+	width: 46%;
+	left: 52%;
+	padding-top: 20px;
+}
+
+/* Text */
+
+.story .text h3 {
+	margin: 0;
+	padding: 0;
+	font-size: 30px;
+	color: white;
+}
+
+.story .text h4 {
+	margin: 5px 0 0 0;
+	padding: 0;
+	font-size: 18px;
+	color: white;
+}
+
+.story .text p {
+	margin: 20px 0 20px 0;
+	padding: 0;
+	font-size: 16px;
+}
+
+
+/* Slides */
+
+.story .slides img,
+.story .slides video {
+	width: 100%;
+	height: auto;
+}
+
+
+
+
+
+
+.noclicks {
+	pointer-events: none;
+}
+
+.point {
+	fill: #CCC;
+	opacity: 0.8;
+}
+
+
+
+
+
+
+
