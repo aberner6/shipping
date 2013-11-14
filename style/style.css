@@ -12,7 +12,8 @@ body {
 	margin-right: auto;
 	width: 1100px;
 	height: 75px;
-	color: #ccc;
+	/*color: #ccc;*/
+	color: #999;
 }
 
 #header h1 {
@@ -21,8 +22,9 @@ body {
 	top: 10px;
 	left: 20px;
 	font-size: 46px;
-	font-weight: 800;
+	font-weight: 300;
 	letter-spacing: 2px;
+	color: #ff2000;
 }
 
 #header #oneliner {
@@ -39,13 +41,13 @@ body {
 	top: 10px;
 	left: 800px;
 	font-size: 14px;
-	color: lime;
+	color: #999;
 	/*font-weight: bold;*/
 	cursor: pointer;
 }
 
 #header #aboutLink:hover {
-	color: yellow;
+	color: #fe8a57;
 }
 
 #header #aboutContent {
@@ -95,12 +97,12 @@ body {
 	display: inline-block;
 	padding: 15px;
 	color: #FFF000;
-	font-weight: bold;
+	/*font-weight: bold;*/
 	background-color: #67CD00;
 }
 
 .intro .button:hover {
-	color: #67CD00;
+	color: #67CD00; 
 	background-color: #FFF000;
 }
 
@@ -158,12 +160,13 @@ body {
 
 .paths path.visible {
 	fill: none;
-	stroke: #99CD74;
+	/*stroke: #99CD74;*/
+	stroke: #307074;
 	stroke-width: 0.5;
 }
 
 .paths path.selected {
-	stroke: yellow;
+	stroke:#ff2000; 
 	stroke-width: 2;
 }
 
@@ -172,21 +175,25 @@ body {
 /* Ports */
 
 .port circle {
-	fill: #6FCCDD;
+	fill: #8dbdc2;
 	opacity: 0.5;
 }
 
 .port.clickable circle {
-	fill: #6FCCDD;
-	stroke: #FFF200;
+	fill: #8dbdc2;
+	stroke: #8dbdc2;
 	opacity: 0.5;
 }
 
 .port .label {
-	font-size: 15px;
+	font-size: 12px;
 	fill: #999;
 }
 
+.port:hover .label{
+	/*fill: #ff2000;*/
+	opacity: 1;
+}
 /* styles for clickable labels */
 .port.clickable .label {
 	cursor: pointer;
@@ -194,12 +201,16 @@ body {
 }
 
 .port.clickable:hover .label {
-	fill: lime;
+	fill: #ff2000;
+	opacity: 1;
+}
+.port.clickable:hover circle {
+	stroke: #ff2000;
 }
 
 .port.selected circle,
 .port.selected .label {
-	fill: yellow;
+	fill: #ff2000;
 }
 
 
@@ -208,7 +219,10 @@ body {
 /* Energy Bars */
 
 #energyBars rect {
-	fill: lime;
+	opacity: 0.4;
+	fill: none;
+	stroke: none;
+	/*stroke: #8e9ba4;*/
 }
 
 #energyBars text {
@@ -216,7 +230,7 @@ body {
 }
 
 #energyBars line {
-	stroke: yellow;
+	stroke: #ff2000;
 	pointer-events: none;
 }
 
@@ -254,32 +268,33 @@ body {
 }
 
 #hoverbox .title {
-	fill: white;
+	fill: #ff2000;
 }
 
 #hoverbox .label {
-	fill: white;
+	fill: lightyellow;
 }
 #hoverbox .shipnames {
-	fill: yellow;
+	fill: lightblue;
 }
 
 #hoverbox text.imports {
-	fill: lime;
+	fill: #56a6d5;
 }
 
 #hoverbox text.exports {
-	fill: green;
+	fill: #02d2ee;
 }
 #hoverbox text.total {
-	fill: white;
+	fill: lightyellow;
 }
 #hoverbox rect.imports {
-	fill: lime;
+	fill: #56a6d5;
+
 }
 
 #hoverbox rect.exports {
-	fill: green;
+	fill: #02d2ee;
 }
 
 #hoverbox.hidden {
@@ -310,7 +325,7 @@ body {
 	width: 100%;
 	position: relative;
 	left: 0;
-	color: white;
+	color: #999;
 	cursor: pointer;
 	text-align: center;
 }
@@ -337,11 +352,11 @@ body {
 }
 
 #storyContainer .nav #heading .thumb:hover {
-	border: solid 10px yellow;
+	border: solid 5px #ff2000;
 }
 
 #storyContainer .nav #heading .thumb.selected {
-	border: solid 10px lime;
+	border: solid 5px #ff2000;
 }
 
 #storyContainer .nav #prevStory,
@@ -357,13 +372,13 @@ body {
 	text-align: center;
 	font-size: 48px;
 	line-height: 100px;
-	font-weight: bold;
+	/*font-weight: bold;*/
 }
 
 #storyContainer .nav #prevStory:hover,
 #storyContainer .nav #nextStory:hover,
 #storyContainer .nav #closeStories:hover {
-	color: yellow;
+	color: #ff2000;
 }
 
 #storyContainer .nav #prevStory {
@@ -390,14 +405,14 @@ body {
 	z-index: 150;
 	text-align: center;
 	font-size: 48px;
-	font-weight: bold;
-	color: white;
+	/*font-weight: bold;*/
+	color: #999;
 	cursor: pointer;
 }
 
 #storyContainer .photoNav #prevImage:hover,
 #storyContainer .photoNav #nextImage:hover {
-	color: yellow;
+	color: #ff2000;
 } 
 
 #storyContainer .photoNav #prevImage {
@@ -452,14 +467,14 @@ body {
 	margin: 0;
 	padding: 0;
 	font-size: 30px;
-	color: white;
+	color: #999;
 }
 
 .story .text h4 {
 	margin: 5px 0 0 0;
 	padding: 0;
 	font-size: 18px;
-	color: white;
+	color: #999;
 }
 
 .story .text p {

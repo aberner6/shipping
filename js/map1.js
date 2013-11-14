@@ -1,20 +1,16 @@
-// d3.select(window).on("resize", throttle);
 
 
 
-var animateOpening = false, //not true
+var animateOpening = true,
 	padding = 0,
-	// width = 960 - padding,
-	// height = 500 - padding - 75,
 	width = window.innerWidth - padding,
 	height = window.innerHeight - padding - 75,
 	centered,     // centered variable holds zoom state
 	initialZoom = 175,
 	maxZoom = 1000,
 	hoverbox,
-	hoverboxMinWidth = 450,
-	// hoverboxHeight = 190,
-	hoverboxHeight = 210,
+	hoverboxMinWidth = 310,
+	hoverboxHeight = 190,
 	hoverBoxPortScaleMax = 500000000,
 	hoverBoxPathScaleMax = 120000000,
 	portGroups,	//Needs to be global
@@ -51,7 +47,8 @@ var zoom = d3.behavior.zoom()
 	.translate(proj.translate())
 	.scale(proj.scale())
 	.scaleExtent([initialZoom, maxZoom])
-	.on("zoom", function(){
+	.on("zoom", function() {
+
 		var t = d3.event.translate;
 		var s = d3.event.scale;
 
@@ -59,7 +56,9 @@ var zoom = d3.behavior.zoom()
 		//console.log(s);
 		
 		zoomInOut(t, s);
-	})
+	});
+
+
 
 var zoomInOut = function(t, s) {
 
@@ -79,23 +78,6 @@ var zoomInOut = function(t, s) {
 };
 
 
-// var zoomInOut = function(t, s) {
-
-// 	zoom.translate(t);
-// 	proj.translate(t).scale(s);
-
-// 	// Reproject everything in the map
-// 	map.selectAll("path")
-// 		 .attr("d", path);
-
-// 	// portGroups.attr("transform", function(d) {
-// 	// 	var x = proj([d.properties.lon,d.properties.lat])[0];
-// 	// 	var y = proj([d.properties.lon,d.properties.lat])[1];
-// 	// 	return "translate(" + x + "," + y + ")";
-// 	//  });
-// };
-
-
 
 // path generator - interprets any geo coordinates passed to it using the specific projection (.projection(proj))
 var path = d3.geo.path()
@@ -108,7 +90,6 @@ var path = d3.geo.path()
 var graticule = d3.geo.graticule();
 
 
-var width = document.getElementById('container').offsetWidth-60;
 
 // create the svg
 var svg = d3.select("#container").append("svg")
@@ -122,6 +103,7 @@ var svg = d3.select("#container").append("svg")
 var map = svg.append("g")
 			.attr("class","map")
 			.attr("clip-path", "url(#map-area)");
+
 
 
 // load data files; pass the results to ready() when everything is finished.
@@ -327,33 +309,14 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 		});
 
 	// Clickable ports get the click handler
-	// d3.selectAll('.port.clickable')
-	// d3.selectAll('.port')
-	portGroups
-		.on('click', function(d) {
-			click;
+	d3.selectAll('.port.clickable')
+		.on('click', click)
+		.on("mouseover", function(d) {
 			updateHoverbox(d.properties, "port");
 			d3.select(this).each(moveToFront);
 		})
-		.on("mouseover", function(d) {
-				d3.select(this).append("text")
-				.attr("class", "label")
-				.attr("x", "-8")
-				.attr("y", "-3")
-				.attr("opacity", 1)
-				.attr("text-anchor", "end")
-				// .attr("opacity", 0.0)
-				.text(function(d) { 
-					return d.properties.port;
-				});
-
-			// updateHoverbox(d.properties, "port");
-			// d3.select(this).each(moveToFront);
-		})
 		.on("mouseout", function(d) {
 			hideHoverbox();
-			d3.select(this)
-			.attr("opacity", .4);
 		});
 
 	// In each group, add a circle
@@ -394,23 +357,23 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 
 
 	// In each group, add a text label (if scalerank == 1)
-	// portGroups.each(function(d) {
+	portGroups.each(function(d) {
 
-	// 	if (d.properties.scalerank == 1) {
+		if (d.properties.scalerank == 1) {
 		
-	// 		d3.select(this).append("text")
-	// 			.attr("class", "label")
-	// 			.attr("x", "-8")
-	// 			.attr("y", "-3")
-	// 			.attr("text-anchor", "end")
-	// 			.attr("opacity", 0.0)
-	// 			.text(function(d) { 
-	// 				return d.properties.port;
-	// 			});
+			d3.select(this).append("text")
+				.attr("class", "label")
+				.attr("x", "-8")
+				.attr("y", "-3")
+				.attr("text-anchor", "end")
+				.attr("opacity", 0.0)
+				.text(function(d) { 
+					return d.properties.port;
+				});
 
-	// 	}
+		}
 
-	// });
+	});
 
 
 	if (!animateOpening) {
@@ -524,7 +487,7 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 
 		})
 		.text(function(d, i) {
-			return d[0] + " " + formatThousands(d[1]) + " million tons";
+			return d[0] + " " + formatThousands(d[1]) + " tons";
 		})
 		.style("fill", function(d, i) {
 
@@ -567,10 +530,20 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 		.attr("y", 24)
 		.text("Port: Houston to NYC");
 
+	hoverbox.append("text")
+		.attr("class", "imports")
+		.attr("x", 10)
+		.attr("y", 50)
+		.text("imports");
+
+	hoverbox.append("text")
+		.attr("class", "exports")
+		.attr("x", 50)
+		.attr("y", 50)
+		.text("exports");
+
 	hoverbox.append("rect")
 		.attr("class", "imports")
-		.attr("stroke", "black")
-		.attr("stroke-width", 2.5)
 		.attr("x", 10)
 		.attr("y", 60)
 		.attr("width", 50)
@@ -578,51 +551,30 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 
 	hoverbox.append("rect")
 		.attr("class", "exports")
-		.attr("stroke", "black")
-		.attr("stroke-width", 2.5)
 		.attr("x", 50)
 		.attr("y", 60)
 		.attr("width", 50)
 		.attr("height", 20);
 
 	hoverbox.append("text")
-		.attr("class", "imports")
-		.attr("x", 0)
-		.attr("y", 0)
-		.text("imports");
-
-	hoverbox.append("text")
-		.attr("class", "exports")
-		.attr("x", 0)
-		.attr("y", 0)
-		.text("exports");
-
-
-	hoverbox.append("text")
-		.attr("class", "total")
-		.attr("x", 0)
-		.attr("y", 0)
-		.text("total");
-
-	hoverbox.append("text")
 		.attr("class", "label")
 		.attr("x", 10)
-		.attr("y", 130)
+		.attr("y", 110)
 		.text("Top Ships");
 	
 	hoverbox.append("text")
 		.attr("class", "label")
 		.attr("x", 150)
-		.attr("y", 130)
+		.attr("y", 110)
 		.text("Top Commissioners");
 
-	hoverbox.append("text").attr("class", "shipnames").attr("id", "ship1").attr("x", 10).attr("y", 155).text("Name");
-	hoverbox.append("text").attr("class", "shipnames").attr("id", "ship2").attr("x", 10).attr("y", 175).text("Name");
-	hoverbox.append("text").attr("class", "shipnames").attr("id", "ship3").attr("x", 10).attr("y", 195).text("Name");
+	hoverbox.append("text").attr("id", "ship1").attr("x", 10).attr("y", 135).text("Name");
+	hoverbox.append("text").attr("id", "ship2").attr("x", 10).attr("y", 155).text("Name");
+	hoverbox.append("text").attr("id", "ship3").attr("x", 10).attr("y", 175).text("Name");
 	
-	hoverbox.append("text").attr("class", "shipnames").attr("id", "comm1").attr("x", 150).attr("y", 155).text("Name");
-	hoverbox.append("text").attr("class", "shipnames").attr("id", "comm2").attr("x", 150).attr("y", 175).text("Name");
-	hoverbox.append("text").attr("class", "shipnames").attr("id", "comm3").attr("x", 150).attr("y", 195).text("Name");
+	hoverbox.append("text").attr("id", "comm1").attr("x", 150).attr("y", 135).text("Name");
+	hoverbox.append("text").attr("id", "comm2").attr("x", 150).attr("y", 155).text("Name");
+	hoverbox.append("text").attr("id", "comm3").attr("x", 150).attr("y", 175).text("Name");
 
 
 
@@ -731,14 +683,13 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 //End ready()
 
 
-function showCities(){
 
-}
 
 
 
 function click(d) {
 
+	//console.log(d);
 
 	// if there is data, and if you aren't already zoomed onto the object clicked
 	if (d && centered !== d) {
@@ -746,7 +697,7 @@ function click(d) {
 		centered = d;
 
 		var newScale = maxZoom;
-console.log(newScale+"newscale");
+
 		zoom.scale(newScale);
 		proj.scale(newScale);
 		
@@ -756,8 +707,6 @@ console.log(newScale+"newscale");
 
 		var newTranslate = [];
 		newTranslate[0] = translate[0] - coords[0] + width / 2;
-
-		// newTranslate[0] = translate[0] - coords[0] + width / 2;
 
 		if (storiesOpen) {
 			//Story panel is open, so subtract the 500px height of that panel
@@ -844,25 +793,7 @@ console.log(newScale+"newscale");
 
 
 
-function move() {
 
-  var t = d3.event.translate;
-  var s = d3.event.scale;  
-  var h = height / 3;
-  t[0] = Math.min(width / 2 * (s - 1), Math.max(width / 2 * (1 - s), t[0]));
-  t[1] = Math.min(height / 2 * (s - 1) + h * s, Math.max(height / 2 * (1 - s) - h * s, t[1]));
-
-  zoom.translate(t);
-
-	// map.selectAll("path")
- // 		 .attr("d", path);
- svg.attr("transform", function(d) {
-
-	return "translate(" + t + ")scale(" + s + ")";
-  });
-  // svg.attr("transform", "translate(" + t + ")scale(" + s + ")");
-
-}
 
 
 
@@ -933,74 +864,33 @@ var updateHoverbox = function(d, type) {
 
 	//Calculate relative proportions for the import/export rects
 	var totalWidth = hoverboxMinWidth - 20;
-
-////////////////////////////////////////////////////
-
-
-var importScale = d3.scale.linear()
-	.domain([0, d.MetricTons]) //fix this later and make it the real nice max
-	.range([0, 350]);
-var exportScale = d3.scale.linear()
-	.domain([0, d.MetricTons]) //fix this later and make it the real nice max
-	.range([0, 350]);
-
-	var importsWidth = importScale (d.ImportMetTons);
-	var exportsWidth = exportScale (d.ExportMetTons);
-
-////////////////////////////////////////////////////
-
+	var importsWidth = d.ImportMetTons / hoverBoxScaleMax * totalWidth;
+	var exportsWidth = d.ExportMetTons / hoverBoxScaleMax * totalWidth;
 
 	hoverbox.select("rect.imports").attr("width", importsWidth);
 	hoverbox.select("rect.exports").attr("x", 10 + importsWidth).attr("width", exportsWidth);
-var imIs = 	15;
-var exIs = 	importsWidth+exportsWidth-40;
 
-	var exportsLabelX = exIs;
-	var exportsLabelY = 95;
-	var exportsText = "exports: ";
+	var exportsLabelX = 10 + importsWidth;
+	var exportsLabelY = 50;
+	var exportsText = "exports";
 	var importsLabelWidth = hoverbox.select("text.imports").node().getBBox().width;
 	var exportsLabelWidth = hoverbox.select("text.exports").node().getBBox().width;
-		exportsText += makePercentage(d.ExportMetTons, d.MetricTons)+"%";
 
-		/////////////////////////////////////////////
-	var importsLabelX = imIs;
-	var importsLabelY = exportsLabelY+5;
-	var importsText = "imports: ";
-		function makePercentage(number1, number2){
-		return Math.floor((number1 / number2) * 100);
-		}
-		importsText += makePercentage(d.ImportMetTons, d.MetricTons)+"%";
-		/////////////////////////////////////////////
-	var totalLabelX = exIs;
-	// var totalLabelY = 95;
-	var totalLabelY = 24;
-	var totalText = "total: ";
-		function makeNormal(number){
-			var newNum = number/1000000;
-		return Math.round(newNum);
-		}
-		totalText += makeNormal(d.MetricTons)+"mil";
-		////////////////////////////////////////////
-
-
+	//If exports label is too far to the left
+	if (exportsLabelX < importsLabelWidth + 20) {
+		exportsLabelX = importsWidth + exportsWidth + 20;
+		exportsLabelY = 75;
+		exportsText += " (" + parseInt(d.ExportMetTons, 10) + ")";
+	}
+	//If exports label is too far to the right
+	else if (exportsLabelX + exportsLabelWidth > hoverboxMinWidth - 10) {
+		exportsLabelX = hoverboxMinWidth - 10 - exportsLabelWidth;
+	}
 
 	hoverbox.select("text.exports")
 		.attr("x", exportsLabelX)
 		.attr("y", exportsLabelY)
 		.text(exportsText);
-
-/////////
-	hoverbox.select("text.imports")
-		.attr("x", importsLabelX)
-		.attr("y", importsLabelY)
-		.text(importsText);
-		//////////////////
-	hoverbox.select("text.total")
-		.attr("x", totalLabelX)
-		.attr("y", totalLabelY)
-		.text(totalText);
-		//////////////////
-
 
 	hoverbox.select("#ship1").text(d.Ship1.toUpperCase());
 	hoverbox.select("#ship2").text(d.Ship2.toUpperCase());
@@ -1213,13 +1103,6 @@ var openStories = function() {
 
 
 var resetMap = function() {
-	////////////////////
-  width = document.getElementById('container').offsetWidth-60;
-  height = width / 2;
-  d3.select('svg').remove();
-  setup(width,height);
-  draw(topo);
-///////////////////////
 
 	//Reset map
 	zoom.translate([width / 2, height / 2]).scale(initialZoom);
@@ -1244,13 +1127,7 @@ var resetMap = function() {
 		.attr("d", path);
 
 };
-// var throttleTimer;
-// function throttle() {
-//   window.clearTimeout(throttleTimer);
-//     throttleTimer = window.setTimeout(function() {
-//       resetMap();
-//     }, 200);
-// }
+
 
 
 var tuckMapUp = function(d) {
