@@ -2,7 +2,7 @@ body {
 	margin: 0;
 	padding: 0;
 	background-color: black;
-	font-family: 'Open Sans', sans-serif;
+  font-family: 'Arial', sans-serif;
 	font-size: 16px;
 }
 
@@ -22,7 +22,7 @@ body {
 	top: 10px;
 	left: 20px;
 	font-size: 46px;
-	font-weight: 300;
+	font-weight: 400;
 	letter-spacing: 2px;
 	color: #ff2000;
 }
@@ -178,23 +178,25 @@ body {
 	fill: #8dbdc2;
 	opacity: 0.5;
 }
-
-.port.clickable circle {
-	fill: #8dbdc2;
-	stroke: #8dbdc2;
-	opacity: 0.5;
-}
-
 .port .label {
 	font-size: 12px;
 	fill: #999;
 }
-
 .port:hover .label{
 	/*fill: #ff2000;*/
 	opacity: 1;
+	font-size: 20px;
 }
+
+
 /* styles for clickable labels */
+.port.clickable circle {
+	fill: #8dbdc2;
+	/*stroke: #8dbdc2;*/
+	stroke: #ff2000;
+	/*opacity: 0.5;*/
+	/*stroke-width:4;*/
+}
 .port.clickable .label {
 	cursor: pointer;
 	text-anchor: end;
@@ -202,16 +204,21 @@ body {
 
 .port.clickable:hover .label {
 	fill: #ff2000;
-	opacity: 1;
+	font-size: 20px;
+	cursor: pointer;
+
+	/*opacity: 1;*/
 }
 .port.clickable:hover circle {
 	stroke: #ff2000;
-}
+	/*stroke-width:4;*/
 
+}
 .port.selected circle,
 .port.selected .label {
 	fill: #ff2000;
-}
+/*	stroke-width:4;
+*/}
 
 
 
@@ -300,7 +307,6 @@ body {
 #hoverbox.hidden {
 	display: none;
 }
-
 
 
 

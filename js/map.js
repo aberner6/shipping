@@ -62,9 +62,12 @@ var zoom = d3.behavior.zoom()
 	})
 
 var zoomInOut = function(t, s) {
+if (s>176){
 
 	zoom.translate(t);
 	proj.translate(t).scale(s);
+
+console.log(s+"szoominout");
 
 	// Reproject everything in the map
 	map.selectAll("path")
@@ -75,7 +78,7 @@ var zoomInOut = function(t, s) {
 		var y = proj([d.properties.lon,d.properties.lat])[1];
 		return "translate(" + x + "," + y + ")";
 	 });
-
+}
 };
 
 
@@ -248,8 +251,11 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 	//     .data(topojson.feature(world, world.objects.countries).geometries)
 	//   .enter().append("path")
 	//     .attr("d", path); 
+// var metTons = d3.max(paths.features.MetricTons);
 
-
+var scaleVolume = d3.scale.linear()
+		.domain([0, 493829169])
+		.range([1, 10]);
 
 	//Shipping Paths
 
@@ -342,7 +348,6 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 				.attr("y", "-3")
 				.attr("opacity", 1)
 				.attr("text-anchor", "end")
-				// .attr("opacity", 0.0)
 				.text(function(d) { 
 					return d.properties.port;
 				});
@@ -352,11 +357,16 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 		})
 		.on("mouseout", function(d) {
 			hideHoverbox();
-			d3.select(this)
-			.attr("opacity", .4);
+			d3.selectAll('.label')
+			.remove();
+			// .attr("opacity", 0);
 		});
 
 	// In each group, add a circle
+// var thisisbig = d3.max(ports.features, function(d) { 
+// 	return d.MetricTons;
+// });
+	
 
 	if (animateOpening) {
 
@@ -384,11 +394,32 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 			.attr("cx", 0)
 			.attr("cy", 0)
 			.attr("r", function(d) {
-				if (d.properties.scalerank == 1) {
-					return 7;
-				}
-				return 1.5;
-			});
+				return scaleVolume(d.MetricTons);
+
+
+				// if (d.properties.scalerank == 1) {
+				// 	return 7;
+				// }
+				// return 1.5;
+			})
+			.attr("opacity", 1)
+
+
+
+
+		.on("mouseover", function(d) {
+				d3.select(this)
+				.attr("opacity", 1)
+				.attr("stroke-width", 3)
+		})
+		.on("mouseout", function(d) {
+			console.log("moused outta circle")
+			d3.select(this)
+				// .each(moveToFront)
+				.attr("opacity", 1)
+				.attr("stroke-width", 3)
+		});
+
 	
 	}
 
@@ -1019,7 +1050,12 @@ var hideHoverbox = function() {
 	hoverbox.classed("hidden", true);
 };
 
-
+var showCities = function(){
+	city.classed("hidden", false);
+}
+var hideCities = function(){
+	city.classed("hidden", true);
+}
 
 //Move SVG elements to the end of their container,
 //so they appear "on top".
