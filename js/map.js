@@ -45,6 +45,9 @@ var proj = d3.geo.mercator()
 			 .translate([width / 2, height / 2 + 50])
 			 .scale(initialZoom);
 
+var scaleVolume = d3.scale.linear()
+		.domain([0, 493829169])
+		.range([1, 100]);
 
 
 var zoom = d3.behavior.zoom()
@@ -62,6 +65,7 @@ var zoom = d3.behavior.zoom()
 	})
 
 var zoomInOut = function(t, s) {
+	// storiesOpen
 if (s>176){
 
 	zoom.translate(t);
@@ -79,6 +83,23 @@ console.log(s+"szoominout");
 		return "translate(" + x + "," + y + ")";
 	 });
 }
+if (s<176 && storiesOpen){
+	zoom.translate(t);
+	proj.translate(t).scale(s);
+
+console.log(s+"storiesOpen is true");
+
+	// Reproject everything in the map
+	map.selectAll("path")
+		 .attr("d", path);
+
+	portGroups.attr("transform", function(d) {
+		var x = proj([d.properties.lon,d.properties.lat])[0];
+		var y = proj([d.properties.lon,d.properties.lat])[1];
+		return "translate(" + x + "," + y + ")";
+	 });
+}
+
 };
 
 
@@ -253,9 +274,6 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 	//     .attr("d", path); 
 // var metTons = d3.max(paths.features.MetricTons);
 
-var scaleVolume = d3.scale.linear()
-		.domain([0, 493829169])
-		.range([1, 10]);
 
 	//Shipping Paths
 
@@ -321,10 +339,10 @@ var scaleVolume = d3.scale.linear()
 		.append("g")
 		.attr("class", "port")
 		.classed("clickable", function(d) {
-			if (d.properties.scalerank == 1) {
+			// if (d.properties.scalerank == 1) {
 				return true;
-			}
-			return false;
+			// }
+			// return false;
 		})
 		.attr("transform", function(d) {
 			var x = proj([d.properties.lon,d.properties.lat])[0];
@@ -338,10 +356,12 @@ var scaleVolume = d3.scale.linear()
 	portGroups
 		.on('click', function(d) {
 			click;
-			updateHoverbox(d.properties, "port");
-			d3.select(this).each(moveToFront);
+			// updateHoverbox(d.properties, "port");
+			// d3.select(this).each(moveToFront);
 		})
 		.on("mouseover", function(d) {
+			updateHoverbox(d.properties, "port");
+			d3.select(this).each(moveToFront);
 				d3.select(this).append("text")
 				.attr("class", "label")
 				.attr("x", "-8")
@@ -349,7 +369,7 @@ var scaleVolume = d3.scale.linear()
 				.attr("opacity", 1)
 				.attr("text-anchor", "end")
 				.text(function(d) { 
-					return d.properties.port;
+					// return d.properties.port;
 				});
 
 			// updateHoverbox(d.properties, "port");
@@ -394,11 +414,12 @@ var scaleVolume = d3.scale.linear()
 			.attr("cx", 0)
 			.attr("cy", 0)
 			.attr("r", function(d) {
-				return scaleVolume(d.MetricTons);
-
+				// console.log(d.properties.MetricTons);
+				// return scaleVolume(d.MetricTons);
+				return Math.sqrt(parseInt(d.properties.MetricTons)/1000000);
 
 				// if (d.properties.scalerank == 1) {
-				// 	return 7;
+					// return 7;
 				// }
 				// return 1.5;
 			})
@@ -453,6 +474,22 @@ var scaleVolume = d3.scale.linear()
 			.attr("opacity", 1.0);
 
 	}
+
+
+
+
+
+// var graphToggle = graphview.append("text")
+// .attr("x", lmargin)
+// .attr("y", toggleheight-textmargin)
+// .attr('fill','grey')
+// .attr('class','graphToggle')
+// .text("Graphs")
+
+// graphToggle.on('click', function(){
+// 	$("#energyBars".toggleShow)
+// })
+
 
 
 
@@ -576,7 +613,10 @@ var scaleVolume = d3.scale.linear()
 
 		});
 
-
+$('#tabs').click(function(){
+  $("#energyBars").fadeToggle( "slow", function() {
+});
+});
 
 
 	//Setup hover box
@@ -786,9 +826,8 @@ console.log(newScale+"newscale");
 		var translate = proj.translate();
 
 		var newTranslate = [];
-		newTranslate[0] = translate[0] - coords[0] + width / 2;
 
-		// newTranslate[0] = translate[0] - coords[0] + width / 2;
+		newTranslate[0] = translate[0] - coords[0] + width / 2;
 
 		if (storiesOpen) {
 			//Story panel is open, so subtract the 500px height of that panel
@@ -1250,11 +1289,7 @@ var openStories = function() {
 
 var resetMap = function() {
 	////////////////////
-  width = document.getElementById('container').offsetWidth-60;
-  height = width / 2;
-  d3.select('svg').remove();
-  setup(width,height);
-  draw(topo);
+
 ///////////////////////
 
 	//Reset map

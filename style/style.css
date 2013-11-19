@@ -4,7 +4,9 @@ body {
 	background-color: black;
   font-family: 'Arial', sans-serif;
 	font-size: 16px;
+	z-index: 0;
 }
+
 
 #header {
 	position: relative;
@@ -44,6 +46,17 @@ body {
 	color: #999;
 	/*font-weight: bold;*/
 	cursor: pointer;
+}
+#tabs {
+	position: absolute;
+	top: 200px;
+	left: 10%;
+	color: #999;
+	/*font-weight: bold;*/
+	cursor: pointer;
+	font-size: 20px;
+	font-weight: 200px;
+	z-index: 1000;
 }
 
 #header #aboutLink:hover {
@@ -224,12 +237,14 @@ body {
 
 
 /* Energy Bars */
+/*#energyBars {
+	visibility: hidden;
+}*/
 
 #energyBars rect {
 	opacity: 0.4;
-	fill: none;
-	stroke: none;
-	/*stroke: #8e9ba4;*/
+	fill: #8e9ba4;
+	stroke: #8e9ba4;
 }
 
 #energyBars text {
@@ -237,7 +252,7 @@ body {
 }
 
 #energyBars line {
-	stroke: #ff2000;
+	stroke: #8e9ba4;
 	pointer-events: none;
 }
 
