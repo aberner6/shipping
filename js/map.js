@@ -615,6 +615,7 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 
 $('#tabs').click(function(){
   $("#energyBars").fadeToggle( "slow", function() {
+
 });
 });
 
