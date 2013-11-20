@@ -14,7 +14,7 @@ var animateOpening = false, //not true
 	hoverbox,
 	hoverboxMinWidth = 450,
 	// hoverboxHeight = 190,
-	hoverboxHeight = 210,
+	hoverboxHeight = 110,
 	hoverBoxPortScaleMax = 500000000,
 	hoverBoxPathScaleMax = 120000000,
 	portGroups,	//Needs to be global
@@ -101,25 +101,6 @@ console.log(s+"storiesOpen is true");
 }
 
 };
-
-
-// var zoomInOut = function(t, s) {
-
-// 	zoom.translate(t);
-// 	proj.translate(t).scale(s);
-
-// 	// Reproject everything in the map
-// 	map.selectAll("path")
-// 		 .attr("d", path);
-
-// 	// portGroups.attr("transform", function(d) {
-// 	// 	var x = proj([d.properties.lon,d.properties.lat])[0];
-// 	// 	var y = proj([d.properties.lon,d.properties.lat])[1];
-// 	// 	return "translate(" + x + "," + y + ")";
-// 	//  });
-// };
-
-
 
 // path generator - interprets any geo coordinates passed to it using the specific projection (.projection(proj))
 var path = d3.geo.path()
@@ -265,16 +246,6 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 		.attr("class", "land")
 		.attr("d", path);
 
-
-	// append country outlines from world-110m.json
-	// map.append("g").attr("class","countries")
-	//   .selectAll("path")
-	//     .data(topojson.feature(world, world.objects.countries).geometries)
-	//   .enter().append("path")
-	//     .attr("d", path); 
-// var metTons = d3.max(paths.features.MetricTons);
-
-
 	//Shipping Paths
 
 	var pathGroups = map.append("g")
@@ -303,31 +274,64 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 		.attr("d", path)
 		.attr("stroke-dasharray", "0, 0.1");  //Initially, line is not visible
 
-		
+var noVolume = false;
+var animatePaths = false;
+// drawPorts();
 
-	if (animateOpening) {
+$('#ugh').click(function(){
+  $('#energyBars').fadeToggle( "slow", function() {
+})
+});
+$('#ugh2').click(function(){
+	noVolume = !noVolume;
 
-		pathGroups.selectAll("path")
-			.transition()
-			.delay(introDelay4)
-			.duration(5000)
-			.attrTween("stroke-dasharray", function() {
-				var l = this.getTotalLength();
-				var i = d3.interpolateString("0," + l, l + "," + l);
-				return function(t) {
-					return i(t);
-				};
-			});
+	if (noVolume){
+		changeCircle();
+	}
+	else {
+		returnCircle();
+	}
 
-	} else {
+});
+$('#ugh3').click(function(){
+	animatePaths = !animatePaths;
+	if (animatePaths){
+		changePaths();
+	}
+	else {
+		returnPaths();
+	}
+})
+
+
+
+
+
+
+	// if (animateOpening) {
+	// if (animatePaths) {
+
+	// 	pathGroups.selectAll("path")
+	// 		.transition()
+	// 		.delay(introDelay4)
+	// 		.duration(5000)
+	// 		.attrTween("stroke-dasharray", function() {
+	// 			var l = this.getTotalLength();
+	// 			var i = d3.interpolateString("0," + l, l + "," + l);
+	// 			return function(t) {
+	// 				return i(t);
+	// 			};
+	// 		});
+
+	// } else {
 
 		d3.selectAll("path")
 			.attr("stroke-dasharray", "none");
 
-	}
+	// }
 	
 
-
+// function drawPorts(){
 	//Ports
 
 	// Make a group for each port
@@ -349,6 +353,9 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 			var y = proj([d.properties.lon,d.properties.lat])[1];
 			return "translate(" + x + "," + y + ")";
 		});
+
+
+
 
 	// Clickable ports get the click handler
 	// d3.selectAll('.port.clickable')
@@ -381,114 +388,76 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 			.remove();
 			// .attr("opacity", 0);
 		});
-
 	// In each group, add a circle
-// var thisisbig = d3.max(ports.features, function(d) { 
-// 	return d.MetricTons;
-// });
-	
-
-	if (animateOpening) {
 
 		portGroups.append("circle")
 			.attr("class", "point")
 			.attr("cx", 0)
 			.attr("cy", 0)
-			.attr("r", 0.01)
-			.transition()
-			.duration(500)
-			.delay(function(d, i) {
-				return introDelay2 + i * 3;
-			})
-			.attr("r", function(d) {
-				if (d.properties.scalerank == 1) {
-					return 7;
-				}
-				return 1.5;
-			});
-
-	} else {
-
-		portGroups.append("circle")
-			.attr("class", "point")
-			.attr("cx", 0)
-			.attr("cy", 0)
-			.attr("r", function(d) {
-				// console.log(d.properties.MetricTons);
-				// return scaleVolume(d.MetricTons);
-				return Math.sqrt(parseInt(d.properties.MetricTons)/1000000);
-
-				// if (d.properties.scalerank == 1) {
-					// return 7;
-				// }
-				// return 1.5;
-			})
+			.attr("r", .8)
 			.attr("opacity", 1)
 
+// }
 
+function changeCircle(){
+		console.log("in circles")
 
-
-		.on("mouseover", function(d) {
-				d3.select(this)
-				.attr("opacity", 1)
-				.attr("stroke-width", 3)
-		})
-		.on("mouseout", function(d) {
-			console.log("moused outta circle")
-			d3.select(this)
-				// .each(moveToFront)
-				.attr("opacity", 1)
-				.attr("stroke-width", 3)
-		});
-
-	
-	}
-
-
-	// In each group, add a text label (if scalerank == 1)
-	// portGroups.each(function(d) {
-
-	// 	if (d.properties.scalerank == 1) {
-		
-	// 		d3.select(this).append("text")
-	// 			.attr("class", "label")
-	// 			.attr("x", "-8")
-	// 			.attr("y", "-3")
-	// 			.attr("text-anchor", "end")
-	// 			.attr("opacity", 0.0)
-	// 			.text(function(d) { 
-	// 				return d.properties.port;
-	// 			});
-
-	// 	}
-
-	// });
-
-
-	if (!animateOpening) {
-
-		//Reveal port names
-		portGroups.selectAll("text.label")
+		portGroups.selectAll("circle")
+		// .attr("class", "hidden")
 			.transition()
-			.duration(1000)
-			.attr("opacity", 1.0);
+			.duration(500)
+			.attr("r", function(d) {
+				return Math.sqrt(parseInt(d.properties.MetricTons)/1000000);
+			});	
+}
 
-	}
+function returnCircle(){
+		console.log("return circles")
+
+		portGroups.selectAll("circle")
+		// .attr("class", "hidden")
+			.transition()
+			.duration(500)
+			.attr("r", .8);
+}
+function changePaths(){
+	console.log("in paths")
+		pathGroups.selectAll("path")
+			.transition()
+			.duration(10000)
+			.attrTween("stroke-dasharray", function() {
+				var l = this.getTotalLength();
+				var i = d3.interpolateString("0," + l, l + "," + l);
+				return function(t) {
+					return i(t);
+				};
+			});
+}
+
+function returnPaths(){
+		console.log("return paths")
+
+		pathGroups.selectAll("path")
+			.transition()
+			.duration(10000)
+			.attrTween("stroke-dasharray", function() {
+				var l = this.getTotalLength();
+				var i = d3.interpolateString("-10," + l, l + "," + l);
+				return function(t) {
+					return i(t);
+				};
+			});
+}
 
 
 
 
 
-// var graphToggle = graphview.append("text")
-// .attr("x", lmargin)
-// .attr("y", toggleheight-textmargin)
-// .attr('fill','grey')
-// .attr('class','graphToggle')
-// .text("Graphs")
 
-// graphToggle.on('click', function(){
-// 	$("#energyBars".toggleShow)
-// })
+
+
+
+
 
 
 
@@ -508,7 +477,7 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 
 	var energyBarsScale = d3.scale.linear()
 		.domain([0, d3.sum(energyBarsData, function(d) { return d[1]; }) ])
-		.range([0, mapWidth]);
+		.range([28, mapWidth-28]);
 
 	svg.append("g")
 		.attr("id", "energyBars")
@@ -546,7 +515,8 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 		.attr("width", function(d) {
 			return energyBarsScale(d[1]);
 		})
-		.attr("height", 50)
+		.style("stroke-width", 4)
+		.attr("height", 30)
 		.style("opacity", function(d, i) {
 			return 1.0 - (i / energyBarsData.length);
 		});
@@ -568,7 +538,7 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 		.attr("x2", function(d) {
 			return energyBarsScale(d[1]);
 		})
-		.attr("y2", 76);
+		.attr("y2", 50);
 
 	
 
@@ -576,18 +546,20 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 		.attr("x", function(d, i) {
 
 			if (i == 0) {
-				return 5;
+				return 12;
 			} else {
-				return energyBarsScale(d[1]) - 5;
+				return energyBarsScale(d[1]);
 			}
 
 		})
 		.attr("y", function(d, i) {
 
 			if (i == 0) {
-				return 45;
+				// return 45;
+				return 20;
 			} else {
-				return 75;
+				// return 75;
+				return 20;
 			}
 
 		})
@@ -599,7 +571,7 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 			if (i == 0) {
 				return "black";
 			} else {
-				return "yellow";
+				return "black";
 			}
 
 		})
@@ -613,11 +585,6 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 
 		});
 
-$('#tabs').click(function(){
-  $("#energyBars").fadeToggle( "slow", function() {
-
-});
-});
 
 
 	//Setup hover box
@@ -644,7 +611,7 @@ $('#tabs').click(function(){
 		.attr("stroke", "black")
 		.attr("stroke-width", 2.5)
 		.attr("x", 10)
-		.attr("y", 60)
+		.attr("y", 50)
 		.attr("width", 50)
 		.attr("height", 20);
 
@@ -653,7 +620,7 @@ $('#tabs').click(function(){
 		.attr("stroke", "black")
 		.attr("stroke-width", 2.5)
 		.attr("x", 50)
-		.attr("y", 60)
+		.attr("y", 50)
 		.attr("width", 50)
 		.attr("height", 20);
 
@@ -676,25 +643,25 @@ $('#tabs').click(function(){
 		.attr("y", 0)
 		.text("total");
 
-	hoverbox.append("text")
-		.attr("class", "label")
-		.attr("x", 10)
-		.attr("y", 130)
-		.text("Top Ships");
+	// hoverbox.append("text")
+	// 	.attr("class", "label")
+	// 	.attr("x", 10)
+	// 	.attr("y", 130)
+	// 	.text("Top Ships");
 	
-	hoverbox.append("text")
-		.attr("class", "label")
-		.attr("x", 150)
-		.attr("y", 130)
-		.text("Top Commissioners");
+	// hoverbox.append("text")
+	// 	.attr("class", "label")
+	// 	.attr("x", 150)
+	// 	.attr("y", 130)
+	// 	.text("Top Commissioners");
 
-	hoverbox.append("text").attr("class", "shipnames").attr("id", "ship1").attr("x", 10).attr("y", 155).text("Name");
-	hoverbox.append("text").attr("class", "shipnames").attr("id", "ship2").attr("x", 10).attr("y", 175).text("Name");
-	hoverbox.append("text").attr("class", "shipnames").attr("id", "ship3").attr("x", 10).attr("y", 195).text("Name");
+	// hoverbox.append("text").attr("class", "shipnames").attr("id", "ship1").attr("x", 10).attr("y", 155).text("Name");
+	// hoverbox.append("text").attr("class", "shipnames").attr("id", "ship2").attr("x", 10).attr("y", 175).text("Name");
+	// hoverbox.append("text").attr("class", "shipnames").attr("id", "ship3").attr("x", 10).attr("y", 195).text("Name");
 	
-	hoverbox.append("text").attr("class", "shipnames").attr("id", "comm1").attr("x", 150).attr("y", 155).text("Name");
-	hoverbox.append("text").attr("class", "shipnames").attr("id", "comm2").attr("x", 150).attr("y", 175).text("Name");
-	hoverbox.append("text").attr("class", "shipnames").attr("id", "comm3").attr("x", 150).attr("y", 195).text("Name");
+	// hoverbox.append("text").attr("class", "shipnames").attr("id", "comm1").attr("x", 150).attr("y", 155).text("Name");
+	// hoverbox.append("text").attr("class", "shipnames").attr("id", "comm2").attr("x", 150).attr("y", 175).text("Name");
+	// hoverbox.append("text").attr("class", "shipnames").attr("id", "comm3").attr("x", 150).attr("y", 195).text("Name");
 
 
 
@@ -801,12 +768,6 @@ $('#tabs').click(function(){
 
 }
 //End ready()
-
-
-function showCities(){
-
-}
-
 
 
 function click(d) {
@@ -1023,29 +984,36 @@ var exportScale = d3.scale.linear()
 
 	hoverbox.select("rect.imports").attr("width", importsWidth);
 	hoverbox.select("rect.exports").attr("x", 10 + importsWidth).attr("width", exportsWidth);
-var imIs = 	15;
-var exIs = 	importsWidth+exportsWidth-40;
+var imIs = 	10;
+// var exIs = 	importsWidth+exportsWidth-40;
+if (importsWidth>5){
+var exIs = 	importsWidth+10;
+}
+if (importsWidth<5){
+	exIs = hoverboxMinWidth-100;
+}
 
 	var exportsLabelX = exIs;
-	var exportsLabelY = 95;
-	var exportsText = "exports: ";
+	var exportsLabelY = 85;
+	var exportsText = "Exports: ";
 	var importsLabelWidth = hoverbox.select("text.imports").node().getBBox().width;
 	var exportsLabelWidth = hoverbox.select("text.exports").node().getBBox().width;
 		exportsText += makePercentage(d.ExportMetTons, d.MetricTons)+"%";
 
 		/////////////////////////////////////////////
 	var importsLabelX = imIs;
-	var importsLabelY = exportsLabelY+5;
-	var importsText = "imports: ";
+	var importsLabelY = exportsLabelY;
+	var importsText = "Imports: ";
 		function makePercentage(number1, number2){
 		return Math.floor((number1 / number2) * 100);
 		}
 		importsText += makePercentage(d.ImportMetTons, d.MetricTons)+"%";
 		/////////////////////////////////////////////
-	var totalLabelX = exIs;
+	var totalLabelX = imIs;
+	// if ()
 	// var totalLabelY = 95;
-	var totalLabelY = 24;
-	var totalText = "total: ";
+	var totalLabelY = 40;
+	var totalText = "Total: ";
 		function makeNormal(number){
 			var newNum = number/1000000;
 		return Math.round(newNum);
