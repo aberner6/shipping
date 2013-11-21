@@ -16,15 +16,19 @@
 	height: 75px;
 	/*color: #ccc;*/
 	color: #999;
-}
 
+}
+@font-face {
+  font-family: 'GothamMedium';
+  src: url('Gotham-Medium.otf');
+}
 #header h1 {
 	position: absolute;
 	margin: 0;
 	top: 10px;
-	left: 20px;
+	left: 0px;
 	font-size: 46px;
-	font-weight: 400;
+	/*font-weight: 400;*/
 	letter-spacing: 2px;
 	color: #ff2000;
 }
@@ -74,7 +78,8 @@ line-height: 20px;
 }
 
 #header #aboutLink:hover {
-	color: #fe8a57;
+	color: #ff2000;
+	cursor:pointer;
 }
 
 #header #aboutContent {
@@ -7073,7 +7078,7 @@ h5,
 h6 {
   margin: 10px 0;
   font-family: inherit;
-  font-weight: bold;
+  /*font-weight: bold;*/
   line-height: 20px;
   color: inherit;
   text-rendering: optimizelegibility;

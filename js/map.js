@@ -83,7 +83,7 @@ console.log(s+"szoominout");
 		return "translate(" + x + "," + y + ")";
 	 });
 }
-if (s<176 && storiesOpen){
+if (s<176 && d){
 	zoom.translate(t);
 	proj.translate(t).scale(s);
 
@@ -410,6 +410,10 @@ function changeCircle(){
 			.attr("r", function(d) {
 				return Math.sqrt(parseInt(d.properties.MetricTons)/1000000);
 			});	
+		pathGroups.selectAll("path")
+			.transition()
+			.duration(2000)
+			.attr("opacity", 0);
 }
 
 function returnCircle(){
@@ -420,6 +424,11 @@ function returnCircle(){
 			.transition()
 			.duration(500)
 			.attr("r", 3);
+
+		pathGroups.selectAll("path")
+			.transition()
+			.duration(2000)
+			.attr("opacity", 1);
 }
 function changePaths(){
 	console.log("in paths")
@@ -1037,6 +1046,87 @@ d3.select("#storyContainer .nav #closeStories")
 	});
 
 
+d3.selectAll(".thumb")
+	.on("mouseover", function(d,i){
+		//Unhighlight all paths and ports
+		d3.selectAll("path.selected").classed("selected", false);
+		d3.selectAll(".port.selected").classed("selected", false);
+
+		//Get associated data
+		var source = d3.selectAll(".story")[0][i + 1];
+		var start = source.getAttribute("data-start-port");
+		var end = source.getAttribute("data-end-port");
+		var port = source.getAttribute("data-port");
+
+		//Is this story associated with a specific port?
+		if (port) {
+			//console.log(port);
+
+			port = port.toUpperCase();
+
+			//Highlight associated port
+			d3.selectAll(".ports .port")
+				.filter(function(d) {
+					if (d.properties.port.toUpperCase() == port) {
+						return true;
+					}
+					return false;
+				})
+				.classed("selected", true)
+				.each(function(d) {
+					// tuckMapUp(d);
+				})
+				.each(moveToFront);
+		}
+
+		//Is this story associated with a path?
+		else {
+			//console.log(start + ", " + end);
+
+			start = start.toUpperCase();
+			end = end.toUpperCase();
+
+			//Highlight associated path
+			d3.selectAll(".paths path")
+				.filter(function(d) {
+					//console.log(d);
+					if (d.properties.USPt.toUpperCase() == start &&
+						d.properties.FgnPort.toUpperCase() == end) {
+						return true;
+					}
+					return false;
+				})
+				.classed("selected", true)
+				.each(moveToFront);
+
+			//Highlight associated port(s)
+			d3.selectAll(".ports .port")
+				.filter(function(d) {
+					if (d.properties.port.toUpperCase() == start ||
+						d.properties.port.toUpperCase() == end) {
+						return true;
+					}
+					return false;
+				})
+				.classed("selected", true)
+				.each(function(d) {
+					if (d.properties.port.toUpperCase() == start) {
+						// tuckMapUp(d);
+					}
+				})
+				.each(moveToFront);
+
+		}	
+
+		//Update thumbs' selected status
+		// d3.selectAll(".thumb.selected").classed("selected", false);
+		// d3.select(this).classed("selected", true);
+
+	})
+.on("mouseout", function(d,i){
+	d3.selectAll("path.selected").classed("selected", false);
+	d3.selectAll(".port.selected").classed("selected", false);
+});
 
 
 d3.selectAll(".thumb")
@@ -1252,7 +1342,7 @@ var tuckMapUp = function(d) {
 	//If 'd' is not passed in, then use a default pan/zoom.
 
 	if (d) {
-
+		console.log("inside d")
 		centered = d;
 		
 		var coords = proj([d.properties.lon, d.properties.lat]);
@@ -1260,13 +1350,15 @@ var tuckMapUp = function(d) {
 		var translate = proj.translate();
 
 		var newTranslate = [];
-		newTranslate[0] = translate[0] - coords[0] + width / 2;
+		newTranslate[0] = width / 2;
+		// newTranslate[0] = proj([d.properties.lon,d.properties.lat])[0];
 		newTranslate[1] = translate[1] - coords[1] + (height - 500) / 2;
 
 		zoom.translate(newTranslate).scale(initialZoom);
 		proj.translate(newTranslate).scale(initialZoom);
 
 	} else {
+		console.log("inside else not d")
 
 		zoom.translate([width / 2, height / 3]).scale(initialZoom);
 		proj.translate([width / 2, height / 3]).scale(initialZoom);
