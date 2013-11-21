@@ -278,11 +278,19 @@ var noVolume = false;
 var animatePaths = false;
 // drawPorts();
 
-$('#ugh').click(function(){
+$('#eBars').click(function(){
   $('#energyBars').fadeToggle( "slow", function() {
 })
 });
-$('#ugh2').click(function(){
+
+$('#volPorts').click(function(){
+//   $('#animPaths').hide( "fast", function() {
+// })
+//   $('#portOptions').slideToggle( "slow", function() {
+// })
+
+
+
 	noVolume = !noVolume;
 
 	if (noVolume){
@@ -293,7 +301,8 @@ $('#ugh2').click(function(){
 	}
 
 });
-$('#ugh3').click(function(){
+
+$('#animPaths').click(function(){
 	animatePaths = !animatePaths;
 	if (animatePaths){
 		changePaths();
@@ -302,7 +311,6 @@ $('#ugh3').click(function(){
 		returnPaths();
 	}
 })
-
 
 
 
