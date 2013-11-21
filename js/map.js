@@ -394,7 +394,8 @@ $('#ugh3').click(function(){
 			.attr("class", "point")
 			.attr("cx", 0)
 			.attr("cy", 0)
-			.attr("r", .8)
+			.attr("r", 3)
+			// .attr("stroke", "none")
 			.attr("opacity", 1)
 
 // }
@@ -405,7 +406,7 @@ function changeCircle(){
 		portGroups.selectAll("circle")
 		// .attr("class", "hidden")
 			.transition()
-			.duration(500)
+			.duration(1000)
 			.attr("r", function(d) {
 				return Math.sqrt(parseInt(d.properties.MetricTons)/1000000);
 			});	
@@ -418,7 +419,7 @@ function returnCircle(){
 		// .attr("class", "hidden")
 			.transition()
 			.duration(500)
-			.attr("r", .8);
+			.attr("r", 3);
 }
 function changePaths(){
 	console.log("in paths")
@@ -608,33 +609,49 @@ function returnPaths(){
 
 	hoverbox.append("rect")
 		.attr("class", "imports")
-		.attr("stroke", "black")
-		.attr("stroke-width", 2.5)
+		.attr("stroke", "white")
+		.attr("stroke-width", 1)
+		.attr("x", 10)
+		.attr("y", 50)
+		.attr("width", 50)
+		.attr("height", 20)
+		.attr("opacity", .7);
+
+	hoverbox.append("rect")
+		.attr("class", "exports")
+		.attr("stroke", "white")
+		.attr("stroke-width", 1)
+		.attr("x", 50)
+		.attr("y", 50)
+		.attr("width", 50)
+		.attr("height", 20)
+		.attr("opacity", .7);
+
+
+	hoverbox.append("rect")
+		.attr("class", "total")
+		.attr("stroke", "none")
+		.attr("fill", "none")
+		.attr("stroke-width", 0)
 		.attr("x", 10)
 		.attr("y", 50)
 		.attr("width", 50)
 		.attr("height", 20);
 
-	hoverbox.append("rect")
-		.attr("class", "exports")
-		.attr("stroke", "black")
-		.attr("stroke-width", 2.5)
-		.attr("x", 50)
-		.attr("y", 50)
-		.attr("width", 50)
-		.attr("height", 20);
 
 	hoverbox.append("text")
 		.attr("class", "imports")
 		.attr("x", 0)
 		.attr("y", 0)
-		.text("imports");
+		.text("imports")
+		.attr("opacity", .7);
 
 	hoverbox.append("text")
 		.attr("class", "exports")
 		.attr("x", 0)
 		.attr("y", 0)
-		.text("exports");
+		.text("exports")
+		.attr("opacity", .7);
 
 
 	hoverbox.append("text")
@@ -642,31 +659,6 @@ function returnPaths(){
 		.attr("x", 0)
 		.attr("y", 0)
 		.text("total");
-
-	// hoverbox.append("text")
-	// 	.attr("class", "label")
-	// 	.attr("x", 10)
-	// 	.attr("y", 130)
-	// 	.text("Top Ships");
-	
-	// hoverbox.append("text")
-	// 	.attr("class", "label")
-	// 	.attr("x", 150)
-	// 	.attr("y", 130)
-	// 	.text("Top Commissioners");
-
-	// hoverbox.append("text").attr("class", "shipnames").attr("id", "ship1").attr("x", 10).attr("y", 155).text("Name");
-	// hoverbox.append("text").attr("class", "shipnames").attr("id", "ship2").attr("x", 10).attr("y", 175).text("Name");
-	// hoverbox.append("text").attr("class", "shipnames").attr("id", "ship3").attr("x", 10).attr("y", 195).text("Name");
-	
-	// hoverbox.append("text").attr("class", "shipnames").attr("id", "comm1").attr("x", 150).attr("y", 155).text("Name");
-	// hoverbox.append("text").attr("class", "shipnames").attr("id", "comm2").attr("x", 150).attr("y", 175).text("Name");
-	// hoverbox.append("text").attr("class", "shipnames").attr("id", "comm3").attr("x", 150).attr("y", 195).text("Name");
-
-
-
-
-
 
 	if (animateOpening) {
 
@@ -839,41 +831,6 @@ console.log(newScale+"newscale");
 
 
 
-// var zoomInOut = function(t, s) {
-		
-// 		zoom.translate(t);
-// 		proj.translate(t).scale(s);
-// 		//zoom.translate(t);
-// 		//proj.translate(t);
-// 		//proj.scale(s);
-
-// 		// Reproject everything in the map
-// 		map.selectAll("path")
-// 			 .attr("d", path);
-
-// 		portGroups.attr("transform", function(d) {
-// 			var x = proj([d.properties.lon,d.properties.lat])[0];
-// 			var y = proj([d.properties.lon,d.properties.lat])[1];
-// 			return "translate(" + x + "," + y + ")";
-// 		 });
-		
-// 		//position_labels();
-
-// };
-
-
-
-// Vis.zoomIn = function() {
-// 	var newScale = Math.min(Vis.projection.scale() * 2, Vis.maxZoomIn);
-// 	Vis.zoomTo(newScale);
-// };
-
-// Vis.zoomOut = function() {
-// 	var newScale = Math.max(Vis.projection.scale() / 2, Vis.maxZoomOut);
-// 	Vis.zoomTo(newScale);
-// };
-
-
 
 
 function move() {
@@ -924,12 +881,6 @@ function position_labels() {
 			var y = proj([d.properties.lon,d.properties.lat])[1];    
 			return y-2;
 		});
-		// .style('opacity',function(d) {
-		//   var opacity_scale = d3.scale.linear().domain([0,10000]).range([0.1,0.9])
-		//   var _opacity = opacity_scale(d.properties.freq)
-		//   return _opacity
-		// })
-
 }
 
 
@@ -969,38 +920,42 @@ var updateHoverbox = function(d, type) {
 ////////////////////////////////////////////////////
 
 
+var impexbar = totalWidth;
 var importScale = d3.scale.linear()
 	.domain([0, d.MetricTons]) //fix this later and make it the real nice max
-	.range([0, 350]);
+	.range([0, impexbar]);
 var exportScale = d3.scale.linear()
 	.domain([0, d.MetricTons]) //fix this later and make it the real nice max
-	.range([0, 350]);
+	.range([0, impexbar]);
 
 	var importsWidth = importScale (d.ImportMetTons);
 	var exportsWidth = exportScale (d.ExportMetTons);
 
 ////////////////////////////////////////////////////
 
-
+	hoverbox.select("rect.total").attr("width", impexbar);
 	hoverbox.select("rect.imports").attr("width", importsWidth);
 	hoverbox.select("rect.exports").attr("x", 10 + importsWidth).attr("width", exportsWidth);
-var imIs = 	10;
-// var exIs = 	importsWidth+exportsWidth-40;
-if (importsWidth>5){
-var exIs = 	importsWidth+10;
-}
-if (importsWidth<5){
-	exIs = hoverboxMinWidth-100;
-}
 
-	var exportsLabelX = exIs;
-	var exportsLabelY = 85;
+
 	var exportsText = "Exports: ";
+	var exportsPerc = makePercentage(d.ExportMetTons, d.MetricTons);
 	var importsLabelWidth = hoverbox.select("text.imports").node().getBBox().width;
 	var exportsLabelWidth = hoverbox.select("text.exports").node().getBBox().width;
-		exportsText += makePercentage(d.ExportMetTons, d.MetricTons)+"%";
+		exportsText += exportsPerc+"%";
+
+if (exportsPerc<10){
+var exIs = totalWidth-70;
+}
+else {
+var exIs = totalWidth-80;
+}
+	var exportsLabelX = exIs;
+	var exportsLabelY = 85;
+
 
 		/////////////////////////////////////////////
+var imIs = 	10;
 	var importsLabelX = imIs;
 	var importsLabelY = exportsLabelY;
 	var importsText = "Imports: ";
@@ -1010,8 +965,6 @@ if (importsWidth<5){
 		importsText += makePercentage(d.ImportMetTons, d.MetricTons)+"%";
 		/////////////////////////////////////////////
 	var totalLabelX = imIs;
-	// if ()
-	// var totalLabelY = 95;
 	var totalLabelY = 40;
 	var totalText = "Total: ";
 		function makeNormal(number){
