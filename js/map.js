@@ -223,9 +223,18 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 
 var noVolume = false;
 var animatePaths = false;
+var backgroundFade = false;
+
 // drawPorts();
 
 $('#eBars').click(function(){
+	backgroundFade = !backgroundFade;
+	if (backgroundFade){
+		fadeBackground();
+	}
+	else {
+		unfadeBackground();
+	}
   $('#energyBars').fadeToggle( "slow", function() {
 })
 });
@@ -237,7 +246,6 @@ $('#volPorts').click(function(){
 // })
 
 	noVolume = !noVolume;
-
 	if (noVolume){
 		changeCircle();
 	}
@@ -257,6 +265,13 @@ $('#animPaths').click(function(){
 	}
 })
 
+function fadeBackground(){
+	map.attr("opacity", .3)
+}
+
+function unfadeBackground(){
+	map.attr("opacity", 1)
+}
 
 
 
