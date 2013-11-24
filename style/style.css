@@ -51,19 +51,6 @@
 	/*font-weight: bold;*/
 	cursor: pointer;
 }
-/*#tabs {
-	position: absolute;
-	top: 200px;
-	left: 5%;
-	color: #8e9ba4;
-	cursor: pointer;
-	font-size: 18px;
-	z-index: 1000;
-  font-weight: 300px;
-  margin-bottom: 2px;
-  margin-top: 2px;  
-  fill: #8e9ba4;
-}*/
 
 #tabs{
 display: block;
@@ -199,9 +186,13 @@ line-height: 20px;
 
 .paths path.selected {
 	stroke:#ff2000; 
-	stroke-width: 2;
+	stroke-width: 4;
 }
-
+.paths path.visible:hover {
+	stroke: #ff2000;
+	stroke-width:4;
+	/*cursor: pointer;*/
+}
 
 
 /* Ports */
@@ -218,7 +209,7 @@ line-height: 20px;
 }
 .port:hover circle{
 	stroke: #ff2000;
-	stroke-width:2;
+	stroke-width:4;
 	/*cursor: pointer;*/
 }
 .port:hover .label{

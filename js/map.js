@@ -1,4 +1,3 @@
-// d3.select(window).on("resize", throttle);
 
 
 
@@ -42,7 +41,7 @@ var energyBarsData = [
 
 
 var proj = d3.geo.mercator()
-			 .translate([width / 2, height / 2 + 50])
+			 .translate([width / 2, height / 2])
 			 .scale(initialZoom);
 
 var scaleVolume = d3.scale.linear()
@@ -72,6 +71,10 @@ if (s>176){
 	proj.translate(t).scale(s);
 
 console.log(s+"szoominout");
+console.log(t+"t translate");
+//right edge 633.2637178886914,332.06630783366063t translate 
+//left edge 750.2637178886914,356.06630783366063t translate -9 pl(.-p)
+
 
 	// Reproject everything in the map
 	map.selectAll("path")
@@ -83,11 +86,11 @@ console.log(s+"szoominout");
 		return "translate(" + x + "," + y + ")";
 	 });
 }
-if (s<176 && d){
-	zoom.translate(t);
-	proj.translate(t).scale(s);
+if (s<176){
+	// zoom.translate(t);
+	// proj.translate(t).scale(s);
 
-console.log(s+"storiesOpen is true");
+console.log(s+"s<176");
 
 	// Reproject everything in the map
 	map.selectAll("path")
@@ -107,13 +110,8 @@ var path = d3.geo.path()
 			 .projection(proj)
 			 .pointRadius(1.5);
 
-
-
 // graticule data generator - creates geoJSON objects that d3.geo.path() can interpret
 var graticule = d3.geo.graticule();
-
-
-var width = document.getElementById('container').offsetWidth-60;
 
 // create the svg
 var svg = d3.select("#container").append("svg")
@@ -121,7 +119,7 @@ var svg = d3.select("#container").append("svg")
 			.attr("height", height)
 			.call(zoom);
 
-
+console.log(width+"thisiswidth");
 
 // append a group to the svg to hold the map
 var map = svg.append("g")
@@ -223,6 +221,41 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 
 	}
 
+var noVolume = false;
+var animatePaths = false;
+// drawPorts();
+
+$('#eBars').click(function(){
+  $('#energyBars').fadeToggle( "slow", function() {
+})
+});
+
+$('#volPorts').click(function(){
+//   $('#animPaths').hide( "fast", function() {
+// })
+//   $('#portOptions').slideToggle( "slow", function() {
+// })
+
+	noVolume = !noVolume;
+
+	if (noVolume){
+		changeCircle();
+	}
+	else {
+		returnCircle();
+	}
+
+});
+
+$('#animPaths').click(function(){
+	animatePaths = !animatePaths;
+	if (animatePaths){
+		changePaths();
+	}
+	else {
+		returnPaths();
+	}
+})
 
 
 
@@ -274,43 +307,6 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 		.attr("d", path)
 		.attr("stroke-dasharray", "0, 0.1");  //Initially, line is not visible
 
-var noVolume = false;
-var animatePaths = false;
-// drawPorts();
-
-$('#eBars').click(function(){
-  $('#energyBars').fadeToggle( "slow", function() {
-})
-});
-
-$('#volPorts').click(function(){
-//   $('#animPaths').hide( "fast", function() {
-// })
-//   $('#portOptions').slideToggle( "slow", function() {
-// })
-
-
-
-	noVolume = !noVolume;
-
-	if (noVolume){
-		changeCircle();
-	}
-	else {
-		returnCircle();
-	}
-
-});
-
-$('#animPaths').click(function(){
-	animatePaths = !animatePaths;
-	if (animatePaths){
-		changePaths();
-	}
-	else {
-		returnPaths();
-	}
-})
 
 
 
@@ -489,6 +485,7 @@ function returnPaths(){
 		.attr("id", "map-area")
 		.append("rect")
 		.attr("x", barsLeftEdge)
+		.attr("x",0)
 		.attr("y", 0)
 		.attr("width", mapWidth)
 		.attr("height", height);
@@ -808,8 +805,8 @@ console.log(newScale+"newscale");
 			newTranslate[1] = translate[1] - coords[1] + height / 2;	
 		}
 
-		zoom.translate(newTranslate);
-		proj.translate(newTranslate);
+		// zoom.translate(newTranslate);
+		// proj.translate(newTranslate);
 
 	} else {
 		
@@ -817,8 +814,8 @@ console.log(newScale+"newscale");
 
 		centered = null;
 	 
-		zoom.translate([width / 2, height / 2]).scale(initialZoom);
-		proj.translate([width / 2, height / 2]).scale(initialZoom);
+		// zoom.translate([width / 2, height / 2]).scale(initialZoom);
+		// proj.translate([width / 2, height / 2]).scale(initialZoom);
 	
 	}
 
@@ -844,31 +841,6 @@ console.log(newScale+"newscale");
 };
 
 
-
-
-
-
-
-
-function move() {
-
-  var t = d3.event.translate;
-  var s = d3.event.scale;  
-  var h = height / 3;
-  t[0] = Math.min(width / 2 * (s - 1), Math.max(width / 2 * (1 - s), t[0]));
-  t[1] = Math.min(height / 2 * (s - 1) + h * s, Math.max(height / 2 * (1 - s) - h * s, t[1]));
-
-  zoom.translate(t);
-
-	// map.selectAll("path")
- // 		 .attr("d", path);
- svg.attr("transform", function(d) {
-
-	return "translate(" + t + ")scale(" + s + ")";
-  });
-  // svg.attr("transform", "translate(" + t + ")scale(" + s + ")");
-
-}
 
 
 
@@ -1137,6 +1109,10 @@ d3.selectAll(".thumb")
 });
 
 
+
+
+
+
 d3.selectAll(".thumb")
 	.on("click", function(d, i) {
 
@@ -1308,10 +1284,6 @@ var openStories = function() {
 
 
 var resetMap = function() {
-	////////////////////
-
-///////////////////////
-
 	//Reset map
 	zoom.translate([width / 2, height / 2]).scale(initialZoom);
 	proj.translate([width / 2, height / 2]).scale(initialZoom);
@@ -1335,14 +1307,6 @@ var resetMap = function() {
 		.attr("d", path);
 
 };
-// var throttleTimer;
-// function throttle() {
-//   window.clearTimeout(throttleTimer);
-//     throttleTimer = window.setTimeout(function() {
-//       resetMap();
-//     }, 200);
-// }
-
 
 var tuckMapUp = function(d) {
 
@@ -1394,29 +1358,20 @@ var tuckMapUp = function(d) {
 };
 
 
-
-
 d3.selectAll("#prevImage, #nextImage")
 	.on("click", function() {
 		//d3.selectAll("video").node().pause();
 	});
 
 
-
 var openAbout = function() {
-
 	d3.select("#aboutContent")
 		.style("display", "block")
 		.transition()
 		.duration(500)
 		.style("opacity", 1.0);
-
 };
-
-
-
 var closeAbout = function() {
-
 	d3.select("#aboutContent")
 		.transition()
 		.duration(500)
@@ -1427,11 +1382,8 @@ var closeAbout = function() {
 
 };
 
-
-
 d3.select("#aboutLink")
 	.on("click", function() {
-
 		if (aboutOpen) {
 			closeAbout();
 			aboutOpen = false;
@@ -1439,11 +1391,7 @@ d3.select("#aboutLink")
 			openAbout();
 			aboutOpen = true;
 		}
-
 	});
-
-
-
 d3.select("#aboutContent")
 	.on("click", function() {
 		closeAbout();
@@ -1465,14 +1413,116 @@ var stopVideos = function() {
 };
 
 
+function draw(){
+		//START DRAWING
 
+	// use the graticule generator to make a map background and gridlines
+	// map.append("path")
+	// 	.datum(graticule.outline)
+	// 	.attr("class", "background")
+	// 	.attr("d", path);
+
+	// map.append("path")
+	// 	.datum(graticule)
+	// 	.attr("class", "graticule noclicks")
+	// 	.attr("d", path);
+
+	// append landforms from world-110m.json
+	map.append("path")
+		.datum(topojson.feature(world, world.objects.land))
+		.attr("class", "land")
+		.attr("d", path);
+
+	//Shipping Paths
+
+	var pathGroups = map.append("g")
+		.attr("class", "paths")
+		.selectAll("g")
+		.data(paths.features)
+		.enter()
+		.append("g")
+		.on("mouseover", function(d) {
+			updateHoverbox(d.properties, "path");
+			d3.select(this).each(moveToFront);
+		})
+		.on("mouseout", function(d) {
+			hideHoverbox();
+		});
+
+	//Create background paths (for hover purposes)
+	pathGroups.append("path")
+		.attr("class", "background")
+		.attr("d", path)
+		.attr("stroke-dasharray", "0, 0.1");  //Initially, line is not visible
+
+	//Create visible paths
+	pathGroups.append("path")
+		.attr("class", "visible")
+		.attr("d", path)
+		.attr("stroke-dasharray", "0, 0.1");  //Initially, line is not visible
+
+		d3.selectAll("path")
+			.attr("stroke-dasharray", "none");
+
+// function drawPorts(){
+	//Ports
+	// Make a group for each port
+	portGroups = map.append("g")
+		.attr("class", "ports")
+		.selectAll("g")
+		.data(ports.features)
+		.enter()
+		.append("g")
+		.attr("class", "port")
+		.classed("clickable", function(d) {
+			// if (d.properties.scalerank == 1) {
+				return true;
+			// }
+			// return false;
+		})
+		.attr("transform", function(d) {
+			var x = proj([d.properties.lon,d.properties.lat])[0];
+			var y = proj([d.properties.lon,d.properties.lat])[1];
+			return "translate(" + x + "," + y + ")";
+		});
+
+	portGroups
+		.on('click', function(d) {
+			click;
+		})
+		.on("mouseover", function(d) {
+			updateHoverbox(d.properties, "port");
+			d3.select(this).each(moveToFront);
+				d3.select(this).append("text")
+				.attr("class", "label")
+				.attr("x", "-8")
+				.attr("y", "-3")
+				.attr("opacity", 1)
+				.attr("text-anchor", "end")
+				.text(function(d) { 
+					// return d.properties.port;
+				});
+		})
+		.on("mouseout", function(d) {
+			hideHoverbox();
+			d3.selectAll('.label')
+			.remove();
+			// .attr("opacity", 0);
+		});
+	// In each group, add a circle
+
+		portGroups.append("circle")
+			.attr("class", "point")
+			.attr("cx", 0)
+			.attr("cy", 0)
+			.attr("r", 3)
+			// .attr("stroke", "none")
+			.attr("opacity", 1)
+}
 
 d3.selectAll("#nextImage, #prevImage")
 	.on("click", function() {
 		stopVideos();
 	});
-
-
-
 
 
