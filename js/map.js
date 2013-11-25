@@ -5,10 +5,11 @@ var animateOpening = false, //not true
 	padding = 0,
 	// width = 960 - padding,
 	// height = 500 - padding - 75,
-	width = window.innerWidth - padding,
-	height = window.innerHeight - padding - 75,
+	// width = window.innerWidth - padding,
+	width = window.outerWidth - padding,
+	height = window.innerHeight - padding-200,
 	centered,     // centered variable holds zoom state
-	initialZoom = 175,
+	initialZoom = 190,
 	maxZoom = 1000,
 	hoverbox,
 	hoverboxMinWidth = 450,
@@ -38,11 +39,14 @@ var energyBarsData = [
 		[ "Residual Fuel Oil", 	110000000 ],
 		[ "Other", 				210000000 ]
 	];
+var proj = d3.geo.naturalEarth()
+    .scale(initialZoom)
+    .translate([width / 2, height / 2]);
+// var proj = d3.geo.mercator()
+//     .scale(initialZoom)
+//     .translate([width / 2, height / 2]);
 
-
-var proj = d3.geo.mercator()
-			 .translate([width / 2, height / 2])
-			 .scale(initialZoom);
+d3.select("#reset").on("click", resetZoom);
 
 var scaleVolume = d3.scale.linear()
 		.domain([0, 493829169])
@@ -62,19 +66,24 @@ var zoom = d3.behavior.zoom()
 		
 		zoomInOut(t, s);
 	})
-
+var showReset = false;
 var zoomInOut = function(t, s) {
+if (showReset==true){
+	$('#reset').fadeIn( "slow", function() {
+})
+}
+if (showReset==false){
+	$('#reset').fadeOut( "slow", function() {
+})	
+}
 	// storiesOpen
-if (s>176){
+if (s>initialZoom+10){
+
+showReset = true;
+console.log(s+"s is greater than orig");
 
 	zoom.translate(t);
 	proj.translate(t).scale(s);
-
-console.log(s+"szoominout");
-console.log(t+"t translate");
-//right edge 633.2637178886914,332.06630783366063t translate 
-//left edge 750.2637178886914,356.06630783366063t translate -9 pl(.-p)
-
 
 	// Reproject everything in the map
 	map.selectAll("path")
@@ -83,14 +92,19 @@ console.log(t+"t translate");
 	portGroups.attr("transform", function(d) {
 		var x = proj([d.properties.lon,d.properties.lat])[0];
 		var y = proj([d.properties.lon,d.properties.lat])[1];
+		
 		return "translate(" + x + "," + y + ")";
 	 });
 }
-if (s<176){
-	// zoom.translate(t);
-	// proj.translate(t).scale(s);
+if (s<initialZoom+10){
+	resetZoom();
+showReset = false;
 
-console.log(s+"s<176");
+}
+if (s<initialZoom+10){
+	showReset = false;
+
+console.log(s+"s less than orig");
 
 	// Reproject everything in the map
 	map.selectAll("path")
@@ -105,6 +119,8 @@ console.log(s+"s<176");
 
 };
 
+
+
 // path generator - interprets any geo coordinates passed to it using the specific projection (.projection(proj))
 var path = d3.geo.path()
 			 .projection(proj)
@@ -115,8 +131,13 @@ var graticule = d3.geo.graticule();
 
 // create the svg
 var svg = d3.select("#container").append("svg")
-			.attr("width", width)
-			.attr("height", height)
+  .attr({
+    "width": "100%",
+    "height": "100%"
+  })
+  .attr("viewBox", "0 0 " + width + " " + height )
+  .attr("preserveAspectRatio", "xMinYMin")
+  .attr("pointer-events", "all")
 			.call(zoom);
 
 console.log(width+"thisiswidth");
@@ -124,7 +145,9 @@ console.log(width+"thisiswidth");
 // append a group to the svg to hold the map
 var map = svg.append("g")
 			.attr("class","map")
-			.attr("clip-path", "url(#map-area)");
+			// .attr("width", width)
+			// .attr("height", height)
+			// .attr("clip-path", "url(#map-area)");
 
 
 // load data files; pass the results to ready() when everything is finished.
@@ -205,6 +228,8 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 
 				paths.features[i].properties.USPt			= paths_data[j].USPt;
 				paths.features[i].properties.FgnPort		= paths_data[j].FgnPort;
+				paths.features[i].propzoom
+
 				paths.features[i].properties.MetricTons		= parseFloat(paths_data[j].MetricTons);
 				paths.features[i].properties.ImportMetTons	= parseFloat(paths_data[j].ImportMetTons);
 				paths.features[i].properties.ExportMetTons	= parseFloat(paths_data[j].ExportMetTons);
@@ -224,8 +249,6 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 var noVolume = false;
 var animatePaths = false;
 var backgroundFade = false;
-
-// drawPorts();
 
 $('#eBars').click(function(){
 	backgroundFade = !backgroundFade;
@@ -278,15 +301,15 @@ function unfadeBackground(){
 	//START DRAWING
 
 	// use the graticule generator to make a map background and gridlines
-	// map.append("path")
-	// 	.datum(graticule.outline)
-	// 	.attr("class", "background")
-	// 	.attr("d", path);
+	map.append("path")
+		.datum(graticule.outline)
+		.attr("class", "background")
+		.attr("d", path);
 
-	// map.append("path")
-	// 	.datum(graticule)
-	// 	.attr("class", "graticule noclicks")
-	// 	.attr("d", path);
+	map.append("path")
+		.datum(graticule)
+		.attr("class", "graticule noclicks")
+		.attr("d", path);
 
 	// append landforms from world-110m.json
 	map.append("path")
@@ -434,7 +457,6 @@ function changeCircle(){
 			.duration(2000)
 			.attr("opacity", 0);
 }
-
 function returnCircle(){
 		console.log("return circles")
 
@@ -462,7 +484,6 @@ function changePaths(){
 				};
 			});
 }
-
 function returnPaths(){
 		console.log("return paths")
 
@@ -495,19 +516,19 @@ function returnPaths(){
 	var mapWidth = d3.select(".map").node().getBBox().width;
 	var barsLeftEdge = (width - mapWidth) / 2;
 
-	map.append("defs")
-		.append("clipPath")
-		.attr("id", "map-area")
-		.append("rect")
-		.attr("x", barsLeftEdge)
-		.attr("x",0)
-		.attr("y", 0)
-		.attr("width", mapWidth)
-		.attr("height", height);
+	// map.append("defs")
+	// 	.append("clipPath")
+	// 	.attr("id", "map-area")
+	// 	.append("rect")
+	// 	// .attr("x", barsLeftEdge)
+	// 	.attr("x",0)
+	// 	.attr("y", 0)
+	// 	.attr("width", mapWidth)
+	// 	.attr("height", height);
 
 	var energyBarsScale = d3.scale.linear()
 		.domain([0, d3.sum(energyBarsData, function(d) { return d[1]; }) ])
-		.range([28, mapWidth-28]);
+		.range([0, mapWidth-170]);
 
 	svg.append("g")
 		.attr("id", "energyBars")
@@ -985,7 +1006,6 @@ var imIs = 	10;
 		.attr("y", exportsLabelY)
 		.text(exportsText);
 
-/////////
 	hoverbox.select("text.imports")
 		.attr("x", importsLabelX)
 		.attr("y", importsLabelY)
@@ -998,12 +1018,12 @@ var imIs = 	10;
 		//////////////////
 
 
-	hoverbox.select("#ship1").text(d.Ship1.toUpperCase());
-	hoverbox.select("#ship2").text(d.Ship2.toUpperCase());
-	hoverbox.select("#ship3").text(d.Ship3.toUpperCase());
-	hoverbox.select("#comm1").text(d.Comm1.toUpperCase());
-	hoverbox.select("#comm2").text(d.Comm2.toUpperCase());
-	hoverbox.select("#comm3").text(d.Comm3.toUpperCase());
+	// hoverbox.select("#ship1").text(d.Ship1.toUpperCase());
+	// hoverbox.select("#ship2").text(d.Ship2.toUpperCase());
+	// hoverbox.select("#ship3").text(d.Ship3.toUpperCase());
+	// hoverbox.select("#comm1").text(d.Comm1.toUpperCase());
+	// hoverbox.select("#comm2").text(d.Comm2.toUpperCase());
+	// hoverbox.select("#comm3").text(d.Comm3.toUpperCase());
 
 	hoverbox.classed("hidden", false);
 
@@ -1262,7 +1282,6 @@ var closeStories = function() {
 };
 
 
-
 var openStories = function() {
 
 	//Open stories
@@ -1371,7 +1390,30 @@ var tuckMapUp = function(d) {
 		.attr("d", path);
 
 };
+function resetZoom(){
+zoom.translate([width / 2, height / 2]).scale(initialZoom);
+proj.translate([width / 2, height / 2]).scale(initialZoom);
 
+	// map.selectAll("path")
+	// 	.transition()
+	// 	.duration(500)
+	// 	.attr("d", path);
+
+	portGroups.transition()
+		.duration(500)
+		.attr("transform", function(d) {
+			var x = proj([d.properties.lon,d.properties.lat])[0];
+			var y = proj([d.properties.lon,d.properties.lat])[1];
+			return "translate(" + x + "," + y + ")";
+		});
+
+	d3.selectAll("path")
+		.transition()
+		.duration(500)
+		.attr("d", path);
+	$('#reset').fadeOut( "slow", function() {
+})			
+}
 
 d3.selectAll("#prevImage, #nextImage")
 	.on("click", function() {
