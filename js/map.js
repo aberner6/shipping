@@ -81,7 +81,9 @@ if (s>initialZoom+10){
 
 showReset = true;
 console.log(s+"s is greater than orig");
-
+console.log(t+"thisis T whenzooming")
+// 711.6868545292956,122.64377570353645thisis T whenzooming 
+// 662.5608946774215,139.51809552037798thisis T nozoom 
 	zoom.translate(t);
 	proj.translate(t).scale(s);
 
@@ -92,7 +94,7 @@ console.log(s+"s is greater than orig");
 	portGroups.attr("transform", function(d) {
 		var x = proj([d.properties.lon,d.properties.lat])[0];
 		var y = proj([d.properties.lon,d.properties.lat])[1];
-		
+
 		return "translate(" + x + "," + y + ")";
 	 });
 }
@@ -102,6 +104,8 @@ showReset = false;
 
 }
 if (s<initialZoom+10){
+	console.log(t+"thisis T nozoom")
+
 	showReset = false;
 
 console.log(s+"s less than orig");
@@ -401,13 +405,11 @@ function unfadeBackground(){
 
 	// Clickable ports get the click handler
 	// d3.selectAll('.port.clickable')
-	// d3.selectAll('.port')
-	portGroups
-		.on('click', function(d) {
-			click;
+	d3.selectAll('.port')
+	// portGroups
+		.on('click', click)
 			// updateHoverbox(d.properties, "port");
 			// d3.select(this).each(moveToFront);
-		})
 		.on("mouseover", function(d) {
 			updateHoverbox(d.properties, "port");
 			d3.select(this).each(moveToFront);
@@ -841,8 +843,8 @@ console.log(newScale+"newscale");
 			newTranslate[1] = translate[1] - coords[1] + height / 2;	
 		}
 
-		// zoom.translate(newTranslate);
-		// proj.translate(newTranslate);
+		zoom.translate(newTranslate);
+		proj.translate(newTranslate);
 
 	} else {
 		
@@ -850,8 +852,8 @@ console.log(newScale+"newscale");
 
 		centered = null;
 	 
-		// zoom.translate([width / 2, height / 2]).scale(initialZoom);
-		// proj.translate([width / 2, height / 2]).scale(initialZoom);
+		zoom.translate([width / 2, height / 2]).scale(initialZoom);
+		proj.translate([width / 2, height / 2]).scale(initialZoom);
 	
 	}
 
@@ -1544,9 +1546,7 @@ function draw(){
 		});
 
 	portGroups
-		.on('click', function(d) {
-			click;
-		})
+		.on('click', click)
 		.on("mouseover", function(d) {
 			updateHoverbox(d.properties, "port");
 			d3.select(this).each(moveToFront);
