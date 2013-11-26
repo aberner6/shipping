@@ -1,6 +1,5 @@
 
 
-
 var animateOpening = false, //not true
 	padding = 0,
 	// width = 960 - padding,
@@ -266,21 +265,27 @@ $('#eBars').click(function(){
 })
 });
 
-$('#volPorts').click(function(){
+$('.toggleVolume').click(function(){
+	$(this).find('div').slideToggle();
+	$('#animPaths').hide("slow",function(){
+	});
+})
+
+// $('#volPorts').click(function(){
 //   $('#animPaths').hide( "fast", function() {
 // })
 //   $('#portOptions').slideToggle( "slow", function() {
 // })
 
-	noVolume = !noVolume;
-	if (noVolume){
-		changeCircle();
-	}
-	else {
-		returnCircle();
-	}
+// 	noVolume = !noVolume;
+// 	if (noVolume){
+// 		changeCircle();
+// 	}
+// 	else {
+// 		returnCircle();
+// 	}
 
-});
+// });
 
 $('#animPaths').click(function(){
 	animatePaths = !animatePaths;

@@ -16,16 +16,7 @@
  height: 18px;
   display:none;
   cursor: pointer;
-  /*background: black;*/
-  /*padding: 15px 40px;*/
-  /*text-transform: uppercase;*/
-/*  -webkit-border-radius: 5px 5px 5px 5px;
-  -moz-border-radius: 5px 5px 5px 5px;
-  border-radius: 5px 5px 5px 5px;
-  -webkit-border-radius: 24px;
-  -moz-border-radius: 5px;*/
-
-  border-radius: 12px;
+  /*border-radius: 12px;*/
     border: 1px gray solid;
   font: 12px 'Gotham';
 
@@ -34,17 +25,7 @@
   padding: 5px 10px;
 margin-left: 2%;
 	background-color: rgba(0, 0, 0, 0.3);
-
-/*  -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translateX(0);
-  -ms-transform: translateX(0);
-  -o-transform: translateX(0);
-  transform: translateX(0);
-  -moz-transition: 150ms all ease-in-out;
-  -webkit-transition: 150ms all ease-in-out;
-  -ms-transition: 150ms all ease-in-out;
-  -o-transition: 150ms all ease-in-out;
-  transition: 150ms all ease-in-out;*/
+opacity: .7;
 }
 #reset:hover {
   -webkit-transform: translate3d(-10px, 0, 0);
@@ -57,6 +38,7 @@ margin-left: 2%;
   -ms-transition: 150ms all ease-in-out;
   -o-transition: 150ms all ease-in-out;
   transition: 150ms all ease-in-out;
+  opacity: 1;
 }
 
 #header {
@@ -1476,12 +1458,12 @@ span {
   background: black;
   padding: 15px 40px;
   text-transform: uppercase;
-  -webkit-border-radius: 5px 5px 5px 5px;
-  -moz-border-radius: 5px 5px 5px 5px;
-  border-radius: 5px 5px 5px 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 2px;
+  /*-webkit-border-radius: 5px 5px 5px 5px;*/
+  /*-moz-border-radius: 5px 5px 5px 5px;*/
+  /*border-radius: 5px 5px 5px 5px;*/
+/*  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;*/
+  /*border-radius: 2px;*/
 
 }
 .button:hover {
@@ -1505,7 +1487,7 @@ span {
   color: gray;
   padding: 5px 15px;
 margin-left: 2%;
-/*opacity: 1;*/
+opacity: .7;
 	background-color: rgba(0, 0, 0, 0.3);
 }
 .specifyVolOptions {
@@ -5269,10 +5251,44 @@ blockquote .quotation-mark {
 	left: 4px;
 	width: 60px;
 	text-align: center;
-	/*position: absolute;*/
 	/*top: 40px;*/
 	cursor: pointer;
 }
+
+
+
+
+
+
+
+
+
+div.toggleVolume{
+	cursor:pointer;
+	letter-spacing: 2px;
+	position: absolute;
+	left: 4px;
+	width: 60px;
+	text-align: center;
+}
+div.toggleVolume div{
+	display:none;
+	cursor:pointer;
+	letter-spacing: 2px;
+	left: 4px;
+	width: 60px;
+	text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
 .page#indexes .selected-factor {
   display: none;
   position: fixed;

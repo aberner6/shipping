@@ -4,9 +4,9 @@
 		<meta charset="utf-8">
 		<title>Ports</title>
 		
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
 		<link rel="stylesheet" href="style/style.css">
-<!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,700,800' rel='stylesheet' type='text/css'> -->
-
+ 	</script>
  	</head>
 	<body>
 
@@ -21,16 +21,17 @@
 			</div>
 		</div>
 <div id="reset"> RESET MAP </div>
-<!--  <div class="specify-factor button icon left" id="eBars">BARS</div>
+<!-- 
  <div class="specify-factor button icon left" id="volPorts">PORTS</div>
   <div class="specifyVolOptions" id="portOptions">Total Volume</div>
   <div class="specify-factor button icon left" id="animPaths">PATHS</div> -->
-
  <div class="specify-factor button icon left" id="eBars" style="top: 75px; height: 18px;">BARS</div>
- <div class="specify-factor button icon left" id="volPorts" style="top: 105px; height: 18px;">PORTS</div>
-  <div class="specifyVolOptions" id="portOptions" style="top: 135px; height: 18px;">Total Volume</div>
-  <div class="specify-factor button icon left" id="animPaths" style="top: 135px; height: 18px;">PATHS</div>
 
+ <div class="toggleVolume button icon left" id="volPorts" style="top: 105px; height: 18px;">PORTS
+  <div class ="volOptions button icon left">Total Volume</div>
+  </div>
+
+  <div class="specify-factor button icon left" id="animPaths" style="top: 135px; height: 18px;">PATHS</div>
 
 <!-- <div class="sidebar" id="select-sidebar" data-align="right" style="top: 63px; height: 278px; display: block;">
 	<div class="select-list select-factor">
@@ -171,15 +172,10 @@
 								<img src="stories/2/4.jpg">
 							</div>
 						</div>
-
 					</div>
-
 				</div>
-
 			</div>
-
 		</div>
-
 		<script type="text/javascript" src="js/queue.js"></script>
 		<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
 		<script type="text/javascript" src="js/jquery.cycle2.min.js"></script>
@@ -187,5 +183,7 @@
 		<script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
 		<script type="text/javascript" src="js/topojson.js"></script>
 		<script type="text/javascript" src="js/map.js"></script>
+		  		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
 	</body>
 </html>
