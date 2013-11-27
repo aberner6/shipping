@@ -254,6 +254,7 @@ var animatePaths = false;
 var backgroundFade = false;
 var sizeAll = false;
 var sizeExp = false;
+var sizeImp = false;
 $('#eBars').click(function(){
 	backgroundFade = !backgroundFade;
 	if (backgroundFade){
@@ -275,6 +276,8 @@ $('.toggleVolume').click(function(){
 	});
 	$('.volExp').slideToggle("slow", function(){
 	});
+	$('.volImp').slideToggle("slow", function(){
+	});
 })
 
 $('.volOptions').click(function(){
@@ -290,6 +293,15 @@ $('.volExp').click(function(){
 	sizeExp = !sizeExp;
 	if (sizeExp){
 		sizeExpVolumes();
+	}
+	else {
+		unsizeAllVolumes();
+	}
+})
+$('.volImp').click(function(){
+	sizeImp = !sizeImp;
+	if (sizeImp){
+		sizeImpVolumes();
 	}
 	else {
 		unsizeAllVolumes();
@@ -475,7 +487,7 @@ function unfadeBackground(){
 // }
 
 function sizeAllVolumes(){
-		console.log("in circles")
+		console.log("in all")
 
 		portGroups.selectAll("circle")
 		// .attr("class", "hidden")
@@ -505,7 +517,7 @@ function unsizeAllVolumes(){
 			.attr("opacity", 1);
 }
 function sizeExpVolumes(){
-		console.log("in circles")
+		console.log("in export")
 
 		portGroups.selectAll("circle")
 		// .attr("class", "hidden")
@@ -515,6 +527,21 @@ function sizeExpVolumes(){
 				// console.log(d.properties.ExportMetTons+"exp"+d.properties.MetricTons+"total"+d.properties.ImportMetTons+"import")
 				// return (parseInt(d.properties.ExportMetTons)/10000000);
 				return Math.sqrt(parseInt(d.properties.ExportMetTons)/1000000);
+			});	
+		pathGroups.selectAll("path")
+			.transition()
+			.duration(2000)
+			.attr("opacity", 0);
+}
+function sizeImpVolumes(){
+		console.log("in import")
+
+		portGroups.selectAll("circle")
+		// .attr("class", "hidden")
+			.transition()
+			.duration(1000)
+			.attr("r", function(d) {
+				return Math.sqrt(parseInt(d.properties.ImportMetTons)/1000000);
 			});	
 		pathGroups.selectAll("path")
 			.transition()
