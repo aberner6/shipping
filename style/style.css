@@ -5346,6 +5346,35 @@ div.toggleVolume{
 	width: 60px;
 	text-align: center;
 }
+.volExp{
+	display:none;
+	cursor:pointer;
+	width: 60px;
+	text-align: center;
+
+  border: 1px gray dotted;
+  font: 12px 'Gotham';
+  text-transform: none;
+  color: gray;
+  margin-top: 60px;
+  padding: 5px 5px;
+	margin-left: 3.85%;
+	position: absolute;
+	background-color: black;
+}
+.volExp:hover{
+  -webkit-transform: translate3d(2px, 0, 0);
+  -moz-transform: translateX(2px);
+  -ms-transform: translateX(2px);
+  -o-transform: translateX(2px);
+  transform: translateX(2px);
+  -moz-transition: 150ms all ease-in-out;
+  -webkit-transition: 150ms all ease-in-out;
+  -ms-transition: 150ms all ease-in-out;
+  -o-transition: 150ms all ease-in-out;
+  transition: 150ms all ease-in-out;
+  opacity: 1;
+}
 .volOptions{
 	display:none;
 	cursor:pointer;
