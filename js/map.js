@@ -252,7 +252,7 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 var noVolume = false;
 var animatePaths = false;
 var backgroundFade = false;
-
+var sizeAll = false;
 $('#eBars').click(function(){
 	backgroundFade = !backgroundFade;
 	if (backgroundFade){
@@ -268,10 +268,20 @@ $('#eBars').click(function(){
 $('.toggleVolume').click(function(){
 
 	// $(this).find('div').slideToggle();
-	$('#animPaths').hide("slow",function(){
+	$('#animPaths').fadeToggle("fast",function(){
 	});
-	$('.volOptions').show("slow", function(){
+	$('.volOptions').slideToggle("slow", function(){
 	});
+})
+
+$('.volOptions').click(function(){
+	sizeAll = !sizeAll;
+	if (sizeAll){
+		sizeAllVolumes();
+	}
+	else {
+		unsizeAllVolumes();
+	}
 })
 
 // $('#volPorts').click(function(){
@@ -452,7 +462,7 @@ function unfadeBackground(){
 
 // }
 
-function changeCircle(){
+function sizeAllVolumes(){
 		console.log("in circles")
 
 		portGroups.selectAll("circle")
@@ -467,7 +477,7 @@ function changeCircle(){
 			.duration(2000)
 			.attr("opacity", 0);
 }
-function returnCircle(){
+function unsizeAllVolumes(){
 		console.log("return circles")
 
 		portGroups.selectAll("circle")
