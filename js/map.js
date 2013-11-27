@@ -266,8 +266,11 @@ $('#eBars').click(function(){
 });
 
 $('.toggleVolume').click(function(){
-	$(this).find('div').slideToggle();
+
+	// $(this).find('div').slideToggle();
 	$('#animPaths').hide("slow",function(){
+	});
+	$('.volOptions').show("slow", function(){
 	});
 })
 

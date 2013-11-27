@@ -1490,33 +1490,7 @@ margin-left: 2%;
 opacity: .7;
 	background-color: rgba(0, 0, 0, 0.3);
 }
-.specifyVolOptions {
-	/*position:relative;*/
-	display:none;
-  border: 1px gray solid;
-  font: 10px 'Gotham';
-  text-transform: none;
-  color: gray;
-  padding: 5px 15px;
-margin-left: 2%;
-opacity: .7;
-	letter-spacing: 2px;
-	position: absolute;
-	left: 4px;
-	width: 60px;
-	text-align: center;
-	cursor: pointer;
-  -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translateX(0);
-  -ms-transform: translateX(0);
-  -o-transform: translateX(0);
-  transform: translateX(0);
-  -moz-transition: 150ms all ease-in-out;
-  -webkit-transition: 150ms all ease-in-out;
-  -ms-transition: 150ms all ease-in-out;
-  -o-transition: 150ms all ease-in-out;
-  transition: 150ms all ease-in-out;
-}
+
 .button.icon.left {
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translateX(0);
@@ -5271,14 +5245,38 @@ div.toggleVolume{
 	width: 60px;
 	text-align: center;
 }
-div.toggleVolume div{
+.volOptions{
 	display:none;
 	cursor:pointer;
-	letter-spacing: 2px;
-	left: 4px;
 	width: 60px;
 	text-align: center;
+
+  border: 1px gray dotted;
+  font: 12px 'Gotham';
+  text-transform: none;
+  color: gray;
+  margin-top: 60px;
+  padding: 5px 5px;
+	margin-left: 3.85%;
+	position: absolute;
+	background-color: black;
 }
+/*div.toggleVolume div{
+	display:none;
+	cursor:pointer;
+	width: 60px;
+	text-align: center;
+
+  border: 1px gray dotted;
+  font: 12px 'Gotham';
+  text-transform: none;
+  color: gray;
+  margin-top: 8px;
+  padding: 5px 5px;
+margin-left: 2%;
+	letter-spacing: 2px;
+	position: absolute;
+}*/
 
 
 
