@@ -28,7 +28,8 @@ var animateOpening = false, //not true
 	introDelay6 = 27500,
 	introDelay7 = 29500,
 	maxMet = 493829169,
-	minMet = 0;
+	minMet = 0,
+	radiusSmall = 3.2;
 
 var formatThousands = d3.format(",");
 
@@ -40,12 +41,12 @@ var energyBarsData = [
 		[ "Residual Fuel Oil", 	110000000 ],
 		[ "Other", 				210000000 ]
 	];
-// var proj = d3.geo.naturalEarth()
-//     .scale(initialZoom)
-//     .translate([width / 2, height / 2]);
-var proj = d3.geo.mercator()
+var proj = d3.geo.naturalEarth()
     .scale(initialZoom)
     .translate([width / 2, height / 2]);
+// var proj = d3.geo.mercator()
+//     .scale(initialZoom)
+//     .translate([width / 2, height / 2]);
 
 d3.select("#reset").on("click", resetZoom);
 
@@ -55,10 +56,16 @@ var scaleVolume = d3.scale.linear()
 
 var colorMap = d3.scale.linear()
 		.domain([minMet, maxMet/10]) //493829169.9 is max
-		.range([1, 255]);
+		.range([180, 360]);
+
+
+var lightMap = d3.scale.linear()
+		.domain([minMet, maxMet/10]) //493829169.9 is max
+		.range([5, 50]);
+
 var strokeMap = d3.scale.linear()
 		.domain([minMet, maxMet/10]) //493829169.9 is max
-		.range([1, 15]);
+		.range([1, 5]);
 
 var zoom = d3.behavior.zoom()
 	.translate(proj.translate())
@@ -258,6 +265,7 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 	}
 
 var noVolume = false;
+var doPaths = false;
 var animatePaths = false;
 var backgroundFade = false;
 var sizeAll = false;
@@ -276,8 +284,9 @@ $('#eBars').click(function(){
 });
 
 $('.toggleVolume').click(function(){
+showPorts();
+hidePaths();
 
-	// $(this).find('div').slideToggle();
 	$('#animPaths').fadeToggle("fast",function(){
 	});
 	$('.volAll').slideToggle("slow", function(){
@@ -289,78 +298,96 @@ $('.toggleVolume').click(function(){
 })
 
 $('.volAll').click(function(){
-	sizeAll = !sizeAll;
-	if (sizeAll){
 		sizeAllVolumes();
 	    $(this).animate().css('background-color', 'white')
 	    $(this).animate().css('opacity', '1')
-	}
-	// else if (sizeExp && !sizeAll){
-	// 	$(this).animate().css('background-color', 'black')
-	// 	sizeExpVolumes();
-	// }
-	else {
-		unsizeAllVolumes();
-		$(this).animate().css('background-color', 'black')
-		$(this).animate().css('opacity', '1')
-	}
+			$('.volImp').animate().css('background-color', 'black')
+			$('.volExp').animate().css('background-color', 'black')
 })
 $('.volExp').click(function(){
-	sizeExp = !sizeExp;
-	// if (sizeExp&&sizeAll){
-	// 	console.log("sizeexpandsizeall");
-	// 	$(this).animate().css('background-color', 'white')
-	// 	// $('volAll').animate().css('background-color', 'white')
-	//     // $(this).animate().css('opacity', '.7')
-	// 	// sizeExpVsAllVolumes();
-	// }
-	// else
-	 if (sizeExp){
 		sizeExpVolumes();
 		$(this).animate().css('background-color', 'white')
 	    $(this).animate().css('opacity', '1')
-	}
-	else {
-		unsizeAllVolumes();
-		$(this).animate().css('background-color', 'black')
-		$(this).animate().css('opacity', '1')
-	}
+			$('.volAll').animate().css('background-color', 'black')
+			$('.volImp').animate().css('background-color', 'black')
 })
 $('.volImp').click(function(){
-	sizeImp = !sizeImp;
-	if (sizeImp){
 		sizeImpVolumes();
-	}
-	else {
-		unsizeAllVolumes();
-	}
+		$(this).animate().css('background-color', 'white')
+	    $(this).animate().css('opacity', '1')
+			$('.volAll').animate().css('background-color', 'black')
+			$('.volExp').animate().css('background-color', 'black')
 })
 
-// $('#volPorts').click(function(){
-//   $('#animPaths').hide( "fast", function() {
-// })
-//   $('#portOptions').slideToggle( "slow", function() {
-// })
-
-// 	noVolume = !noVolume;
-// 	if (noVolume){
-// 		changeCircle();
-// 	}
-// 	else {
-// 		returnCircle();
-// 	}
-
-// });
+var pathAll = false;
+var pathExp = false;
+var pathImp = false;
 
 $('#animPaths').click(function(){
-	animatePaths = !animatePaths;
-	if (animatePaths){
-		changePaths();
-	}
-	else {
-		returnPaths();
-	}
+unsizeAllVolumes();
+showPaths();
+// hidePorts();
+
+	$('.pathAll').slideToggle("slow", function(){
+	});
+	$('.pathExp').slideToggle("slow", function(){
+	});
+	$('.pathImp').slideToggle("slow", function(){
+	});
+	// if (animatePaths){
+	// 	changePaths();
+	// }
+	// else {
+	// 	returnPaths();
+	// }
 })
+$('.pathAll').click(function(){
+	// pathAll = !pathAll;
+	// if (pathAll){
+		pathAllVolumes();
+	    $(this).animate().css('background-color', 'white')
+	    $(this).animate().css('opacity', '1')
+			$('.pathImp').animate().css('background-color', 'black')
+			$('.pathExp').animate().css('background-color', 'black')
+	// }
+	// else {
+	// 	returnPaths();
+	// 	$(this).animate().css('background-color', 'black')
+	// 	$(this).animate().css('opacity', '1')
+	// }
+})
+$('.pathExp').click(function(){
+	// pathExp = !pathExp;
+	//  if (pathExp){
+		pathExpVolumes();
+		$(this).animate().css('background-color', 'white')
+	    $(this).animate().css('opacity', '1')
+			$('.pathAll').animate().css('background-color', 'black')
+			$('.pathImp').animate().css('background-color', 'black')
+	// }
+	// else {
+	// 	returnPaths();
+	// 	$(this).animate().css('background-color', 'black')
+	// 	$(this).animate().css('opacity', '1')
+	// }
+})
+$('.pathImp').click(function(){
+	// pathImp = !pathImp;
+	// if (pathImp){
+		pathImpVolumes();
+		$(this).animate().css('background-color', 'white')
+	    $(this).animate().css('opacity', '1')
+	   		$('.pathAll').animate().css('background-color', 'black')
+			$('.pathExp').animate().css('background-color', 'black')
+	// }
+	// else {
+	// 	returnPaths();
+	// 	$(this).animate().css('background-color', 'black')
+	// 	$(this).animate().css('opacity', '1')
+	// }
+})
+
+
 
 function fadeBackground(){
 	map.attr("opacity", .3)
@@ -417,7 +444,8 @@ function unfadeBackground(){
 	pathGroups.append("path")
 		.attr("class", "visible")
 		.attr("stroke","#307074")
-		.attr("stroke-width", ".5")
+		.attr("opacity",1)
+		.attr("stroke-width", ".75")
 		.attr("d", path)
 		.attr("stroke-dasharray", "0, 0.1");  //Initially, line is not visible
 
@@ -479,10 +507,7 @@ function unfadeBackground(){
 	// Clickable ports get the click handler
 	// d3.selectAll('.port.clickable')
 	d3.selectAll('.port')
-	// portGroups
 		.on('click', click)
-			// updateHoverbox(d.properties, "port");
-			// d3.select(this).each(moveToFront);
 		.on("mouseover", function(d) {
 			updateHoverbox(d.properties, "port");
 			d3.select(this).each(moveToFront);
@@ -495,15 +520,11 @@ function unfadeBackground(){
 				.text(function(d) { 
 					// return d.properties.port;
 				});
-
-			// updateHoverbox(d.properties, "port");
-			// d3.select(this).each(moveToFront);
 		})
 		.on("mouseout", function(d) {
 			hideHoverbox();
 			d3.selectAll('.label')
 			.remove();
-			// .attr("opacity", 0);
 		});
 	// In each group, add a circle
 
@@ -511,124 +532,101 @@ function unfadeBackground(){
 			.attr("class", "point")
 			.attr("cx", 0)
 			.attr("cy", 0)
-			.attr("r", 3)
+			.attr("r", radiusSmall)
 			// .attr("stroke", "none")
-			.attr("opacity", 1)
+			// .attr("opacity", .5)
 
 // }
-function sizeExpVsAllVolumes(){
-console.log("sizingexpvsall")
+// function sizeExpVsAllVolumes(){
+// console.log("sizingexpvsall")
 
 
-var circAll = portGroups.selectAll("circle")
-		.data(ports.features)
+// var circAll = portGroups.selectAll("circle")
+// 		.data(ports.features)
 
-.enter().append("circle")
-		.attr("class", "circleAll")
-			// .transition()
-			// .duration(1000)
-			.attr("cx", 0)
-			.attr("cy", 0)
-			.attr("fill","green")
-			.attr("opacity", .4)
-			.attr("r", 20);
-
-
-var circEx = portGroups.selectAll("circleAll circle").select("circle exp")
-
-		.data(ports.features)
-
-.enter().append("circle")
-.attr("class", "exp")
-			// .transition()
-			// .duration(1000)
-			.attr("cx", 0)
-			.attr("cy", 0)
-			.attr("opacity", .6)
-			.attr("fill","pink")
-			.attr("r", 10);
-
-////////////////////////////////////////////////////
-// var rectMA = graphView.selectAll("rectBA rect").select("rect ma")
-// .data(function(d){
-// 	return data;
-// })
-// .enter().append("rect")
-// .attr("class", "masters")
-
-// var rectBA = graphView.selectAll("rect")
-// .data(function(d){
-// 	return data;
-// })
-// .enter().append("rect")
-// .attr("class", "rectBA")
-////////////////////////////////////////////////////
+// .enter().append("circle")
+// 		.attr("class", "circleAll")
+// 			// .transition()
+// 			// .duration(1000)
+// 			.attr("cx", 0)
+// 			.attr("cy", 0)
+// 			.attr("fill","green")
+// 			.attr("opacity", .4)
+// 			.attr("r", 20);
 
 
+// var circEx = portGroups.selectAll("circleAll circle").select("circle exp")
 
+// 		.data(ports.features)
 
-		// portGroups.selectAll("circle")
-		// .attr("class", "allExp")
-		// 	.transition()
-		// 	.duration(1000)
-		// 	.attr("fill", "blue")
-		// 	.attr("r", function(d) {
-		// 		// return (parseInt(d.properties.MetricTons)/10000000);
-		// 		return Math.sqrt(parseInt(d.properties.ExportMetTons)/1000000);
-		// 	});	
+// .enter().append("circle")
+// .attr("class", "exp")
+// 			// .transition()
+// 			// .duration(1000)
+// 			.attr("cx", 0)
+// 			.attr("cy", 0)
+// 			.attr("opacity", .6)
+// 			.attr("fill","pink")
+// 			.attr("r", 10);
 
-		// pathGroups.selectAll("path")
-		// 	.transition()
-		// 	.duration(2000)
-		// 	.attr("opacity", 0);	
-}
+// ////////////////////////////////////////////////////
+// // var rectMA = graphView.selectAll("rectBA rect").select("rect ma")
+// // .data(function(d){
+// // 	return data;
+// // })
+// // .enter().append("rect")
+// // .attr("class", "masters")
+
+// // var rectBA = graphView.selectAll("rect")
+// // .data(function(d){
+// // 	return data;
+// // })
+// // .enter().append("rect")
+// // .attr("class", "rectBA")
+// ////////////////////////////////////////////////////
+// 		// portGroups.selectAll("circle")
+// 		// .attr("class", "allExp")
+// 		// 	.transition()
+// 		// 	.duration(1000)
+// 		// 	.attr("fill", "blue")
+// 		// 	.attr("r", function(d) {
+// 		// 		// return (parseInt(d.properties.MetricTons)/10000000);
+// 		// 		return Math.sqrt(parseInt(d.properties.ExportMetTons)/1000000);
+// 		// 	});	
+
+// 		// pathGroups.selectAll("path")
+// 		// 	.transition()
+// 		// 	.duration(2000)
+// 		// 	.attr("opacity", 0);	
+// }
 function sizeAllVolumes(){
 		console.log("in all")
-
 		portGroups.selectAll("circle")
 		.attr("class", "circleAll")
 			.transition()
 			.duration(1000)
 			.attr("r", function(d) {
-				// return (parseInt(d.properties.MetricTons)/10000000);
 				return Math.sqrt(parseInt(d.properties.MetricTons)/1000000);
 			});	
-
-		pathGroups.selectAll("path")
-			.transition()
-			.duration(2000)
-			.attr("opacity", 0);
 }
 function unsizeAllVolumes(){
 		console.log("return circles")
 
 		portGroups.selectAll("circle")
-		// .attr("class", "hidden")
 			.transition()
 			.duration(500)
-			.attr("r", 3);
-
-		pathGroups.selectAll("path")
-			.transition()
-			.duration(2000)
-			.attr("opacity", 1);
+			.attr("r", radiusSmall)
+			.attr("opacity", ".2");
 }
 function sizeExpVolumes(){
 		console.log("in export")
 
 		portGroups.selectAll("circle")
-		// .attr("class", "hidden")
 			.transition()
 			.duration(1000)
 			.attr("r", function(d) {
-				// console.log(d.properties.ExportMetTons+"exp"+d.properties.MetricTons+"total"+d.properties.ImportMetTons+"import")
-				// return (parseInt(d.properties.ExportMetTons)/10000000);
 				return Math.sqrt(parseInt(d.properties.ExportMetTons)/1000000);
 			});	
-		pathGroups.selectAll("path")
-			.transition()
-			.duration(2000)
-			.attr("opacity", 0);
 }
 function sizeImpVolumes(){
 		console.log("in import")
@@ -640,32 +638,83 @@ function sizeImpVolumes(){
 			.attr("r", function(d) {
 				return Math.sqrt(parseInt(d.properties.ImportMetTons)/1000000);
 			});	
+}
+function pathAllVolumes(){
+	console.log("in paths")
 		pathGroups.selectAll("path")
 			.transition()
-			.duration(2000)
-			.attr("opacity", 0);
+			.duration(1000)
+		.attr("stroke", function(d){
+			return "hsl(180,100,"+lightMap(d.properties.MetricTons)+")"
+			});
 }
+function pathExpVolumes(){
+	console.log("in paths")
+		pathGroups.selectAll("path")
+			.transition()
+			.duration(1000)
+		.attr("stroke", function(d){
+			return "hsl(180,100,"+lightMap(d.properties.ExportMetTons)+")"
+			});
+}
+function pathImpVolumes(){
+	console.log("in path imports")
+		pathGroups.selectAll("path")
+			.transition()
+			.duration(1000)
+			.attr("stroke", function(d){
+			return "hsl(180,100,"+lightMap(d.properties.ImportMetTons)+")"
+			});
+}
+
+
+
+function hidePorts(){
+	console.log("hide ports")
+		portGroups.selectAll("circle")
+			.transition()
+			.duration(100)
+			.attr("r", radiusSmall)
+			.attr("opacity",.1);
+}
+function showPorts(){
+	console.log("showports")
+		portGroups.selectAll("circle")
+			.transition()
+			.duration(100)
+			.attr("r", radiusSmall)
+			.attr("opacity",.8);
+}
+function hidePaths(){
+	console.log("hide paths")
+		pathGroups.selectAll("path")
+			.transition()
+			.duration(100)
+			.attr("opacity",.1)
+}
+function showPaths(){
+		console.log("show paths")
+		pathGroups.selectAll("path")
+			.transition()
+			.duration(500)
+			.attr("stroke","#307074")
+			.attr("opacity",.8);
+}
+// function showPaths(){
+// 	console.log("show paths")
+// 		pathGroups.selectAll("path")
+// 			.transition()
+// 			.duration(100)
+// 			.attr("opacity",.8);
+// }
+
 
 function changePaths(){
 	console.log("in paths")
 		pathGroups.selectAll("path")
 			.transition()
-			.duration(10000)
-			.attr("stroke-width", function(d){
-
-		// function makeNormal(number){
-		// 	if (number>1000000){
-		// 	var newNum = number/1000000;
-		// 		return Math.round(newNum);
-		// 	}
-		// 	else {
-		// 	var newNum = number/1000;
-		// 		return Math.round(newNum);
-		// 	}
-		// }
-
-				return strokeMap(parseInt(d.properties.MetricTons));
-			})
+			.duration(1000)
+			.attr("opacity",1)
 			.attrTween("stroke-dasharray", function() {
 				var l = this.getTotalLength();
 				var i = d3.interpolateString("0," + l, l + "," + l);
@@ -673,25 +722,8 @@ function changePaths(){
 					return i(t);
 				};
 			});
-			// .attr("stroke", function(d){
-			// 	console.log((colorMap(d.properties.MetricTons)));
-			// 	return "rgb(0,10,"+parseInt(colorMap(d.properties.MetricTons))+")";
-			// });
 }
-function returnPaths(){
-		console.log("return paths")
 
-		pathGroups.selectAll("path")
-			.transition()
-			.duration(10000)
-			.attrTween("stroke-dasharray", function() {
-				var l = this.getTotalLength();
-				var i = d3.interpolateString("-10," + l, l + "," + l);
-				return function(t) {
-					return i(t);
-				};
-			});
-}
 
 
 
@@ -1775,7 +1807,7 @@ function draw(){
 			.attr("class", "point")
 			.attr("cx", 0)
 			.attr("cy", 0)
-			.attr("r", 3)
+			.attr("r", radiusSmall)
 			// .attr("stroke", "none")
 			.attr("opacity", 1)
 }

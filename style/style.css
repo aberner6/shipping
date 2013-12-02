@@ -229,16 +229,16 @@ line-height: 20px;
 /*	stroke: #307074;
 */	
 /*stroke-width: 0.5;*/
-opacity:1;
+/*opacity:1;*/
 }
 
 .paths path.selected {
 	stroke:#ff2000; 
-	stroke-width: 4;
+	/*stroke-width: 4;*/
 }
 .paths path.visible:hover {
 	stroke: #ff2000;
-	stroke-width:4;
+	/*stroke-width:4;*/
 	/*cursor: pointer;*/
 }
 
@@ -248,8 +248,8 @@ opacity:1;
 .port circle {
 	fill: grey;
 	stroke:white;
-	stroke-width:.3;
-	opacity: 0.5;
+	stroke-width:.1;
+	/*opacity: 0.5;*/
 }
 .port .label {
 	font-size: 20px;
@@ -257,7 +257,7 @@ opacity:1;
 }
 .port:hover circle{
 	stroke: #ff2000;
-	stroke-width:4;
+	stroke-width:2;
 	/*cursor: pointer;*/
 }
 .port:hover .label{
@@ -5358,7 +5358,7 @@ div.toggleVolume{
   color: gray;
   margin-top: 60px;
   padding: 5px 5px;
-	margin-left: 3.85%;
+	margin-left: 3.65%;
 	position: absolute;
 	background-color: black;
 }
@@ -5387,7 +5387,7 @@ div.toggleVolume{
   color: gray;
   margin-top: 60px;
   padding: 5px 5px;
-	margin-left: 3.85%;
+	margin-left: 3.65%;
 	position: absolute;
 	background-color: black;
 }
@@ -5409,14 +5409,13 @@ div.toggleVolume{
 	cursor:pointer;
 	width: 60px;
 	text-align: center;
-
   border: 1px gray dotted;
   font: 12px 'Gotham';
   text-transform: none;
   color: gray;
   margin-top: 60px;
   padding: 5px 5px;
-	margin-left: 3.85%;
+	margin-left: 3.65%;
 	position: absolute;
 	background-color: black;
 }
@@ -5433,24 +5432,91 @@ div.toggleVolume{
   transition: 150ms all ease-in-out;
   opacity: 1;
 }
-/*div.toggleVolume div{
+
+.pathAll{
 	display:none;
 	cursor:pointer;
 	width: 60px;
 	text-align: center;
-
   border: 1px gray dotted;
   font: 12px 'Gotham';
   text-transform: none;
   color: gray;
-  margin-top: 8px;
+  margin-top: 60px;
   padding: 5px 5px;
-margin-left: 2%;
-	letter-spacing: 2px;
+	margin-left: 3.65%;
 	position: absolute;
-}*/
-
-
+	background-color: black;
+}
+.pathAll:hover{
+  -webkit-transform: translate3d(2px, 0, 0);
+  -moz-transform: translateX(2px);
+  -ms-transform: translateX(2px);
+  -o-transform: translateX(2px);
+  transform: translateX(2px);
+  -moz-transition: 150ms all ease-in-out;
+  -webkit-transition: 150ms all ease-in-out;
+  -ms-transition: 150ms all ease-in-out;
+  -o-transition: 150ms all ease-in-out;
+  transition: 150ms all ease-in-out;
+  opacity: 1;
+}
+.pathExp{
+	display:none;
+	cursor:pointer;
+	width: 60px;
+	text-align: center;
+  border: 1px gray dotted;
+  font: 12px 'Gotham';
+  text-transform: none;
+  color: gray;
+  margin-top: 60px;
+  padding: 5px 5px;
+	margin-left: 3.65%;
+	position: absolute;
+	background-color: black;
+}
+.pathExp:hover{
+  -webkit-transform: translate3d(2px, 0, 0);
+  -moz-transform: translateX(2px);
+  -ms-transform: translateX(2px);
+  -o-transform: translateX(2px);
+  transform: translateX(2px);
+  -moz-transition: 150ms all ease-in-out;
+  -webkit-transition: 150ms all ease-in-out;
+  -ms-transition: 150ms all ease-in-out;
+  -o-transition: 150ms all ease-in-out;
+  transition: 150ms all ease-in-out;
+  opacity: 1;
+}
+.pathImp{
+	display:none;
+	cursor:pointer;
+	width: 60px;
+	text-align: center;
+  border: 1px gray dotted;
+  font: 12px 'Gotham';
+  text-transform: none;
+  color: gray;
+  margin-top: 60px;
+  padding: 5px 5px;
+	margin-left: 3.65%;
+	position: absolute;
+	background-color: black;
+}
+.pathImp:hover{
+  -webkit-transform: translate3d(2px, 0, 0);
+  -moz-transform: translateX(2px);
+  -ms-transform: translateX(2px);
+  -o-transform: translateX(2px);
+  transform: translateX(2px);
+  -moz-transition: 150ms all ease-in-out;
+  -webkit-transition: 150ms all ease-in-out;
+  -ms-transition: 150ms all ease-in-out;
+  -o-transition: 150ms all ease-in-out;
+  transition: 150ms all ease-in-out;
+  opacity: 1;
+}
 
 
 
