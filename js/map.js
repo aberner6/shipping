@@ -284,8 +284,15 @@ $('#eBars').click(function(){
 });
 
 $('.toggleVolume').click(function(){
+	noVolume = !noVolume;
+if (noVolume){
 showPorts();
 hidePaths();
+}
+else {
+// unsizeAllVolumes();
+showPaths();
+}
 
 	$('#animPaths').fadeToggle("fast",function(){
 	});
@@ -320,12 +327,24 @@ $('.volImp').click(function(){
 })
 
 var pathAll = false;
-var pathExp = false;
-var pathImp = false;
+// var pathExp = false;
+// var pathImp = false;
 
 $('#animPaths').click(function(){
-unsizeAllVolumes();
+pathAll = !pathAll;
+if (pathAll){
 showPaths();
+ unsizeAllVolumes();
+}
+else {
+ resizeAllVolumes();
+showPaths();
+}
+
+
+
+// unsizeAllVolumes();
+// showPaths();
 // hidePorts();
 
 	$('.pathAll').slideToggle("slow", function(){
@@ -609,13 +628,21 @@ function sizeAllVolumes(){
 				return Math.sqrt(parseInt(d.properties.MetricTons)/1000000);
 			});	
 }
-function unsizeAllVolumes(){
+function resizeAllVolumes(){
 		console.log("return circles")
 
 		portGroups.selectAll("circle")
 			.transition()
 			.duration(500)
 			.attr("r", radiusSmall)
+}
+function unsizeAllVolumes(){
+		console.log("return circles")
+
+		portGroups.selectAll("circle")
+			.transition()
+			.duration(500)
+			.attr("r", .5)
 			.attr("opacity", ".2");
 }
 function sizeExpVolumes(){
