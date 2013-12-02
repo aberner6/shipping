@@ -38,12 +38,12 @@ var energyBarsData = [
 		[ "Residual Fuel Oil", 	110000000 ],
 		[ "Other", 				210000000 ]
 	];
-var proj = d3.geo.naturalEarth()
-    .scale(initialZoom)
-    .translate([width / 2, height / 2]);
-// var proj = d3.geo.mercator()
+// var proj = d3.geo.naturalEarth()
 //     .scale(initialZoom)
 //     .translate([width / 2, height / 2]);
+var proj = d3.geo.mercator()
+    .scale(initialZoom)
+    .translate([width / 2, height / 2]);
 
 d3.select("#reset").on("click", resetZoom);
 
@@ -272,7 +272,7 @@ $('.toggleVolume').click(function(){
 	// $(this).find('div').slideToggle();
 	$('#animPaths').fadeToggle("fast",function(){
 	});
-	$('.volOptions').slideToggle("slow", function(){
+	$('.volAll').slideToggle("slow", function(){
 	});
 	$('.volExp').slideToggle("slow", function(){
 	});
@@ -280,22 +280,42 @@ $('.toggleVolume').click(function(){
 	});
 })
 
-$('.volOptions').click(function(){
+$('.volAll').click(function(){
 	sizeAll = !sizeAll;
 	if (sizeAll){
 		sizeAllVolumes();
+	    $(this).animate().css('background-color', 'white')
+	    $(this).animate().css('opacity', '1')
 	}
+	// else if (sizeExp && !sizeAll){
+	// 	$(this).animate().css('background-color', 'black')
+	// 	sizeExpVolumes();
+	// }
 	else {
 		unsizeAllVolumes();
+		$(this).animate().css('background-color', 'black')
+		$(this).animate().css('opacity', '1')
 	}
 })
 $('.volExp').click(function(){
 	sizeExp = !sizeExp;
-	if (sizeExp){
+	// if (sizeExp&&sizeAll){
+	// 	console.log("sizeexpandsizeall");
+	// 	$(this).animate().css('background-color', 'white')
+	// 	// $('volAll').animate().css('background-color', 'white')
+	//     // $(this).animate().css('opacity', '.7')
+	// 	// sizeExpVsAllVolumes();
+	// }
+	// else
+	 if (sizeExp){
 		sizeExpVolumes();
+		$(this).animate().css('background-color', 'white')
+	    $(this).animate().css('opacity', '1')
 	}
 	else {
 		unsizeAllVolumes();
+		$(this).animate().css('background-color', 'black')
+		$(this).animate().css('opacity', '1')
 	}
 })
 $('.volImp').click(function(){
@@ -485,18 +505,84 @@ function unfadeBackground(){
 			.attr("opacity", 1)
 
 // }
+function sizeExpVsAllVolumes(){
+console.log("sizingexpvsall")
 
+
+var circAll = portGroups.selectAll("circle")
+		.data(ports.features)
+
+.enter().append("circle")
+		.attr("class", "circleAll")
+			// .transition()
+			// .duration(1000)
+			.attr("cx", 0)
+			.attr("cy", 0)
+			.attr("fill","green")
+			.attr("opacity", .4)
+			.attr("r", 20);
+
+
+var circEx = portGroups.selectAll("circleAll circle").select("circle exp")
+
+		.data(ports.features)
+
+.enter().append("circle")
+.attr("class", "exp")
+			// .transition()
+			// .duration(1000)
+			.attr("cx", 0)
+			.attr("cy", 0)
+			.attr("opacity", .6)
+			.attr("fill","pink")
+			.attr("r", 10);
+
+////////////////////////////////////////////////////
+// var rectMA = graphView.selectAll("rectBA rect").select("rect ma")
+// .data(function(d){
+// 	return data;
+// })
+// .enter().append("rect")
+// .attr("class", "masters")
+
+// var rectBA = graphView.selectAll("rect")
+// .data(function(d){
+// 	return data;
+// })
+// .enter().append("rect")
+// .attr("class", "rectBA")
+////////////////////////////////////////////////////
+
+
+
+
+		// portGroups.selectAll("circle")
+		// .attr("class", "allExp")
+		// 	.transition()
+		// 	.duration(1000)
+		// 	.attr("fill", "blue")
+		// 	.attr("r", function(d) {
+		// 		// return (parseInt(d.properties.MetricTons)/10000000);
+		// 		return Math.sqrt(parseInt(d.properties.ExportMetTons)/1000000);
+		// 	});	
+
+		// pathGroups.selectAll("path")
+		// 	.transition()
+		// 	.duration(2000)
+		// 	.attr("opacity", 0);	
+}
 function sizeAllVolumes(){
 		console.log("in all")
 
 		portGroups.selectAll("circle")
-		// .attr("class", "hidden")
+		.attr("class", "circleAll")
 			.transition()
 			.duration(1000)
 			.attr("r", function(d) {
 				// return (parseInt(d.properties.MetricTons)/10000000);
 				return Math.sqrt(parseInt(d.properties.MetricTons)/1000000);
 			});	
+
 		pathGroups.selectAll("path")
 			.transition()
 			.duration(2000)
@@ -554,6 +640,9 @@ function changePaths(){
 		pathGroups.selectAll("path")
 			.transition()
 			.duration(10000)
+			.attr("stroke-width", function(d){
+				return (parseInt(d.properties.MetricTons)/10000000);
+			})
 			.attrTween("stroke-dasharray", function() {
 				var l = this.getTotalLength();
 				var i = d3.interpolateString("0," + l, l + "," + l);

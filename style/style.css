@@ -220,15 +220,14 @@ line-height: 20px;
 .paths path.background {
 	fill: none;
 	stroke: black;
-	stroke-width: 5;
+	/*stroke-width: 5;*/
 	opacity: 0.0;
 }
 
 .paths path.visible {
 	fill: none;
-	/*stroke: #99CD74;*/
 	stroke: #307074;
-	stroke-width: 0.5;
+	/*stroke-width: 0.5;*/
 }
 
 .paths path.selected {
@@ -5403,7 +5402,7 @@ div.toggleVolume{
   transition: 150ms all ease-in-out;
   opacity: 1;
 }
-.volOptions{
+.volAll{
 	display:none;
 	cursor:pointer;
 	width: 60px;
@@ -5419,7 +5418,7 @@ div.toggleVolume{
 	position: absolute;
 	background-color: black;
 }
-.volOptions:hover{
+.volAll:hover{
   -webkit-transform: translate3d(2px, 0, 0);
   -moz-transform: translateX(2px);
   -ms-transform: translateX(2px);
