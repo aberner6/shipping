@@ -26,7 +26,9 @@ var animateOpening = false, //not true
 	introDelay4 = 16500,
 	introDelay5 = 20500,
 	introDelay6 = 27500,
-	introDelay7 = 29500;
+	introDelay7 = 29500,
+	maxMet = 493829169,
+	minMet = 0;
 
 var formatThousands = d3.format(",");
 
@@ -48,9 +50,15 @@ var proj = d3.geo.mercator()
 d3.select("#reset").on("click", resetZoom);
 
 var scaleVolume = d3.scale.linear()
-		.domain([0, 493829169])
+		.domain([0, maxMet])
 		.range([1, 100]);
 
+var colorMap = d3.scale.linear()
+		.domain([minMet, maxMet/10]) //493829169.9 is max
+		.range([1, 255]);
+var strokeMap = d3.scale.linear()
+		.domain([minMet, maxMet/10]) //493829169.9 is max
+		.range([1, 15]);
 
 var zoom = d3.behavior.zoom()
 	.translate(proj.translate())
@@ -193,12 +201,12 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 				ports.features[i].properties.MetricTons		= parseFloat(ports_data[j].MetricTons);
 				ports.features[i].properties.ImportMetTons	= parseFloat(ports_data[j].ImportMetTons);
 				ports.features[i].properties.ExportMetTons	= parseFloat(ports_data[j].ExportMetTons);
-				ports.features[i].properties.Comm1			= ports_data[j].Comm1;
-				ports.features[i].properties.Comm2			= ports_data[j].Comm2;
-				ports.features[i].properties.Comm3			= ports_data[j].Comm3;
-				ports.features[i].properties.Ship1			= ports_data[j].Ship1;
-				ports.features[i].properties.Ship2			= ports_data[j].Ship2;
-				ports.features[i].properties.Ship3			= ports_data[j].Ship3;
+				// ports.features[i].properties.Comm1			= ports_data[j].Comm1;
+				// ports.features[i].properties.Comm2			= ports_data[j].Comm2;
+				// ports.features[i].properties.Comm3			= ports_data[j].Comm3;
+				// ports.features[i].properties.Ship1			= ports_data[j].Ship1;
+				// ports.features[i].properties.Ship2			= ports_data[j].Ship2;
+				// ports.features[i].properties.Ship3			= ports_data[j].Ship3;
 
 			}
 
@@ -236,12 +244,12 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 				paths.features[i].properties.MetricTons		= parseFloat(paths_data[j].MetricTons);
 				paths.features[i].properties.ImportMetTons	= parseFloat(paths_data[j].ImportMetTons);
 				paths.features[i].properties.ExportMetTons	= parseFloat(paths_data[j].ExportMetTons);
-				paths.features[i].properties.Comm1			= paths_data[j].Comm1;
-				paths.features[i].properties.Comm2			= paths_data[j].Comm2;
-				paths.features[i].properties.Comm3			= paths_data[j].Comm3;
-				paths.features[i].properties.Ship1			= paths_data[j].Ship1;
-				paths.features[i].properties.Ship2			= paths_data[j].Ship2;
-				paths.features[i].properties.Ship3			= paths_data[j].Ship3;
+				// paths.features[i].properties.Comm1			= paths_data[j].Comm1;
+				// paths.features[i].properties.Comm2			= paths_data[j].Comm2;
+				// paths.features[i].properties.Comm3			= paths_data[j].Comm3;
+				// paths.features[i].properties.Ship1			= paths_data[j].Ship1;
+				// paths.features[i].properties.Ship2			= paths_data[j].Ship2;
+				// paths.features[i].properties.Ship3			= paths_data[j].Ship3;
 
 			}
 
@@ -408,6 +416,8 @@ function unfadeBackground(){
 	//Create visible paths
 	pathGroups.append("path")
 		.attr("class", "visible")
+		.attr("stroke","#307074")
+		.attr("stroke-width", ".5")
 		.attr("d", path)
 		.attr("stroke-dasharray", "0, 0.1");  //Initially, line is not visible
 
@@ -451,6 +461,7 @@ function unfadeBackground(){
 		.append("g")
 		.attr("class", "port")
 		.classed("clickable", function(d) {
+			// console.log(maxMet+"maxmetrictons");
 			// if (d.properties.scalerank == 1) {
 				return true;
 			// }
@@ -641,7 +652,19 @@ function changePaths(){
 			.transition()
 			.duration(10000)
 			.attr("stroke-width", function(d){
-				return (parseInt(d.properties.MetricTons)/10000000);
+
+		// function makeNormal(number){
+		// 	if (number>1000000){
+		// 	var newNum = number/1000000;
+		// 		return Math.round(newNum);
+		// 	}
+		// 	else {
+		// 	var newNum = number/1000;
+		// 		return Math.round(newNum);
+		// 	}
+		// }
+
+				return strokeMap(parseInt(d.properties.MetricTons));
 			})
 			.attrTween("stroke-dasharray", function() {
 				var l = this.getTotalLength();
@@ -650,6 +673,10 @@ function changePaths(){
 					return i(t);
 				};
 			});
+			// .attr("stroke", function(d){
+			// 	console.log((colorMap(d.properties.MetricTons)));
+			// 	return "rgb(0,10,"+parseInt(colorMap(d.properties.MetricTons))+")";
+			// });
 }
 function returnPaths(){
 		console.log("return paths")
@@ -1160,10 +1187,21 @@ var imIs = 	10;
 	var totalLabelY = 40;
 	var totalText = "Total: ";
 		function makeNormal(number){
+			if (number>1000000){
 			var newNum = number/1000000;
-		return Math.round(newNum);
+				return Math.round(newNum);
+			}
+			else {
+			var newNum = number/1000;
+				return Math.round(newNum);
+			}
 		}
-		totalText += makeNormal(d.MetricTons)+"mil";
+		if (d.MetricTons>1000000){
+			totalText += makeNormal(d.MetricTons)+"mil";
+		}
+		else {
+			totalText += makeNormal(d.MetricTons)+"k";			
+		}
 		////////////////////////////////////////////
 
 

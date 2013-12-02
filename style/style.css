@@ -226,8 +226,10 @@ line-height: 20px;
 
 .paths path.visible {
 	fill: none;
-	stroke: #307074;
-	/*stroke-width: 0.5;*/
+/*	stroke: #307074;
+*/	
+/*stroke-width: 0.5;*/
+opacity:1;
 }
 
 .paths path.selected {
