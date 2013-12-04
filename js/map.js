@@ -29,7 +29,8 @@ var animateOpening = false, //not true
 	introDelay7 = 29500,
 	maxMet = 493829170,
 	minMet = 0,
-	radiusSmall = 3.2,
+	radiusSmall = 3,
+	portOnOpacity = .7,
 	margin = {top: 20, right: 30, bottom: 30, left: 40},
 	widthChart = 960- margin.left - margin.right,
 	heightChart = 500- margin.top - margin.bottom;
@@ -336,21 +337,21 @@ showPaths();
 $('.volAll').click(function(){
 		sizeAllVolumes();
 	    $(this).animate().css('background-color', 'white')
-	    $(this).animate().css('opacity', '1')
+	    // $(this).animate().css('opacity', '1')
 			$('.volImp').animate().css('background-color', 'black')
 			$('.volExp').animate().css('background-color', 'black')
 })
 $('.volExp').click(function(){
 		sizeExpVolumes();
 		$(this).animate().css('background-color', 'white')
-	    $(this).animate().css('opacity', '1')
+	    // $(this).animate().css('opacity', '1')
 			$('.volAll').animate().css('background-color', 'black')
 			$('.volImp').animate().css('background-color', 'black')
 })
 $('.volImp').click(function(){
 		sizeImpVolumes();
 		$(this).animate().css('background-color', 'white')
-	    $(this).animate().css('opacity', '1')
+	    // $(this).animate().css('opacity', '1')
 			$('.volAll').animate().css('background-color', 'black')
 			$('.volExp').animate().css('background-color', 'black')
 })
@@ -394,7 +395,7 @@ $('.pathAll').click(function(){
 	// if (pathAll){
 		pathAllVolumes();
 	    $(this).animate().css('background-color', 'white')
-	    $(this).animate().css('opacity', '1')
+	    // $(this).animate().css('opacity', '1')
 			$('.pathImp').animate().css('background-color', 'black')
 			$('.pathExp').animate().css('background-color', 'black')
 	// }
@@ -409,7 +410,7 @@ $('.pathExp').click(function(){
 	//  if (pathExp){
 		pathExpVolumes();
 		$(this).animate().css('background-color', 'white')
-	    $(this).animate().css('opacity', '1')
+	    // $(this).animate().css('opacity', '1')
 			$('.pathAll').animate().css('background-color', 'black')
 			$('.pathImp').animate().css('background-color', 'black')
 	// }
@@ -424,7 +425,7 @@ $('.pathImp').click(function(){
 	// if (pathImp){
 		pathImpVolumes();
 		$(this).animate().css('background-color', 'white')
-	    $(this).animate().css('opacity', '1')
+	    // $(this).animate().css('opacity', '1')
 	   		$('.pathAll').animate().css('background-color', 'black')
 			$('.pathExp').animate().css('background-color', 'black')
 	// }
@@ -604,7 +605,7 @@ function unfadeBackground(){
 			.attr("cy", 0)
 			.attr("r", radiusSmall)
 			// .attr("stroke", "none")
-			// .attr("opacity", .5)
+			.attr("opacity", portOnOpacity);
 
 // }
 // function sizeExpVsAllVolumes(){
@@ -761,7 +762,7 @@ function showPorts(){
 			.transition()
 			.duration(100)
 			.attr("r", radiusSmall)
-			.attr("opacity",.8);
+			.attr("opacity",portOnOpacity);
 }
 function hidePaths(){
 	console.log("hide paths")
@@ -774,33 +775,44 @@ function showPaths(){
 		console.log("show paths")
 		pathGroups.selectAll("path")
 			.transition()
-			.duration(500)
+			.duration(2000)
 			.attr("stroke","#307074")
-			.attr("opacity",.8);
+			.attr("opacity",.8)
+
+
+			// .attrTween("stroke-dasharray", function() {
+			// 	var l = this.getTotalLength();
+			// 	var i = d3.interpolateString("0," + l, l + "," + l);
+			// 	return function(t) {
+			// 		return i(t);
+			// 	};
+			// })
+			// .attr("stroke-dashoffset",.1);
+
 }
-// function showPaths(){
-// 	console.log("show paths")
+// function changePaths(){
+// 	console.log("in paths")
 // 		pathGroups.selectAll("path")
 // 			.transition()
-// 			.duration(100)
-// 			.attr("opacity",.8);
+// 			.duration(2000)
+// 			.attr("opacity",1)
+// 			.attrTween("stroke-dasharray", function() {
+// 				var l = this.getTotalLength();
+// 				var i = d3.interpolateString("0," + l, l + "," + l);
+// 				return function(t) {
+// 					return i(t);
+// 				};
+// 			})
+// 			.attr("stroke-dashoffset",0)
+// 			.transition()
+// 			.duration(1000)
+// 			.ease("linear")
+// 			.attr("stroke-dashoffset", function() {
+// 				var l = this.getTotalLength();
+// 				return l;
+// 			});
+
 // }
-
-
-function changePaths(){
-	console.log("in paths")
-		pathGroups.selectAll("path")
-			.transition()
-			.duration(1000)
-			.attr("opacity",1)
-			.attrTween("stroke-dasharray", function() {
-				var l = this.getTotalLength();
-				var i = d3.interpolateString("0," + l, l + "," + l);
-				return function(t) {
-					return i(t);
-				};
-			});
-}
 
 
 
@@ -1933,7 +1945,7 @@ function draw(){
 			.attr("cy", 0)
 			.attr("r", radiusSmall)
 			// .attr("stroke", "none")
-			.attr("opacity", 1)
+			.attr("opacity", portOnOpacity)
 }
 
 d3.selectAll("#nextImage, #prevImage")
