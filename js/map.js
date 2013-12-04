@@ -17,6 +17,7 @@ var animateOpening = false, //not true
 	hoverBoxPortScaleMax = 500000000,
 	hoverBoxPathScaleMax = 120000000,
 	portGroups,	//Needs to be global
+	pathGroups,
 	storiesOpen = false,
 	aboutOpen = false,
 	introTextLength = 7000,
@@ -36,30 +37,6 @@ var animateOpening = false, //not true
 	heightChart = 500- margin.top - margin.bottom;
 
 var formatThousands = d3.format(",");
-
-// var yChart = d3.scale.linear()
-//     .range([heightChart, 0]);
-
-// var xChart = d3.scale.linear()
-// 	// .domain([0, d3.sum(ports_data, function(d) { return d[1]; }) ]) //won't work
-// 	.domain([0, 900])
-// 		.range([0, 960-170]);
-
-// var xAxis = d3.svg.axis()
-//     .scale(xChart)
-//     .orient("bottom");
-
-// var yAxis = d3.svg.axis()
-//     .scale(yChart)
-//     .orient("left");
-
-
-// var chart = d3.select(".chart")
-//     .attr("width", widthChart + margin.left + margin.right)
-//     .attr("height", heightChart + margin.top + margin.bottom)
-//   .append("g")
-//     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
 
 //Metric tons
 var energyBarsData = [
@@ -139,6 +116,19 @@ console.log(t+"thisis T whenzooming")
 
 		return "translate(" + x + "," + y + ")";
 	 });
+
+		pathGroups.selectAll("path")
+			.transition()
+			.duration(1000)
+			.attrTween("stroke-dasharray", function() {
+				var l = this.getTotalLength();
+				var i = d3.interpolateString("0," + l, l + "," + l);
+				return function(t) {
+					return i(t);
+				};
+			})
+			.attr("stroke-dashoffset",.1);
+
 }
 if (s<initialZoom+10){
 	resetZoom();
@@ -469,7 +459,8 @@ function unfadeBackground(){
 
 	//Shipping Paths
 
-	var pathGroups = map.append("g")
+	// var pathGroups = map.append("g")
+	pathGroups = map.append("g")
 		.attr("class", "paths")
 		.selectAll("g")
 		.data(paths.features)
@@ -498,57 +489,9 @@ function unfadeBackground(){
 		.attr("d", path)
 		.attr("stroke-dasharray", "0, 0.1");  //Initially, line is not visible
 
-
-
-
-
-
-	// if (animateOpening) {
-	// if (animatePaths) {
-
-	// 	pathGroups.selectAll("path")
-	// 		.transition()
-	// 		.delay(introDelay4)
-	// 		.duration(5000)
-	// 		.attrTween("stroke-dasharray", function() {
-	// 			var l = this.getTotalLength();
-	// 			var i = d3.interpolateString("0," + l, l + "," + l);
-	// 			return function(t) {
-	// 				return i(t);
-	// 			};
-	// 		});
-
-	// } else {
-
 		d3.selectAll("path")
 			.attr("stroke-dasharray", "none");
 
-	// }
-//   yChart.domain([0, maxMet]);
-//   chart.append("g")
-//       .attr("class", "x axis")
-//       .attr("transform", "translate(0," + heightChart + ")")
-//       .call(xAxis);
-
-//   chart.append("g")
-//       .attr("class", "y axis")
-//       .call(yAxis);
-
-//   chart.selectAll(".bar")
-//       .data(ports.features)
-//     .enter().append("rect")
-//       .attr("class", "bar")
-//       .attr("x", function(d,i) { return xChart(i); })
-//       .attr("y", function(d) { return 20; }) //yChart(d.properties.MetricTons)
-//       .attr("height", function(d) { return heightChart - 20 }) //yChart(d.properties.MetricTons
-//       .attr("width", 10);
-
-// function type(d) {
-//   d.value = +d.value; // coerce to number
-//   return d;
-// }	
-
-// function drawPorts(){
 	//Ports
 
 	// Make a group for each port
@@ -571,8 +514,6 @@ function unfadeBackground(){
 			var y = proj([d.properties.lon,d.properties.lat])[1];
 			return "translate(" + x + "," + y + ")";
 		});
-
-
 
 
 	// Clickable ports get the click handler
@@ -607,69 +548,6 @@ function unfadeBackground(){
 			// .attr("stroke", "none")
 			.attr("opacity", portOnOpacity);
 
-// }
-// function sizeExpVsAllVolumes(){
-// console.log("sizingexpvsall")
-
-
-// var circAll = portGroups.selectAll("circle")
-// 		.data(ports.features)
-
-// .enter().append("circle")
-// 		.attr("class", "circleAll")
-// 			// .transition()
-// 			// .duration(1000)
-// 			.attr("cx", 0)
-// 			.attr("cy", 0)
-// 			.attr("fill","green")
-// 			.attr("opacity", .4)
-// 			.attr("r", 20);
-
-
-// var circEx = portGroups.selectAll("circleAll circle").select("circle exp")
-
-// 		.data(ports.features)
-
-// .enter().append("circle")
-// .attr("class", "exp")
-// 			// .transition()
-// 			// .duration(1000)
-// 			.attr("cx", 0)
-// 			.attr("cy", 0)
-// 			.attr("opacity", .6)
-// 			.attr("fill","pink")
-// 			.attr("r", 10);
-
-// ////////////////////////////////////////////////////
-// // var rectMA = graphView.selectAll("rectBA rect").select("rect ma")
-// // .data(function(d){
-// // 	return data;
-// // })
-// // .enter().append("rect")
-// // .attr("class", "masters")
-
-// // var rectBA = graphView.selectAll("rect")
-// // .data(function(d){
-// // 	return data;
-// // })
-// // .enter().append("rect")
-// // .attr("class", "rectBA")
-// ////////////////////////////////////////////////////
-// 		// portGroups.selectAll("circle")
-// 		// .attr("class", "allExp")
-// 		// 	.transition()
-// 		// 	.duration(1000)
-// 		// 	.attr("fill", "blue")
-// 		// 	.attr("r", function(d) {
-// 		// 		// return (parseInt(d.properties.MetricTons)/10000000);
-// 		// 		return Math.sqrt(parseInt(d.properties.ExportMetTons)/1000000);
-// 		// 	});	
-
-// 		// pathGroups.selectAll("path")
-// 		// 	.transition()
-// 		// 	.duration(2000)
-// 		// 	.attr("opacity", 0);	
-// }
 function sizeAllVolumes(){
 		console.log("in all")
 		portGroups.selectAll("circle")
@@ -778,7 +656,17 @@ function showPaths(){
 			.duration(2000)
 			.attr("stroke","#307074")
 			.attr("opacity",.8)
-
+		// pathGroups.selectAll("path")
+		// 	.transition()
+		// 	.duration(2000)
+			.attrTween("stroke-dasharray", function() {
+				var l = this.getTotalLength();
+				var i = d3.interpolateString("0," + l, l + "," + l);
+				return function(t) {
+					return i(t);
+				};
+			});
+			// .attr("stroke-dashoffset",.1);
 
 			// .attrTween("stroke-dasharray", function() {
 			// 	var l = this.getTotalLength();
@@ -790,42 +678,6 @@ function showPaths(){
 			// .attr("stroke-dashoffset",.1);
 
 }
-// function changePaths(){
-// 	console.log("in paths")
-// 		pathGroups.selectAll("path")
-// 			.transition()
-// 			.duration(2000)
-// 			.attr("opacity",1)
-// 			.attrTween("stroke-dasharray", function() {
-// 				var l = this.getTotalLength();
-// 				var i = d3.interpolateString("0," + l, l + "," + l);
-// 				return function(t) {
-// 					return i(t);
-// 				};
-// 			})
-// 			.attr("stroke-dashoffset",0)
-// 			.transition()
-// 			.duration(1000)
-// 			.ease("linear")
-// 			.attr("stroke-dashoffset", function() {
-// 				var l = this.getTotalLength();
-// 				return l;
-// 			});
-
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	//Clip path and energy bars
 	var mapHeight = d3.select(".map").node().getBBox().height;
