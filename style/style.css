@@ -47,28 +47,48 @@ body {
 body.no-overflow {
   overflow: hidden;
 }
+#reset{
+	letter-spacing: 2px;
+	position: absolute;
+	/*left: 10px;*/
+	/*width: 90px;*/
+	/*text-align: center;*/
+	cursor: pointer;
+border-left: 1px gray solid;
+border-right: 1px gray solid;
+/*  border: 1px gray solid;
+*/  font: 14px 'Gotham';
+  text-transform: none;
+  color: gray;
+  padding: 5px;
+margin-left: 1.65%;
+opacity: .7;
+	background-color: rgba(0, 0, 0, 0.3);
 
-#reset {
+top: 40px;
+	display:none;
+
+	border-radius: 4px;
+}
+/*#reset {
   position: absolute;
-  right: 30px;
-  /*top: 30px;*/
- top: 75px; 
+  left: 4px;
+ top: 45px; 
  height: 18px;
   display:none;
   cursor: pointer;
-  /*border-radius: 12px;*/
     border: 1px gray solid;
-  font: 12px 'Gotham';
-
-  /*text-transform: uppercase;*/
   color: gray;
   padding: 5px 10px;
 margin-left: 2%;
 	background-color: rgba(0, 0, 0, 0.3);
 opacity: .7;
-}
+	letter-spacing: 2px;
+	text-align: center;
+		width: 60px;
+}*/
 #reset:hover {
-  -webkit-transform: translate3d(-10px, 0, 0);
+/*  -webkit-transform: translate3d(-10px, 0, 0);
   -moz-transform: translateX(-10px);
   -ms-transform: translateX(-10px);
   -o-transform: translateX(-10px);
@@ -77,7 +97,7 @@ opacity: .7;
   -webkit-transition: 150ms all ease-in-out;
   -ms-transition: 150ms all ease-in-out;
   -o-transition: 150ms all ease-in-out;
-  transition: 150ms all ease-in-out;
+  transition: 150ms all ease-in-out;*/
   opacity: 1;
 }
 

@@ -55,9 +55,12 @@ var proj = d3.geo.naturalEarth()
 
 d3.select("#reset").on("click", resetZoom);
 
-var scaleVolume = d3.scale.linear()
-		.domain([0, maxMet])
-		.range([1, 100]);
+// var scaleAll = d3.scale.linear()
+// 		.domain([0, maxMet])
+// 		.range([1, 100]);
+// var scaleExp = d3.scale.linear()
+// 		.domain([0, maxEx[]])
+// 		.range([1, 100]);
 
 var colorMap = d3.scale.linear()
 		.domain([minMet, maxMet/10]) //493829169.9 is max
@@ -88,11 +91,11 @@ var zoom = d3.behavior.zoom()
 var showReset = false;
 var zoomInOut = function(t, s) {
 if (showReset==true){
-	$('#reset').fadeIn( "slow", function() {
+	$('#reset').slideDown( "slow", function() {
 })
 }
 if (showReset==false){
-	$('#reset').fadeOut( "slow", function() {
+	$('#reset').slideUp( "slow", function() {
 })	
 }
 	// storiesOpen
@@ -308,14 +311,19 @@ $('.toggleVolume').click(function(){
 if (noVolume){
 showPorts();
 hidePaths();
+	    $('#animPaths').animate().css('margin-top', '91px')
+
 }
 else {
 // unsizeAllVolumes();
 showPaths();
-}
+	    $('#animPaths').animate().css('margin-top', '0px')
 
-	$('#animPaths').fadeToggle("fast",function(){
-	});
+}
+	    // $('#animPaths').animate().css('margin-top', '200px')
+
+	// $('#animPaths').fadeToggle("fast",function(){
+	// });
 	$('.volAll').slideToggle("fast", function(){
 	});
 	$('.volExp').slideToggle("fast", function(){
@@ -577,7 +585,6 @@ function unsizeAllVolumes(){
 }
 function sizeExpVolumes(){
 		console.log("in export")
-
 		portGroups.selectAll("circle")
 			.transition()
 			.duration(1000)
@@ -606,21 +613,40 @@ function pathAllVolumes(){
 			});
 }
 function pathExpVolumes(){
-	console.log("in paths")
+	console.log("in export paths")
+
+var maxExp = d3.max(ports.features, function(d){
+	return d.properties.ExportMetTons;
+})
+console.log(maxExp)
+
+var lightExpMap = d3.scale.linear()
+		.domain([0, maxExp/10]) //493829169.9 is max
+		.range([5, 50]);
+
 		pathGroups.selectAll("path")
 			.transition()
 			.duration(1000)
 		.attr("stroke", function(d){
-			return "hsl(180,100,"+lightMap(d.properties.ExportMetTons)+")"
+			return "hsl(180,100,"+lightExpMap(d.properties.ExportMetTons)+")"
 			});
 }
 function pathImpVolumes(){
 	console.log("in path imports")
+
+maxImp = d3.max(ports.features, function(d){
+	return d.properties.ImportMetTons;
+})
+console.log(maxImp+"maximp")
+var lightImpMap = d3.scale.linear()
+		.domain([0, maxImp/10]) //493829169.9 is max
+		.range([5, 50]);
+
 		pathGroups.selectAll("path")
 			.transition()
 			.duration(1000)
 			.attr("stroke", function(d){
-			return "hsl(180,100,"+lightMap(d.properties.ImportMetTons)+")"
+			return "hsl(180,100,"+lightImpMap(d.properties.ImportMetTons)+")"
 			});
 }
 
@@ -1636,7 +1662,7 @@ proj.translate([width / 2, height / 2]).scale(initialZoom);
 		.transition()
 		.duration(500)
 		.attr("d", path);
-	$('#reset').fadeOut( "slow", function() {
+	$('#reset').slideUp( "slow", function() {
 })			
 }
 
