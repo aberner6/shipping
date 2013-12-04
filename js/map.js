@@ -316,11 +316,11 @@ showPaths();
 
 	$('#animPaths').fadeToggle("fast",function(){
 	});
-	$('.volAll').slideToggle("slow", function(){
+	$('.volAll').slideToggle("fast", function(){
 	});
-	$('.volExp').slideToggle("slow", function(){
+	$('.volExp').slideToggle("fast", function(){
 	});
-	$('.volImp').slideToggle("slow", function(){
+	$('.volImp').slideToggle("fast", function(){
 	});
 })
 
@@ -367,11 +367,11 @@ showPaths();
 // showPaths();
 // hidePorts();
 
-	$('.pathAll').slideToggle("slow", function(){
+	$('.pathAll').slideToggle("fast", function(){
 	});
-	$('.pathExp').slideToggle("slow", function(){
+	$('.pathExp').slideToggle("fast", function(){
 	});
-	$('.pathImp').slideToggle("slow", function(){
+	$('.pathImp').slideToggle("fast", function(){
 	});
 	// if (animatePaths){
 	// 	changePaths();
