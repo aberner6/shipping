@@ -27,11 +27,38 @@ var animateOpening = false, //not true
 	introDelay5 = 20500,
 	introDelay6 = 27500,
 	introDelay7 = 29500,
-	maxMet = 493829169,
+	maxMet = 493829170,
 	minMet = 0,
-	radiusSmall = 3.2;
+	radiusSmall = 3.2,
+	margin = {top: 20, right: 30, bottom: 30, left: 40},
+	widthChart = 960- margin.left - margin.right,
+	heightChart = 500- margin.top - margin.bottom;
 
 var formatThousands = d3.format(",");
+
+// var yChart = d3.scale.linear()
+//     .range([heightChart, 0]);
+
+// var xChart = d3.scale.linear()
+// 	// .domain([0, d3.sum(ports_data, function(d) { return d[1]; }) ]) //won't work
+// 	.domain([0, 900])
+// 		.range([0, 960-170]);
+
+// var xAxis = d3.svg.axis()
+//     .scale(xChart)
+//     .orient("bottom");
+
+// var yAxis = d3.svg.axis()
+//     .scale(yChart)
+//     .orient("left");
+
+
+// var chart = d3.select(".chart")
+//     .attr("width", widthChart + margin.left + margin.right)
+//     .attr("height", heightChart + margin.top + margin.bottom)
+//   .append("g")
+//     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
 
 //Metric tons
 var energyBarsData = [
@@ -279,6 +306,8 @@ $('#eBars').click(function(){
 	else {
 		unfadeBackground();
 	}
+	$('#otherBars').fadeToggle( "slow", function() {
+})
   $('#energyBars').fadeToggle( "slow", function() {
 })
 });
@@ -494,7 +523,29 @@ function unfadeBackground(){
 			.attr("stroke-dasharray", "none");
 
 	// }
-	
+//   yChart.domain([0, maxMet]);
+//   chart.append("g")
+//       .attr("class", "x axis")
+//       .attr("transform", "translate(0," + heightChart + ")")
+//       .call(xAxis);
+
+//   chart.append("g")
+//       .attr("class", "y axis")
+//       .call(yAxis);
+
+//   chart.selectAll(".bar")
+//       .data(ports.features)
+//     .enter().append("rect")
+//       .attr("class", "bar")
+//       .attr("x", function(d,i) { return xChart(i); })
+//       .attr("y", function(d) { return 20; }) //yChart(d.properties.MetricTons)
+//       .attr("height", function(d) { return heightChart - 20 }) //yChart(d.properties.MetricTons
+//       .attr("width", 10);
+
+// function type(d) {
+//   d.value = +d.value; // coerce to number
+//   return d;
+// }	
 
 // function drawPorts(){
 	//Ports
@@ -764,8 +815,9 @@ function changePaths(){
 
 
 
-
 	//Clip path and energy bars
+	var mapHeight = d3.select(".map").node().getBBox().height;
+
 	var mapWidth = d3.select(".map").node().getBBox().width;
 	var barsLeftEdge = (width - mapWidth) / 2;
 
@@ -779,13 +831,58 @@ function changePaths(){
 	// 	.attr("width", mapWidth)
 	// 	.attr("height", height);
 
+var otherBarsScale = d3.scale.linear()
+.domain([0,maxMet])
+.range([mapHeight-40,0]);
+
+var widthScale = d3.scale.linear()
+	.domain([0, 900])
+	.range([125, width/1.1]);
+
+ports.features.sort(function(a,b){
+	return b.properties.MetricTons - a.properties.MetricTons;
+})
+svg.append("g")
+	.attr("id","otherBars")
+	// .attr("transform","translate("+barsLeftEdge+",0)");
+
+var otherBars = d3.select("#otherBars")
+.selectAll("g")
+.data(ports.features)
+.enter()
+.append("g")
+.attr("transform", function(d,i){
+	var yOtherScale = otherBarsScale(d.properties.MetricTons)
+	return "translate("+widthScale(i)+","+0+")";
+});
+
+otherBars.append("rect")
+		.attr("x", function(d,i){
+			// return widthScale(i);
+			return 0;
+		})
+		// .attr("y",0)
+		.attr("y", function(d,i){
+			return mapHeight-otherBarsScale(d.properties.MetricTons)
+		})
+		.attr("width", 3)
+		.attr("fill","gray")
+		.attr("opacity",".4")
+		// .style("stroke-width", 1)
+		// .style("stroke","white")
+.attr("height", function(d,i){
+	return otherBarsScale(d.properties.MetricTons);
+});
+		// .style("opacity", 1);
+
+
 	var energyBarsScale = d3.scale.linear()
 		.domain([0, d3.sum(energyBarsData, function(d) { return d[1]; }) ])
-		.range([0, mapWidth-170]);
+		.range([0, mapWidth+100]);
 
 	svg.append("g")
 		.attr("id", "energyBars")
-		.attr("transform", "translate(" + barsLeftEdge + ",0)");
+		.attr("transform", "translate(0,0)");
 
 	var energyBars = d3.select("#energyBars")
 		.selectAll("g")
@@ -803,7 +900,7 @@ function changePaths(){
 		})
 		.attr("transform", function(d, i) {
 
-			var x = 0;
+			var x =0;
 
 			for (var j = 0; j < i; j++) {
 				x += energyBarsData[j][1];
@@ -814,7 +911,7 @@ function changePaths(){
 		});
 
 	energyBars.append("rect")
-		.attr("x", 0)
+		.attr("x", 140)
 		.attr("y", 0)
 		.attr("width", function(d) {
 			return energyBarsScale(d[1]);
@@ -836,11 +933,11 @@ function changePaths(){
 
 	bars.append("line")
 		.attr("x1", function(d) {
-			return energyBarsScale(d[1]);
+			return 140+energyBarsScale(d[1]);
 		})
 		.attr("y1", 0)
 		.attr("x2", function(d) {
-			return energyBarsScale(d[1]);
+			return 140+energyBarsScale(d[1]);
 		})
 		.attr("y2", 50);
 
@@ -850,9 +947,9 @@ function changePaths(){
 		.attr("x", function(d, i) {
 
 			if (i == 0) {
-				return 12;
+				return 143;
 			} else {
-				return energyBarsScale(d[1]);
+				return 140+energyBarsScale(d[1]);
 			}
 
 		})
@@ -1175,7 +1272,7 @@ var updateHoverbox = function(d, type) {
 		var xy = proj([d.lon, d.lat]);
 		hoverbox.attr("transform", "translate(" + xy[0] + "," + xy[1] + ")");
 
-		hoverbox.select(".title").text("Port: " + d.port);
+		hoverbox.select(".title").text("Port: "+d.port);
 
 		var hoverBoxScaleMax = hoverBoxPortScaleMax;
 	
@@ -1186,7 +1283,7 @@ var updateHoverbox = function(d, type) {
 		var xy = d3.mouse(svg.node());
 		hoverbox.attr("transform", "translate(" + xy[0] + "," + xy[1] + ")");
 
-		hoverbox.select(".title").text("Path: " + d.USPt + " ↔ " + d.FgnPort);
+		hoverbox.select(".title").text(d.USPt + " ↔ " + d.FgnPort);
 
 		var hoverBoxScaleMax = hoverBoxPathScaleMax;
 
