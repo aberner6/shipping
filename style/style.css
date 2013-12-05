@@ -28,6 +28,9 @@
 #otherBars{
 	display:none;
 }
+#legendPorts{
+	display:none;
+}
 body {
   margin: 0;
   font-family: "Gotham";

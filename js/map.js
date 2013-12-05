@@ -31,6 +31,8 @@ var animateOpening = false, //not true
 	maxMet = 493829170,
 	minMet = 0,
 	radiusSmall = 3,
+	radiusTiny = 1,
+	radiusLarge = 30,
 	portOnOpacity = .7,
 	margin = {top: 20, right: 30, bottom: 30, left: 40},
 	widthChart = 960- margin.left - margin.right,
@@ -154,6 +156,17 @@ console.log(s+"s less than orig");
 		var y = proj([d.properties.lon,d.properties.lat])[1];
 		return "translate(" + x + "," + y + ")";
 	 });
+			pathGroups.selectAll("path")
+			.transition()
+			.duration(1000)
+			.attrTween("stroke-dasharray", function() {
+				var l = this.getTotalLength();
+				var i = d3.interpolateString("0," + l, l + "," + l);
+				return function(t) {
+					return i(t);
+				};
+			})
+			.attr("stroke-dashoffset",.1);
 }
 
 };
@@ -306,24 +319,27 @@ $('#eBars').click(function(){
 })
 });
 
+
 $('.toggleVolume').click(function(){
 	noVolume = !noVolume;
+
 if (noVolume){
 showPorts();
 hidePaths();
 	    $('#animPaths').animate().css('margin-top', '91px')
-
 }
 else {
-// unsizeAllVolumes();
 showPaths();
 	    $('#animPaths').animate().css('margin-top', '0px')
-
 }
-	    // $('#animPaths').animate().css('margin-top', '200px')
 
-	// $('#animPaths').fadeToggle("fast",function(){
-	// });
+
+	$('#legendPorts').fadeToggle( "slow", function() {
+})
+
+	
+
+
 	$('.volAll').slideToggle("fast", function(){
 	});
 	$('.volExp').slideToggle("fast", function(){
@@ -437,7 +453,7 @@ $('.pathImp').click(function(){
 
 
 function fadeBackground(){
-	map.attr("opacity", .3)
+	map.attr("opacity", .2)
 }
 
 function unfadeBackground(){
@@ -475,8 +491,13 @@ function unfadeBackground(){
 		.enter()
 		.append("g")
 		.on("mouseover", function(d) {
+			if (backgroundFade){
+
+			}
+			else{
 			updateHoverbox(d.properties, "path");
 			d3.select(this).each(moveToFront);
+		}
 		})
 		.on("mouseout", function(d) {
 			hideHoverbox();
@@ -529,6 +550,10 @@ function unfadeBackground(){
 	d3.selectAll('.port')
 		.on('click', click)
 		.on("mouseover", function(d) {
+			if (backgroundFade){
+
+			}
+			else{
 			updateHoverbox(d.properties, "port");
 			d3.select(this).each(moveToFront);
 				d3.select(this).append("text")
@@ -540,6 +565,7 @@ function unfadeBackground(){
 				.text(function(d) { 
 					// return d.properties.port;
 				});
+			}
 		})
 		.on("mouseout", function(d) {
 			hideHoverbox();
@@ -555,15 +581,89 @@ function unfadeBackground(){
 			.attr("r", radiusSmall)
 			// .attr("stroke", "none")
 			.attr("opacity", portOnOpacity);
+var maxAll = d3.max(ports.features, function(d){
+	return d.properties.MetricTons;
+})
+var maxExp = d3.max(ports.features, function(d){
+	return d.properties.ExportMetTons;
+})
+var maxImp = d3.max(ports.features, function(d){
+	return d.properties.ImportMetTons;
+})
+// function showLegend(){
+	console.log("in legend")
+
+svg.append("g")
+	.attr("id","legendPorts")
+	// .attr("transform","translate("+barsLeftEdge+",0)");
+
+var legendPorts = d3.select("#legendPorts")
+// .selectAll("g")
+.append("g");
+
+legendPorts.append("circle")
+		.attr("class","legendB")
+		.attr("cx", 65)
+		.attr("cy",500)
+		.attr("r", radiusLarge)
+		.attr("fill","gray")
+		.attr("opacity",".4");
+legendPorts.append("circle")
+		.attr("class","legendS")
+		.attr("cx", 65)
+		.attr("cy",500)
+		.attr("r", radiusSmall)
+		.attr("fill","gray")
+		.attr("opacity",".4");
+	//draw three circles and text to say how big they are in the bottom left corner
+	//activated when port volumes clicked
+
+// }
+
 
 function sizeAllVolumes(){
-		console.log("in all")
+console.log("in all")
+
+
+var portAllCircle = d3.scale.linear()
+		.domain([0, maxAll]) //493829169.9 is max
+		.range([radiusSmall, radiusLarge]);
+
 		portGroups.selectAll("circle")
 		.attr("class", "circleAll")
 			.transition()
 			.duration(1000)
 			.attr("r", function(d) {
-				return Math.sqrt(parseInt(d.properties.MetricTons)/1000000);
+				return portAllCircle(d.properties.MetricTons);	
+			});	
+}
+
+function sizeExpVolumes(){
+	var portExpCircle = d3.scale.linear()
+		.domain([0, maxExp]) //493829169.9 is max
+		.range([radiusSmall, radiusLarge]);
+
+		console.log("in export")
+		portGroups.selectAll("circle")
+			.transition()
+			.duration(1000)
+			.attr("r", function(d) {
+				return portExpCircle(d.properties.ExportMetTons);
+			});	
+}
+
+function sizeImpVolumes(){
+console.log("in import")
+
+var portImpCircle = d3.scale.linear()
+		.domain([0, maxImp]) //493829169.9 is max
+		.range([radiusSmall, radiusLarge]);
+
+		portGroups.selectAll("circle")
+			.transition()
+			.duration(1000)
+			.attr("r", function(d) {
+				return portImpCircle(d.properties.ImportMetTons);
 			});	
 }
 function resizeAllVolumes(){
@@ -583,26 +683,14 @@ function unsizeAllVolumes(){
 			.attr("r", .5)
 			.attr("opacity", ".2");
 }
-function sizeExpVolumes(){
-		console.log("in export")
-		portGroups.selectAll("circle")
-			.transition()
-			.duration(1000)
-			.attr("r", function(d) {
-				return Math.sqrt(parseInt(d.properties.ExportMetTons)/1000000);
-			});	
-}
-function sizeImpVolumes(){
-		console.log("in import")
 
-		portGroups.selectAll("circle")
-		// .attr("class", "hidden")
-			.transition()
-			.duration(1000)
-			.attr("r", function(d) {
-				return Math.sqrt(parseInt(d.properties.ImportMetTons)/1000000);
-			});	
-}
+
+
+
+
+
+
+
 function pathAllVolumes(){
 	console.log("in paths")
 		pathGroups.selectAll("path")
@@ -727,7 +815,7 @@ var otherBarsScale = d3.scale.linear()
 
 var widthScale = d3.scale.linear()
 	.domain([0, 900])
-	.range([125, width/1.1]);
+	.range([135, width/1.1]);
 
 ports.features.sort(function(a,b){
 	return b.properties.MetricTons - a.properties.MetricTons;
@@ -738,7 +826,11 @@ svg.append("g")
 
 var otherBars = d3.select("#otherBars")
 .selectAll("g")
-.data(ports.features)
+.data(function(d){
+	return ports.features;
+})
+
+// .data(ports.features)
 .enter()
 .append("g")
 .attr("transform", function(d,i){
@@ -747,24 +839,35 @@ var otherBars = d3.select("#otherBars")
 });
 
 otherBars.append("rect")
+		.attr("class","others")
 		.attr("x", function(d,i){
 			// return widthScale(i);
 			return 0;
 		})
 		// .attr("y",0)
 		.attr("y", function(d,i){
-			return mapHeight-otherBarsScale(d.properties.MetricTons)
+			return otherBarsScale(d.properties.MetricTons)
 		})
 		.attr("width", 3)
 		.attr("fill","gray")
 		.attr("opacity",".4")
-		// .style("stroke-width", 1)
-		// .style("stroke","white")
-.attr("height", function(d,i){
-	return otherBarsScale(d.properties.MetricTons);
-});
-		// .style("opacity", 1);
-
+		.attr("height", function(d,i){
+			// return 10;
+			return mapHeight-otherBarsScale(d.properties.MetricTons);
+		});
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+  $('.others').tipsy({ 
+        gravity: 'nw', 
+        html: true, 
+        title: function() {
+          var d = this.__data__;
+		var newNum = Math.round((d.properties.MetricTons) / 1000000);
+		var niceNum = numberWithCommas(newNum)+"mil";
+      	return "Total Volume Shipped Since 2002: "+niceNum;         
+        }
+      });
 
 	var energyBarsScale = d3.scale.linear()
 		.domain([0, d3.sum(energyBarsData, function(d) { return d[1]; }) ])
@@ -1662,6 +1765,19 @@ proj.translate([width / 2, height / 2]).scale(initialZoom);
 		.transition()
 		.duration(500)
 		.attr("d", path);
+
+		pathGroups.selectAll("path")
+			.transition()
+			.duration(1000)
+			.attrTween("stroke-dasharray", function() {
+				var l = this.getTotalLength();
+				var i = d3.interpolateString("0," + l, l + "," + l);
+				return function(t) {
+					return i(t);
+				};
+			})
+			.attr("stroke-dashoffset",.1);
+
 	$('#reset').slideUp( "slow", function() {
 })			
 }
