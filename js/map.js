@@ -140,34 +140,34 @@ if (s<initialZoom+10){
 showReset = false;
 
 }
-if (s<initialZoom+10){
-	console.log(t+"thisis T nozoom")
+// if (s<initialZoom+10){ // || showReset = false
+// 	console.log(t+"thisis T nozoom")
 
-	showReset = false;
+// 	showReset = false;
 
-console.log(s+"s less than orig");
+// console.log(s+"s less than orig");
 
-	// Reproject everything in the map
-	map.selectAll("path")
-		 .attr("d", path);
+// 	// Reproject everything in the map
+// 	map.selectAll("path")
+// 		 .attr("d", path);
 
-	portGroups.attr("transform", function(d) {
-		var x = proj([d.properties.lon,d.properties.lat])[0];
-		var y = proj([d.properties.lon,d.properties.lat])[1];
-		return "translate(" + x + "," + y + ")";
-	 });
-			pathGroups.selectAll("path")
-			.transition()
-			.duration(1000)
-			.attrTween("stroke-dasharray", function() {
-				var l = this.getTotalLength();
-				var i = d3.interpolateString("0," + l, l + "," + l);
-				return function(t) {
-					return i(t);
-				};
-			})
-			.attr("stroke-dashoffset",.1);
-}
+// 	portGroups.attr("transform", function(d) {
+// 		var x = proj([d.properties.lon,d.properties.lat])[0];
+// 		var y = proj([d.properties.lon,d.properties.lat])[1];
+// 		return "translate(" + x + "," + y + ")";
+// 	 });
+// 			pathGroups.selectAll("path")
+// 			.transition()
+// 			.duration(1000)
+// 			.attrTween("stroke-dasharray", function() {
+// 				var l = this.getTotalLength();
+// 				var i = d3.interpolateString("0," + l, l + "," + l);
+// 				return function(t) {
+// 					return i(t);
+// 				};
+// 			})
+// 			.attr("stroke-dashoffset",.1);
+// }
 
 };
 
@@ -323,131 +323,91 @@ $('#eBars').click(function(){
 $('.toggleVolume').click(function(){
 	noVolume = !noVolume;
 
-if (noVolume){
-showPorts();
-hidePaths();
+	if (noVolume){
+		showPorts();
+		hidePaths();
 	    $('#animPaths').animate().css('margin-top', '91px')
-}
-else {
-showPaths();
+	}
+	else {
+		showPaths();
+		normalizeAllVolumes();
 	    $('#animPaths').animate().css('margin-top', '0px')
-}
-
+	}
 
 	$('#legendPorts').fadeToggle( "slow", function() {
-})
+	})
 
-	
-
-
-	$('.volAll').slideToggle("fast", function(){
-	});
-	$('.volExp').slideToggle("fast", function(){
-	});
-	$('.volImp').slideToggle("fast", function(){
+	$('.volAll, .volExp, .volImp').slideToggle("fast", function(){
 	});
 })
 
 $('.volAll').click(function(){
 		sizeAllVolumes();
 	    $(this).animate().css('background-color', 'white')
-	    // $(this).animate().css('opacity', '1')
 			$('.volImp').animate().css('background-color', 'black')
 			$('.volExp').animate().css('background-color', 'black')
 })
 $('.volExp').click(function(){
 		sizeExpVolumes();
 		$(this).animate().css('background-color', 'white')
-	    // $(this).animate().css('opacity', '1')
 			$('.volAll').animate().css('background-color', 'black')
 			$('.volImp').animate().css('background-color', 'black')
 })
 $('.volImp').click(function(){
 		sizeImpVolumes();
 		$(this).animate().css('background-color', 'white')
-	    // $(this).animate().css('opacity', '1')
 			$('.volAll').animate().css('background-color', 'black')
 			$('.volExp').animate().css('background-color', 'black')
 })
 
 var pathAll = false;
-// var pathExp = false;
-// var pathImp = false;
 
 $('#animPaths').click(function(){
-pathAll = !pathAll;
-if (pathAll){
-showPaths();
- unsizeAllVolumes();
-}
-else {
- resizeAllVolumes();
-showPaths();
-}
+	pathAll = !pathAll;
+	if (pathAll){
+ 		showPaths();
+ 		unOpAllVolumes();
 
-
-
-// unsizeAllVolumes();
-// showPaths();
-// hidePorts();
-
-	$('.pathAll').slideToggle("fast", function(){
+	$('.pathAll, .pathExp, .pathImp').slideToggle("fast", function(){
 	});
-	$('.pathExp').slideToggle("fast", function(){
+
+ 		$('.pathAll, .pathExp, .pathImp').animate().css('margin-top', '0px')
+	}
+	if (pathAll && noVolume){
+
+	$('.pathAll, .pathExp, .pathImp').slideToggle("fast", function(){
 	});
-	$('.pathImp').slideToggle("fast", function(){
-	});
-	// if (animatePaths){
-	// 	changePaths();
+		// $('.volAll, .volExp, .volImp').slideUp("fast",function(){
+		// })
+	// $('#animPaths').animate().css('margin-top', '0px')
 	// }
-	// else {
-	// 	returnPaths();
-	// }
+		$('.pathAll, .pathExp, .pathImp').animate().css('margin-top', '91px')
+	}
+	else if (!pathAll){
+ 		normalizeAllVolumes(); 
+		showPaths();
+		$('.pathAll, .pathExp, .pathImp').slideUp("fast", function(){
+	});
+	}
+
 })
 $('.pathAll').click(function(){
-	// pathAll = !pathAll;
-	// if (pathAll){
 		pathAllVolumes();
 	    $(this).animate().css('background-color', 'white')
-	    // $(this).animate().css('opacity', '1')
 			$('.pathImp').animate().css('background-color', 'black')
 			$('.pathExp').animate().css('background-color', 'black')
-	// }
-	// else {
-	// 	returnPaths();
-	// 	$(this).animate().css('background-color', 'black')
-	// 	$(this).animate().css('opacity', '1')
-	// }
 })
 $('.pathExp').click(function(){
-	// pathExp = !pathExp;
-	//  if (pathExp){
 		pathExpVolumes();
 		$(this).animate().css('background-color', 'white')
-	    // $(this).animate().css('opacity', '1')
 			$('.pathAll').animate().css('background-color', 'black')
 			$('.pathImp').animate().css('background-color', 'black')
-	// }
-	// else {
-	// 	returnPaths();
-	// 	$(this).animate().css('background-color', 'black')
-	// 	$(this).animate().css('opacity', '1')
-	// }
 })
 $('.pathImp').click(function(){
-	// pathImp = !pathImp;
-	// if (pathImp){
 		pathImpVolumes();
 		$(this).animate().css('background-color', 'white')
-	    // $(this).animate().css('opacity', '1')
 	   		$('.pathAll').animate().css('background-color', 'black')
 			$('.pathExp').animate().css('background-color', 'black')
-	// }
-	// else {
-	// 	returnPaths();
-	// 	$(this).animate().css('background-color', 'black')
-	// 	$(this).animate().css('opacity', '1')
-	// }
 })
 
 
@@ -579,7 +539,6 @@ function unfadeBackground(){
 			.attr("cx", 0)
 			.attr("cy", 0)
 			.attr("r", radiusSmall)
-			// .attr("stroke", "none")
 			.attr("opacity", portOnOpacity);
 var maxAll = d3.max(ports.features, function(d){
 	return d.properties.MetricTons;
@@ -668,26 +627,28 @@ var portImpCircle = d3.scale.linear()
 				return portImpCircle(d.properties.ImportMetTons);
 			});	
 }
-function resizeAllVolumes(){
-		console.log("return circles")
+
+function unOpAllVolumes(){
+		console.log("low opacity, resize circles")
 
 		portGroups.selectAll("circle")
 			.transition()
 			.duration(500)
 			.attr("r", radiusSmall)
-}
-function unsizeAllVolumes(){
-		console.log("return circles")
-
-		portGroups.selectAll("circle")
-			.transition()
-			.duration(500)
-			.attr("r", .5)
 			.attr("opacity", ".2");
 }
 
 
 
+function normalizeAllVolumes(){
+		console.log("normalize circles")
+
+		portGroups.selectAll("circle")
+			.transition()
+			.duration(500)
+			.attr("r", radiusSmall)
+			.attr("opacity", portOnOpacity);
+}
 
 
 
@@ -1675,26 +1636,52 @@ var openStories = function() {
 
 var resetMap = function() {
 	//Reset map
-	zoom.translate([width / 2, height / 2]).scale(initialZoom);
-	proj.translate([width / 2, height / 2]).scale(initialZoom);
+	console.log(t+"reset map")
 
+	showReset = false;
+
+console.log(s+"s less than orig");
+
+	// Reproject everything in the map
 	map.selectAll("path")
-		.transition()
-		.duration(500)
-		.attr("d", path);
+		 .attr("d", path);
 
-	portGroups.transition()
-		.duration(500)
-		.attr("transform", function(d) {
+	portGroups.attr("transform", function(d) {
 		var x = proj([d.properties.lon,d.properties.lat])[0];
 		var y = proj([d.properties.lon,d.properties.lat])[1];
 		return "translate(" + x + "," + y + ")";
 	 });
+			// pathGroups.selectAll("path")
+			// .transition()
+			// .duration(1000)
+			// .attrTween("stroke-dasharray", function() {
+			// 	var l = this.getTotalLength();
+			// 	var i = d3.interpolateString("0," + l, l + "," + l);
+			// 	return function(t) {
+			// 		return i(t);
+			// 	};
+			// })
+			// .attr("stroke-dashoffset",.1);
+	// zoom.translate([width / 2, height / 2]).scale(initialZoom);
+	// proj.translate([width / 2, height / 2]).scale(initialZoom);
 
-	d3.selectAll("path")
-		.transition()
-		.duration(500)
-		.attr("d", path);
+	// // map.selectAll("path")
+	// // 	.transition()
+	// // 	.duration(500)
+	// // 	.attr("d", path);
+
+	// portGroups.transition()
+	// 	.duration(500)
+	// 	.attr("transform", function(d) {
+	// 	var x = proj([d.properties.lon,d.properties.lat])[0];
+	// 	var y = proj([d.properties.lon,d.properties.lat])[1];
+	// 	return "translate(" + x + "," + y + ")";
+	//  });
+
+	// // d3.selectAll("path")
+	// // 	.transition()
+	// // 	.duration(500)
+	// // 	.attr("d", path);
 
 };
 
@@ -1747,28 +1734,26 @@ var tuckMapUp = function(d) {
 
 };
 function resetZoom(){
+	console.log("resetzoom")
+
+// if (s<initialZoom+10){ // || showReset = false
+	// console.log(t+"thisis T nozoom")
+
+	showReset = false;
 zoom.translate([width / 2, height / 2]).scale(initialZoom);
 proj.translate([width / 2, height / 2]).scale(initialZoom);
+// console.log(s+"s less than orig");
 
-	// map.selectAll("path")
-	// 	.transition()
-	// 	.duration(500)
-	// 	.attr("d", path);
+	// Reproject everything in the map
+	map.selectAll("path")
+		 .attr("d", path);
 
-	portGroups.transition()
-		.duration(500)
-		.attr("transform", function(d) {
-			var x = proj([d.properties.lon,d.properties.lat])[0];
-			var y = proj([d.properties.lon,d.properties.lat])[1];
-			return "translate(" + x + "," + y + ")";
-		});
-
-	d3.selectAll("path")
-		.transition()
-		.duration(500)
-		.attr("d", path);
-
-		pathGroups.selectAll("path")
+	portGroups.attr("transform", function(d) {
+		var x = proj([d.properties.lon,d.properties.lat])[0];
+		var y = proj([d.properties.lon,d.properties.lat])[1];
+		return "translate(" + x + "," + y + ")";
+	 });
+			pathGroups.selectAll("path")
 			.transition()
 			.duration(1000)
 			.attrTween("stroke-dasharray", function() {
@@ -1779,6 +1764,53 @@ proj.translate([width / 2, height / 2]).scale(initialZoom);
 				};
 			})
 			.attr("stroke-dashoffset",.1);
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// zoom.translate([width / 2, height / 2]).scale(initialZoom);
+// proj.translate([width / 2, height / 2]).scale(initialZoom);
+
+// 	// map.selectAll("path")
+// 	// 	.transition()
+// 	// 	.duration(500)
+// 	// 	.attr("d", path);
+
+// 	portGroups.transition()
+// 		.duration(500)
+// 		.attr("transform", function(d) {
+// 			var x = proj([d.properties.lon,d.properties.lat])[0];
+// 			var y = proj([d.properties.lon,d.properties.lat])[1];
+// 			return "translate(" + x + "," + y + ")";
+// 		});
+
+// 	d3.selectAll("path")
+// 		.transition()
+// 		.duration(500)
+// 		.attr("d", path);
+
+// 		pathGroups.selectAll("path")
+// 			.transition()
+// 			.duration(1000)
+// 			.attrTween("stroke-dasharray", function() {
+// 				var l = this.getTotalLength();
+// 				var i = d3.interpolateString("0," + l, l + "," + l);
+// 				return function(t) {
+// 					return i(t);
+// 				};
+// 			})
+// 			.attr("stroke-dashoffset",.1);
 
 	$('#reset').slideUp( "slow", function() {
 })			
