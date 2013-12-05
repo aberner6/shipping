@@ -31,6 +31,10 @@
 #legendPorts{
 	display:none;
 }
+.legendPorts{
+	color:white;
+
+}
 body {
   margin: 0;
   font-family: "Gotham";

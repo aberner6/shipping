@@ -590,36 +590,38 @@ var maxExp = d3.max(ports.features, function(d){
 var maxImp = d3.max(ports.features, function(d){
 	return d.properties.ImportMetTons;
 })
-// function showLegend(){
-	console.log("in legend")
 
 svg.append("g")
 	.attr("id","legendPorts")
-	// .attr("transform","translate("+barsLeftEdge+",0)");
 
 var legendPorts = d3.select("#legendPorts")
 // .selectAll("g")
 .append("g");
 
+var legendX = 65;
+var legendY = 500;
 legendPorts.append("circle")
 		.attr("class","legendB")
-		.attr("cx", 65)
-		.attr("cy",500)
+		.attr("cx", legendX)
+		.attr("cy",legendY)
 		.attr("r", radiusLarge)
 		.attr("fill","gray")
 		.attr("opacity",".4");
 legendPorts.append("circle")
 		.attr("class","legendS")
-		.attr("cx", 65)
-		.attr("cy",500)
+		.attr("cx", legendX)
+		.attr("cy",legendY)
 		.attr("r", radiusSmall)
 		.attr("fill","gray")
 		.attr("opacity",".4");
+legendPorts.append("text")
+		.attr("class","legendText")
+		.attr("x", legendX+5)
+		.attr("y", legendY-5)
+		.attr("fill", "gray")
+		.text("Scale: 0 - "+ numberWithCommas(Math.round(maxAll/1000000))+"mil"); 
 	//draw three circles and text to say how big they are in the bottom left corner
 	//activated when port volumes clicked
-
-// }
-
 
 function sizeAllVolumes(){
 console.log("in all")
