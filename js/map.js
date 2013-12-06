@@ -176,7 +176,7 @@ showReset = false;
 // path generator - interprets any geo coordinates passed to it using the specific projection (.projection(proj))
 var path = d3.geo.path()
 			 .projection(proj)
-			 .pointRadius(1.5);
+			 .pointRadius(radiusSmall);
 
 // graticule data generator - creates geoJSON objects that d3.geo.path() can interpret
 var graticule = d3.geo.graticule();
@@ -205,7 +205,7 @@ var map = svg.append("g")
 // load data files; pass the results to ready() when everything is finished.
 queue()
 	.defer(d3.json, "data/world-110m.json")
-	.defer(d3.json, "data/ports.json")
+	.defer(d3.json, "data/portsOld.json")
 	.defer(d3.json, "data/paths.json")
 	.defer(d3.tsv, "data/ports_data.tsv")
 	.defer(d3.tsv, "data/paths_data.tsv")
@@ -364,25 +364,24 @@ var pathAll = false;
 
 $('#animPaths').click(function(){
 	pathAll = !pathAll;
-	if (pathAll){
+	if (pathAll && noVolume){
+		console.log("novolume is true")
+		$('.pathAll, .pathExp, .pathImp').animate().css('margin-top', '91px')
+		
+		$('.pathAll, .pathExp, .pathImp').slideDown("fast", function(){
+	});
+	}
+	else if (pathAll && !noVolume){
+		console.log("novolume is false")
  		showPaths();
  		unOpAllVolumes();
-
-	$('.pathAll, .pathExp, .pathImp').slideToggle("fast", function(){
-	});
-
+ 		
  		$('.pathAll, .pathExp, .pathImp').animate().css('margin-top', '0px')
+		
+		$('.pathAll, .pathExp, .pathImp').slideDown("fast", function(){
+		});
 	}
-	if (pathAll && noVolume){
 
-	$('.pathAll, .pathExp, .pathImp').slideToggle("fast", function(){
-	});
-		// $('.volAll, .volExp, .volImp').slideUp("fast",function(){
-		// })
-	// $('#animPaths').animate().css('margin-top', '0px')
-	// }
-		$('.pathAll, .pathExp, .pathImp').animate().css('margin-top', '91px')
-	}
 	else if (!pathAll){
  		normalizeAllVolumes(); 
 		showPaths();
@@ -499,10 +498,22 @@ function unfadeBackground(){
 			// return false;
 		})
 		.attr("transform", function(d) {
-			var x = proj([d.properties.lon,d.properties.lat])[0];
-			var y = proj([d.properties.lon,d.properties.lat])[1];
+		var x = proj([d.properties.lon,d.properties.lat])[0];
+		var y = proj([d.properties.lon,d.properties.lat])[1];
 			return "translate(" + x + "," + y + ")";
 		});
+var maxAll = d3.max(ports.features, function(d){
+	return d.properties.MetricTons;
+})
+var maxExp = d3.max(ports.features, function(d){
+	return d.properties.ExportMetTons;
+})
+var maxImp = d3.max(ports.features, function(d){
+	return d.properties.ImportMetTons;
+})
+console.log("maxexpvolume"+maxExp)
+console.log("maxallports"+maxAll)
+console.log("maxImpvolume"+maxImp)
 
 
 	// Clickable ports get the click handler
@@ -540,15 +551,8 @@ function unfadeBackground(){
 			.attr("cy", 0)
 			.attr("r", radiusSmall)
 			.attr("opacity", portOnOpacity);
-var maxAll = d3.max(ports.features, function(d){
-	return d.properties.MetricTons;
-})
-var maxExp = d3.max(ports.features, function(d){
-	return d.properties.ExportMetTons;
-})
-var maxImp = d3.max(ports.features, function(d){
-	return d.properties.ImportMetTons;
-})
+
+
 
 svg.append("g")
 	.attr("id","legendPorts")
@@ -589,13 +593,15 @@ console.log("in all")
 var portAllCircle = d3.scale.linear()
 		.domain([0, maxAll]) //493829169.9 is max
 		.range([radiusSmall, radiusLarge]);
-
 		portGroups.selectAll("circle")
 		.attr("class", "circleAll")
 			.transition()
 			.duration(1000)
 			.attr("r", function(d) {
+				// console.log(d.properties.MetricTons)
+				if (d.properties.MetricTons>0){
 				return portAllCircle(d.properties.MetricTons);	
+			}
 			});	
 }
 
@@ -603,13 +609,14 @@ function sizeExpVolumes(){
 	var portExpCircle = d3.scale.linear()
 		.domain([0, maxExp]) //493829169.9 is max
 		.range([radiusSmall, radiusLarge]);
-
 		console.log("in export")
 		portGroups.selectAll("circle")
 			.transition()
 			.duration(1000)
 			.attr("r", function(d) {
+				if (d.properties.ExportMetTons>0){
 				return portExpCircle(d.properties.ExportMetTons);
+			}
 			});	
 }
 
@@ -624,7 +631,9 @@ var portImpCircle = d3.scale.linear()
 			.transition()
 			.duration(1000)
 			.attr("r", function(d) {
+				if (d.properties.ImportMetTons>0){
 				return portImpCircle(d.properties.ImportMetTons);
+			}
 			});	
 }
 
@@ -638,8 +647,6 @@ function unOpAllVolumes(){
 			.attr("opacity", ".2");
 }
 
-
-
 function normalizeAllVolumes(){
 		console.log("normalize circles")
 
@@ -649,10 +656,6 @@ function normalizeAllVolumes(){
 			.attr("r", radiusSmall)
 			.attr("opacity", portOnOpacity);
 }
-
-
-
-
 
 function pathAllVolumes(){
 	console.log("in paths")
@@ -665,11 +668,6 @@ function pathAllVolumes(){
 }
 function pathExpVolumes(){
 	console.log("in export paths")
-
-var maxExp = d3.max(ports.features, function(d){
-	return d.properties.ExportMetTons;
-})
-console.log(maxExp)
 
 var lightExpMap = d3.scale.linear()
 		.domain([0, maxExp/10]) //493829169.9 is max
@@ -685,10 +683,6 @@ var lightExpMap = d3.scale.linear()
 function pathImpVolumes(){
 	console.log("in path imports")
 
-maxImp = d3.max(ports.features, function(d){
-	return d.properties.ImportMetTons;
-})
-console.log(maxImp+"maximp")
 var lightImpMap = d3.scale.linear()
 		.domain([0, maxImp/10]) //493829169.9 is max
 		.range([5, 50]);

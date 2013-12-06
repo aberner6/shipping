@@ -1,0 +1,25 @@
+{
+"type": "FeatureCollection",
+    
+  "features": [
+
+    {
+      "type": "Feature",
+      "properties": {
+        "port": "Albany-USA",
+        "lon": -73.73795318603516,
+        "freq": 38,
+        "lat": 42.638954162597656
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "port": "Anacortes",
+        "lon": -122.47695922851562,
+        "freq": 1030,
+        "lat": 48.55706787109375
+      },
+    },
+    ]
+  }

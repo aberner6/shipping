@@ -1,0 +1,32 @@
+{
+"type": "FeatureCollection",
+    
+"features": [
+    {
+      "properties": {
+        "port": "Anchorage",
+        "lon": -149.75978088378906,
+        "freq": 1189,
+        "lat": 61.31846618652344
+      },
+      "type": "Feature"
+    },
+    {
+      "properties": {
+        "port": "Astoria",
+        "lon": -123.745361328125,
+        "freq": 1,
+        "lat": 46.20460510253906
+      },
+      "type": "Feature"
+    },
+    {
+      "properties": {
+        "port": "Baltimore",
+        "lon": -76.4263916015625,
+        "freq": 4000,
+        "lat": 39.302425384521484
+      },
+      "type": "Feature"
+    }
+    ]}
