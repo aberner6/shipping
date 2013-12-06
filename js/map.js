@@ -196,7 +196,7 @@ var map = svg.append("g")
 // load data files; pass the results to ready() when everything is finished.
 queue()
 	.defer(d3.json, "data/world-110m.json")
-	.defer(d3.json, "data/portsOld.json")
+	.defer(d3.json, "data/ports.json")
 	.defer(d3.json, "data/paths.json")
 	.defer(d3.tsv, "data/ports_data.tsv")
 	.defer(d3.tsv, "data/paths_data.tsv")
@@ -291,12 +291,24 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 
 var noVolume = false;
 var doPaths = false;
+var eBars = false;
 var animatePaths = false;
 var backgroundFade = false;
 var sizeAll = false;
 var sizeExp = false;
 var sizeImp = false;
 $('#eBars').click(function(){
+	eBars = !eBars;
+	if (eBars){
+		$('#eBars').animate().css('background-color','white')
+	}
+	else {
+		$('#eBars').animate().css('background-color','black')		
+	}
+	$('#otherBars').fadeToggle( "slow", function() {
+	})
+	$('#energyBars').fadeToggle( "slow", function() {
+	})
 	backgroundFade = !backgroundFade;
 	if (backgroundFade){
 		fadeBackground();
@@ -304,10 +316,6 @@ $('#eBars').click(function(){
 	else {
 		unfadeBackground();
 	}
-	$('#otherBars').fadeToggle( "slow", function() {
-})
-  $('#energyBars').fadeToggle( "slow", function() {
-})
 });
 
 
@@ -315,40 +323,55 @@ $('.toggleVolume').click(function(){
 	noVolume = !noVolume;
 
 	if (noVolume){
+		$('.toggleVolume').animate().css('background-color', 'white')
 		showPorts();
 		hidePaths();
-	    $('#animPaths').animate().css('margin-top', '91px')
+	    $('#animPaths').animate().css('margin-top', '117px')
+
 	}
 	else {
+		$('.toggleVolume').animate().css('background-color', 'black')
 		showPaths();
 		normalizeAllVolumes();
 	    $('#animPaths').animate().css('margin-top', '0px')
+	    $('.pathAll, .pathExp, .pathImp').animate().css('margin-top', '0px')
+
 	}
 
 	$('#legendPorts').fadeToggle( "slow", function() {
 	})
 
-	$('.volAll, .volExp, .volImp').slideToggle("fast", function(){
+	$('.volAll, .volExp, .volImp, .volFreq').slideToggle("fast", function(){
 	});
 })
 
 $('.volAll').click(function(){
 		sizeAllVolumes();
 	    $(this).animate().css('background-color', 'white')
-			$('.volImp').animate().css('background-color', 'black')
-			$('.volExp').animate().css('background-color', 'black')
+			$('.volImp, .volExp, .volFreq').animate().css('background-color', 'black')
+			// $('.volExp').animate().css('background-color', 'black')
+			// 		$('.volFreq').animate().css('background-color', 'black')
 })
 $('.volExp').click(function(){
 		sizeExpVolumes();
 		$(this).animate().css('background-color', 'white')
-			$('.volAll').animate().css('background-color', 'black')
-			$('.volImp').animate().css('background-color', 'black')
+			$('.volAll, .volImp, .volFreq').animate().css('background-color', 'black')
+			// $('.volImp').animate().css('background-color', 'black')
+			// 		$('.volFreq').animate().css('background-color', 'black')
 })
 $('.volImp').click(function(){
 		sizeImpVolumes();
 		$(this).animate().css('background-color', 'white')
-			$('.volAll').animate().css('background-color', 'black')
-			$('.volExp').animate().css('background-color', 'black')
+			$('.volAll, .volExp, .volFreq').animate().css('background-color', 'black')
+			// $('.volExp').animate().css('background-color', 'black')
+			// 	$('.volFreq').animate().css('background-color', 'black')
+})
+$('.volFreq').click(function(){
+		sizeFreqVolumes();
+		$(this).animate().css('background-color', 'white')
+			$('.volAll, .volExp, .volImp').animate().css('background-color', 'black')
+			// $('.volExp').animate().css('background-color', 'black')
+			// $('.volImp').animate().css('background-color', 'black')
 })
 
 var pathAll = false;
@@ -356,13 +379,15 @@ var pathAll = false;
 $('#animPaths').click(function(){
 	pathAll = !pathAll;
 	if (pathAll && noVolume){
-		console.log("novolume is true")
-		$('.pathAll, .pathExp, .pathImp').animate().css('margin-top', '91px')
+		$('#animPaths').animate().css('background-color', 'white')
+		console.log("novolume //showing ports dropdown is true")
+		$('.pathAll, .pathExp, .pathImp').animate().css('margin-top', '117px')
 		
 		$('.pathAll, .pathExp, .pathImp').slideDown("fast", function(){
-	});
+		});
 	}
-	else if (pathAll && !noVolume){
+	if (!noVolume){
+		$('#animPaths').animate().css('background-color', 'white')
 		console.log("novolume is false")
  		showPaths();
  		unOpAllVolumes();
@@ -373,7 +398,8 @@ $('#animPaths').click(function(){
 		});
 	}
 
-	else if (!pathAll){
+	if (!pathAll){
+		$('#animPaths').animate().css('background-color', 'black')
  		normalizeAllVolumes(); 
 		showPaths();
 		$('.pathAll, .pathExp, .pathImp').slideUp("fast", function(){
@@ -502,6 +528,9 @@ var maxExp = d3.max(ports.features, function(d){
 var maxImp = d3.max(ports.features, function(d){
 	return d.properties.ImportMetTons;
 })
+var maxFreq = d3.max(ports.features, function(d){
+	return d.properties.freq;
+})
 console.log("maxexpvolume"+maxExp)
 console.log("maxallports"+maxAll)
 console.log("maxImpvolume"+maxImp)
@@ -609,6 +638,19 @@ function sizeExpVolumes(){
 				return portExpCircle(d.properties.ExportMetTons);
 			}
 			});	
+}
+
+function sizeFreqVolumes(){
+var portFreqCircle = d3.scale.linear()
+		.domain([0, maxFreq]) //493829169.9 is max
+		.range([radiusSmall, radiusLarge]);
+
+		portGroups.selectAll("circle")
+			.transition()
+			.duration(1000)
+			.attr("r", function(d) {
+				return portFreqCircle(d.properties.freq);
+			})
 }
 
 function sizeImpVolumes(){

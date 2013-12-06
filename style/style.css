@@ -5395,7 +5395,7 @@ div.toggleVolume{
 	width: 60px;
 	text-align: center;
 }
-.volImp{
+.volImp, .volExp, .volAll, .volFreq{
 	display:none;
 	cursor:pointer;
 	width: 60px;
@@ -5404,70 +5404,12 @@ div.toggleVolume{
   font: 12px 'Gotham';
   text-transform: none;
   color: gray;
-  /*margin-top: 60px;*/
   padding: 5px 5px;
-	margin-left: 3.65%;
+	margin-left: 3.5%; 
 	position: absolute;
 	background-color: black;
 }
-.volImp:hover{
-  -webkit-transform: translate3d(2px, 0, 0);
-  -moz-transform: translateX(2px);
-  -ms-transform: translateX(2px);
-  -o-transform: translateX(2px);
-  transform: translateX(2px);
-  -moz-transition: 150ms all ease-in-out;
-  -webkit-transition: 150ms all ease-in-out;
-  -ms-transition: 150ms all ease-in-out;
-  -o-transition: 150ms all ease-in-out;
-  transition: 150ms all ease-in-out;
-  opacity: 1;
-}
-.volExp{
-	display:none;
-	cursor:pointer;
-	width: 60px;
-	text-align: center;
-
-  border: 1px gray dotted;
-  font: 12px 'Gotham';
-  text-transform: none;
-  color: gray;
-  /*margin-top: 60px;*/
-  padding: 5px 5px;
-	margin-left: 3.65%;
-	position: absolute;
-	background-color: black;
-}
-.volExp:hover{
-  -webkit-transform: translate3d(2px, 0, 0);
-  -moz-transform: translateX(2px);
-  -ms-transform: translateX(2px);
-  -o-transform: translateX(2px);
-  transform: translateX(2px);
-  -moz-transition: 150ms all ease-in-out;
-  -webkit-transition: 150ms all ease-in-out;
-  -ms-transition: 150ms all ease-in-out;
-  -o-transition: 150ms all ease-in-out;
-  transition: 150ms all ease-in-out;
-  opacity: 1;
-}
-.volAll{
-	display:none;
-	cursor:pointer;
-	width: 60px;
-	text-align: center;
-  border: 1px gray dotted;
-  font: 12px 'Gotham';
-  text-transform: none;
-  color: gray;
-  /*margin-top: 60px;*/
-  padding: 5px 5px;
-	margin-left: 3.65%;
-	position: absolute;
-	background-color: black;
-}
-.volAll:hover{
+.volImp:hover, .volExp:hover, .volAll:hover, .volFreq:hover{
   -webkit-transform: translate3d(2px, 0, 0);
   -moz-transform: translateX(2px);
   -ms-transform: translateX(2px);
@@ -5481,7 +5423,7 @@ div.toggleVolume{
   opacity: 1;
 }
 
-.pathAll{
+.pathAll, .pathExp, .pathImp{
 	display:none;
 	cursor:pointer;
 	width: 60px;
@@ -5490,69 +5432,12 @@ div.toggleVolume{
   font: 12px 'Gotham';
   text-transform: none;
   color: gray;
-  /*margin-top: 60px;*/
   padding: 5px 5px;
-	margin-left: 3.65%;
+	margin-left: 3.5%;
 	position: absolute;
 	background-color: black;
 }
-.pathAll:hover{
-  -webkit-transform: translate3d(2px, 0, 0);
-  -moz-transform: translateX(2px);
-  -ms-transform: translateX(2px);
-  -o-transform: translateX(2px);
-  transform: translateX(2px);
-  -moz-transition: 150ms all ease-in-out;
-  -webkit-transition: 150ms all ease-in-out;
-  -ms-transition: 150ms all ease-in-out;
-  -o-transition: 150ms all ease-in-out;
-  transition: 150ms all ease-in-out;
-  opacity: 1;
-}
-.pathExp{
-	display:none;
-	cursor:pointer;
-	width: 60px;
-	text-align: center;
-  border: 1px gray dotted;
-  font: 12px 'Gotham';
-  text-transform: none;
-  color: gray;
-  /*margin-top: 60px;*/
-  padding: 5px 5px;
-	margin-left: 3.65%;
-	position: absolute;
-	background-color: black;
-}
-.pathExp:hover{
-  -webkit-transform: translate3d(2px, 0, 0);
-  -moz-transform: translateX(2px);
-  -ms-transform: translateX(2px);
-  -o-transform: translateX(2px);
-  transform: translateX(2px);
-  -moz-transition: 150ms all ease-in-out;
-  -webkit-transition: 150ms all ease-in-out;
-  -ms-transition: 150ms all ease-in-out;
-  -o-transition: 150ms all ease-in-out;
-  transition: 150ms all ease-in-out;
-  opacity: 1;
-}
-.pathImp{
-	display:none;
-	cursor:pointer;
-	width: 60px;
-	text-align: center;
-  border: 1px gray dotted;
-  font: 12px 'Gotham';
-  text-transform: none;
-  color: gray;
-  /*margin-top: 60px;*/
-  padding: 5px 5px;
-	margin-left: 3.65%;
-	position: absolute;
-	background-color: black;
-}
-.pathImp:hover{
+.pathAll:hover, .pathExp:hover, .pathImp:hover{
   -webkit-transform: translate3d(2px, 0, 0);
   -moz-transform: translateX(2px);
   -ms-transform: translateX(2px);
