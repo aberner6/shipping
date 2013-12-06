@@ -9,7 +9,7 @@ var animateOpening = false, //not true
 	height = window.innerHeight - padding-200,
 	centered,     // centered variable holds zoom state
 	initialZoom = 190,
-	maxZoom = 1000,
+	maxZoom = 2000,
 	hoverbox,
 	hoverboxMinWidth = 450,
 	// hoverboxHeight = 190,
@@ -91,6 +91,7 @@ var zoom = d3.behavior.zoom()
 		zoomInOut(t, s);
 	})
 var showReset = false;
+
 var zoomInOut = function(t, s) {
 if (showReset==true){
 	$('#reset').slideDown( "slow", function() {
@@ -100,17 +101,11 @@ if (showReset==false){
 	$('#reset').slideUp( "slow", function() {
 })	
 }
-	// storiesOpen
 if (s>initialZoom+10){
-
 showReset = true;
 console.log(s+"s is greater than orig");
-console.log(t+"thisis T whenzooming")
-// 711.6868545292956,122.64377570353645thisis T whenzooming 
-// 662.5608946774215,139.51809552037798thisis T nozoom 
 	zoom.translate(t);
 	proj.translate(t).scale(s);
-
 	// Reproject everything in the map
 	map.selectAll("path")
 		 .attr("d", path);
@@ -121,41 +116,37 @@ console.log(t+"thisis T whenzooming")
 
 		return "translate(" + x + "," + y + ")";
 	 });
-
-		pathGroups.selectAll("path")
-			.transition()
-			.duration(1000)
-			.attrTween("stroke-dasharray", function() {
-				var l = this.getTotalLength();
-				var i = d3.interpolateString("0," + l, l + "," + l);
-				return function(t) {
-					return i(t);
-				};
-			})
-			.attr("stroke-dashoffset",.1);
-
 }
+
+		// pathGroups.selectAll("path")
+		// 	.transition()
+		// 	.duration(1000)
+		// 	.attrTween("stroke-dasharray", function() {
+		// 		var l = this.getTotalLength();
+		// 		var i = d3.interpolateString("0," + l, l + "," + l);
+		// 		return function(t) {
+		// 			return i(t);
+		// 		};
+		// 	})
+		// 	.attr("stroke-dashoffset",.1);
 if (s<initialZoom+10){
-	resetZoom();
-showReset = false;
+// 	resetZoom();
+// showReset = false;
 
-}
+// }
 // if (s<initialZoom+10){ // || showReset = false
-// 	console.log(t+"thisis T nozoom")
+	showReset = false;
+	console.log(s+"s less than orig");
+	// Reproject everything in the map
+	map.selectAll("path")
+		 .attr("d", path);
 
-// 	showReset = false;
-
-// console.log(s+"s less than orig");
-
-// 	// Reproject everything in the map
-// 	map.selectAll("path")
-// 		 .attr("d", path);
-
-// 	portGroups.attr("transform", function(d) {
-// 		var x = proj([d.properties.lon,d.properties.lat])[0];
-// 		var y = proj([d.properties.lon,d.properties.lat])[1];
-// 		return "translate(" + x + "," + y + ")";
-// 	 });
+	portGroups.attr("transform", function(d) {
+		var x = proj([d.properties.lon,d.properties.lat])[0];
+		var y = proj([d.properties.lon,d.properties.lat])[1];
+		return "translate(" + x + "," + y + ")";
+	 });
+}
 // 			pathGroups.selectAll("path")
 // 			.transition()
 // 			.duration(1000)
@@ -727,27 +718,13 @@ function showPaths(){
 			.duration(2000)
 			.attr("stroke","#307074")
 			.attr("opacity",.8)
-		// pathGroups.selectAll("path")
-		// 	.transition()
-		// 	.duration(2000)
-			.attrTween("stroke-dasharray", function() {
-				var l = this.getTotalLength();
-				var i = d3.interpolateString("0," + l, l + "," + l);
-				return function(t) {
-					return i(t);
-				};
-			});
-			// .attr("stroke-dashoffset",.1);
-
 			// .attrTween("stroke-dasharray", function() {
 			// 	var l = this.getTotalLength();
 			// 	var i = d3.interpolateString("0," + l, l + "," + l);
 			// 	return function(t) {
 			// 		return i(t);
 			// 	};
-			// })
-			// .attr("stroke-dashoffset",.1);
-
+			// });
 }
 
 	//Clip path and energy bars
@@ -1730,13 +1707,9 @@ var tuckMapUp = function(d) {
 function resetZoom(){
 	console.log("resetzoom")
 
-// if (s<initialZoom+10){ // || showReset = false
-	// console.log(t+"thisis T nozoom")
-
 	showReset = false;
-zoom.translate([width / 2, height / 2]).scale(initialZoom);
-proj.translate([width / 2, height / 2]).scale(initialZoom);
-// console.log(s+"s less than orig");
+	zoom.translate([width / 2, height / 2]).scale(initialZoom);
+	proj.translate([width / 2, height / 2]).scale(initialZoom);
 
 	// Reproject everything in the map
 	map.selectAll("path")
@@ -1747,67 +1720,8 @@ proj.translate([width / 2, height / 2]).scale(initialZoom);
 		var y = proj([d.properties.lon,d.properties.lat])[1];
 		return "translate(" + x + "," + y + ")";
 	 });
-			pathGroups.selectAll("path")
-			.transition()
-			.duration(1000)
-			.attrTween("stroke-dasharray", function() {
-				var l = this.getTotalLength();
-				var i = d3.interpolateString("0," + l, l + "," + l);
-				return function(t) {
-					return i(t);
-				};
-			})
-			.attr("stroke-dashoffset",.1);
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// zoom.translate([width / 2, height / 2]).scale(initialZoom);
-// proj.translate([width / 2, height / 2]).scale(initialZoom);
-
-// 	// map.selectAll("path")
-// 	// 	.transition()
-// 	// 	.duration(500)
-// 	// 	.attr("d", path);
-
-// 	portGroups.transition()
-// 		.duration(500)
-// 		.attr("transform", function(d) {
-// 			var x = proj([d.properties.lon,d.properties.lat])[0];
-// 			var y = proj([d.properties.lon,d.properties.lat])[1];
-// 			return "translate(" + x + "," + y + ")";
-// 		});
-
-// 	d3.selectAll("path")
-// 		.transition()
-// 		.duration(500)
-// 		.attr("d", path);
-
-// 		pathGroups.selectAll("path")
-// 			.transition()
-// 			.duration(1000)
-// 			.attrTween("stroke-dasharray", function() {
-// 				var l = this.getTotalLength();
-// 				var i = d3.interpolateString("0," + l, l + "," + l);
-// 				return function(t) {
-// 					return i(t);
-// 				};
-// 			})
-// 			.attr("stroke-dashoffset",.1);
-
 	$('#reset').slideUp( "slow", function() {
-})			
+	})			
 }
 
 d3.selectAll("#prevImage, #nextImage")
