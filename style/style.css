@@ -587,13 +587,13 @@ line-height: 20px;
 	position: absolute;
 	width: 46%;
 	left: 52%;
-	padding-top: 20px;
+	padding-top: 0px;
 }
 
 /* Text */
 
 .story .text h3 {
-	margin: 0;
+	margin-top: 0;
 	padding: 0;
 	font-size: 30px;
 	color: #999;
@@ -603,6 +603,12 @@ line-height: 20px;
 	margin: 5px 0 0 0;
 	padding: 0;
 	font-size: 18px;
+	color: #999;
+}
+.story .text h5 {
+	margin: 5px 0 0 0;
+	padding: 0;
+	font-size: 16px;
 	color: #999;
 }
 
@@ -5423,7 +5429,7 @@ div.toggleVolume{
   opacity: 1;
 }
 
-.pathAll, .pathExp, .pathImp{
+.pathAll, .pathExp, .pathImp, .pathFreq{
 	display:none;
 	cursor:pointer;
 	width: 60px;
@@ -5437,7 +5443,7 @@ div.toggleVolume{
 	position: absolute;
 	background-color: black;
 }
-.pathAll:hover, .pathExp:hover, .pathImp:hover{
+.pathAll:hover, .pathExp:hover, .pathImp:hover, .pathFreq:hover{
   -webkit-transform: translate3d(2px, 0, 0);
   -moz-transform: translateX(2px);
   -ms-transform: translateX(2px);

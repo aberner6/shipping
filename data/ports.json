@@ -4871,6 +4871,15 @@
     },
     {
       "properties": {
+        "port": "Mogadishu",
+        "lon": 45.3500, 
+        "freq": 0,
+        "lat": 2.0333
+      },
+      "type": "Feature"
+    },
+    {
+      "properties": {
         "port": "Mohammedia",
         "lon": -7.350883483886719,
         "freq": 63,

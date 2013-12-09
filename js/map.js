@@ -48,12 +48,12 @@ var energyBarsData = [
 		[ "Residual Fuel Oil", 	110000000 ],
 		[ "Other", 				210000000 ]
 	];
-var proj = d3.geo.naturalEarth()
-    .scale(initialZoom)
-    .translate([width / 2, height / 2]);
-// var proj = d3.geo.mercator()
+// var proj = d3.geo.naturalEarth()
 //     .scale(initialZoom)
 //     .translate([width / 2, height / 2]);
+var proj = d3.geo.mercator()
+    .scale(initialZoom)
+    .translate([width / 2, height / 2]);
 
 d3.select("#reset").on("click", resetZoom);
 
@@ -276,6 +276,9 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 				paths.features[i].properties.MetricTons		= parseFloat(paths_data[j].MetricTons);
 				paths.features[i].properties.ImportMetTons	= parseFloat(paths_data[j].ImportMetTons);
 				paths.features[i].properties.ExportMetTons	= parseFloat(paths_data[j].ExportMetTons);
+				// paths.features[i].properties.Freq = parseFloat(ports.features[i].freq);
+
+
 				// paths.features[i].properties.Comm1			= paths_data[j].Comm1;
 				// paths.features[i].properties.Comm2			= paths_data[j].Comm2;
 				// paths.features[i].properties.Comm3			= paths_data[j].Comm3;
@@ -327,15 +330,19 @@ $('.toggleVolume').click(function(){
 		showPorts();
 		hidePaths();
 	    $('#animPaths').animate().css('margin-top', '117px')
+	    $('.pathAll, .pathExp, .pathImp, .pathFreq').animate().css('margin-top', '117px')
 
 	}
+// 	if (pathAll && noVolume){
+
+// }
 	else {
 		$('.toggleVolume').animate().css('background-color', 'black')
+		$('.volImp, .volExp, .volFreq, .volAll').animate().css('background-color', 'black')
 		showPaths();
 		normalizeAllVolumes();
 	    $('#animPaths').animate().css('margin-top', '0px')
-	    $('.pathAll, .pathExp, .pathImp').animate().css('margin-top', '0px')
-
+	    $('.pathAll, .pathExp, .pathImp, .pathFreq').animate().css('margin-top', '0px')
 	}
 
 	$('#legendPorts').fadeToggle( "slow", function() {
@@ -349,29 +356,21 @@ $('.volAll').click(function(){
 		sizeAllVolumes();
 	    $(this).animate().css('background-color', 'white')
 			$('.volImp, .volExp, .volFreq').animate().css('background-color', 'black')
-			// $('.volExp').animate().css('background-color', 'black')
-			// 		$('.volFreq').animate().css('background-color', 'black')
 })
 $('.volExp').click(function(){
 		sizeExpVolumes();
 		$(this).animate().css('background-color', 'white')
 			$('.volAll, .volImp, .volFreq').animate().css('background-color', 'black')
-			// $('.volImp').animate().css('background-color', 'black')
-			// 		$('.volFreq').animate().css('background-color', 'black')
 })
 $('.volImp').click(function(){
 		sizeImpVolumes();
 		$(this).animate().css('background-color', 'white')
 			$('.volAll, .volExp, .volFreq').animate().css('background-color', 'black')
-			// $('.volExp').animate().css('background-color', 'black')
-			// 	$('.volFreq').animate().css('background-color', 'black')
 })
 $('.volFreq').click(function(){
 		sizeFreqVolumes();
 		$(this).animate().css('background-color', 'white')
 			$('.volAll, .volExp, .volImp').animate().css('background-color', 'black')
-			// $('.volExp').animate().css('background-color', 'black')
-			// $('.volImp').animate().css('background-color', 'black')
 })
 
 var pathAll = false;
@@ -381,9 +380,9 @@ $('#animPaths').click(function(){
 	if (pathAll && noVolume){
 		$('#animPaths').animate().css('background-color', 'white')
 		console.log("novolume //showing ports dropdown is true")
-		$('.pathAll, .pathExp, .pathImp').animate().css('margin-top', '117px')
+		$('.pathAll, .pathExp, .pathImp, .pathFreq').animate().css('margin-top', '117px')
 		
-		$('.pathAll, .pathExp, .pathImp').slideDown("fast", function(){
+		$('.pathAll, .pathExp, .pathImp, .pathFreq').slideDown("fast", function(){
 		});
 	}
 	if (!noVolume){
@@ -392,17 +391,18 @@ $('#animPaths').click(function(){
  		showPaths();
  		unOpAllVolumes();
  		
- 		$('.pathAll, .pathExp, .pathImp').animate().css('margin-top', '0px')
+ 		$('.pathAll, .pathExp, .pathImp, .pathFreq').animate().css('margin-top', '0px')
 		
-		$('.pathAll, .pathExp, .pathImp').slideDown("fast", function(){
+		$('.pathAll, .pathExp, .pathImp, .pathFreq').slideDown("fast", function(){
 		});
 	}
 
 	if (!pathAll){
 		$('#animPaths').animate().css('background-color', 'black')
+	    $('.pathAll, .pathExp, .pathImp, .pathFreq').animate().css('background-color', 'black')
  		normalizeAllVolumes(); 
 		showPaths();
-		$('.pathAll, .pathExp, .pathImp').slideUp("fast", function(){
+		$('.pathAll, .pathExp, .pathImp, .pathFreq').slideUp("fast", function(){
 	});
 	}
 
@@ -410,20 +410,22 @@ $('#animPaths').click(function(){
 $('.pathAll').click(function(){
 		pathAllVolumes();
 	    $(this).animate().css('background-color', 'white')
-			$('.pathImp').animate().css('background-color', 'black')
-			$('.pathExp').animate().css('background-color', 'black')
+			$('.pathImp, .pathExp, .pathFreq').animate().css('background-color', 'black')
 })
 $('.pathExp').click(function(){
 		pathExpVolumes();
 		$(this).animate().css('background-color', 'white')
-			$('.pathAll').animate().css('background-color', 'black')
-			$('.pathImp').animate().css('background-color', 'black')
+			$('.pathAll, .pathImp, .pathFreq').animate().css('background-color', 'black')
 })
 $('.pathImp').click(function(){
 		pathImpVolumes();
 		$(this).animate().css('background-color', 'white')
-	   		$('.pathAll').animate().css('background-color', 'black')
-			$('.pathExp').animate().css('background-color', 'black')
+	   		$('.pathAll, .pathExp, .pathFreq').animate().css('background-color', 'black')
+})
+$('.pathFreq').click(function(){
+		pathFreqVolumes();
+		$(this).animate().css('background-color', 'white')
+	   		$('.pathAll, .pathExp, .pathImp').animate().css('background-color', 'black')
 })
 
 
@@ -713,6 +715,30 @@ var lightExpMap = d3.scale.linear()
 			return "hsl(180,100,"+lightExpMap(d.properties.ExportMetTons)+")"
 			});
 }
+function pathFreqVolumes(){
+// var lightFreqMap = d3.scale.linear()
+// 		.domain([0, maxFreq]) //493829169.9 is max
+// 		.range([5, 50]);
+
+// pathGroups.exit();
+// pathGroups.selectAll("path")
+// .data(ports.features)
+// .enter()
+// .append("path")
+
+  // pathGroups.exit().remove();
+
+
+
+		// pathGroups.selectAll("path")
+	//Shipping Paths
+// 			.transition()
+// 			.duration(1000)
+// 		.attr("stroke", function(d){
+// console.log(d.properties.freq+"d.properties.freq");
+// 			return "hsl(180,100,"+lightFreqMap(d.properties.freq)+")"
+// 			});
+}
 function pathImpVolumes(){
 	console.log("in path imports")
 
@@ -787,50 +813,60 @@ function showPaths(){
 
 var otherBarsScale = d3.scale.linear()
 .domain([0,maxMet])
-.range([mapHeight-40,0]);
+.range([mapHeight-40,0]); //if bars are going vertical
 
 var widthScale = d3.scale.linear()
+	.domain([0, maxMet])
+	.range([barsLeftEdge, mapWidth]);
+
+var heightScale = d3.scale.linear()
 	.domain([0, 900])
-	.range([135, width/1.1]);
+	.range([0, mapHeight]); //if bars are going horizontal
 
 ports.features.sort(function(a,b){
 	return b.properties.MetricTons - a.properties.MetricTons;
 })
 svg.append("g")
 	.attr("id","otherBars")
-	// .attr("transform","translate("+barsLeftEdge+",0)");
 
 var otherBars = d3.select("#otherBars")
 .selectAll("g")
 .data(function(d){
 	return ports.features;
 })
-
-// .data(ports.features)
 .enter()
 .append("g")
-.attr("transform", function(d,i){
-	var yOtherScale = otherBarsScale(d.properties.MetricTons)
-	return "translate("+widthScale(i)+","+0+")";
-});
+.attr("transform", "translate("+barsLeftEdge+","+0+")");
 
 otherBars.append("rect")
 		.attr("class","others")
 		.attr("x", function(d,i){
-			// return widthScale(i);
 			return 0;
 		})
-		// .attr("y",0)
 		.attr("y", function(d,i){
-			return otherBarsScale(d.properties.MetricTons)
+			return heightScale(i)
 		})
-		.attr("width", 3)
+		.attr("width", function(d){
+			return widthScale(d.properties.MetricTons);
+		})
 		.attr("fill","gray")
+		.attr("stroke", "white")
 		.attr("opacity",".4")
-		.attr("height", function(d,i){
-			// return 10;
-			return mapHeight-otherBarsScale(d.properties.MetricTons);
+		.attr("height", 15);
+
+otherBars.append("text")
+		.attr("class", "barsText")
+		.attr("x", function(d,i){
+			return widthScale(d.properties.MetricTons)+10;
+		})
+		.attr("y", function(d,i){
+			heightScale(i);
+		})
+		.attr("fill","white")
+		.text(function(d){
+			return d.properties.port;
 		});
+
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -840,7 +876,7 @@ function numberWithCommas(x) {
         title: function() {
           var d = this.__data__;
 		var newNum = Math.round((d.properties.MetricTons) / 1000000);
-		var niceNum = numberWithCommas(newNum)+"mil";
+		var niceNum = numberWithCommas(newNum)+"MT";
       	return "Total Volume Shipped Since 2002: "+niceNum;         
         }
       });
