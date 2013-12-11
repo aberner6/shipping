@@ -292,37 +292,44 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 
 	}
 
+
+var eBars = false;
+var backgroundFade = false;
+var allTotal = false;
+
 var noVolume = false;
 var doPaths = false;
-var eBars = false;
 var animatePaths = false;
-var backgroundFade = false;
 var sizeAll = false;
 var sizeExp = false;
 var sizeImp = false;
 $('#eBars').click(function(){
 	eBars = !eBars;
-	if (eBars){
-		// $('#eBars').animate().css('background-color','white')
-	}
-	else {
-		// $('#eBars').animate().css('background-color','black')		
-	}
-
-
-	// $('#energyBars').fadeToggle( "slow", function() {
-	// })
 	backgroundFade = !backgroundFade;
 	if (backgroundFade){
 		$('#eBars').animate().css('background-color','white')
 		fadeBackground();
+		fadeStories();
 	}
 	else {
 		$('#eBars').animate().css('background-color','black')		
 		unfadeBackground();
+		unfadeStories();
 	}
-		$('.firstGraph').fadeToggle( "slow", function() {
+//show the toggle to show all total graphs
+	$('.allTotal').slideToggle("fast", function(){
 	})
+
+	$('.allTotal').click(function(){
+		//if show all total graphs is clicked
+		allTotal = !allTotal;
+		// if (allTotal){
+		$('.firstGraph').slideToggle( "slow", function() {
+			//show the firstgraph
+		})
+		// }
+	})
+
 });
 
 
@@ -337,9 +344,7 @@ $('.toggleVolume').click(function(){
 	    $('.pathAll, .pathExp, .pathImp, .pathFreq').animate().css('margin-top', '117px')
 
 	}
-// 	if (pathAll && noVolume){
 
-// }
 	else {
 		$('.toggleVolume').animate().css('background-color', 'black')
 		$('.volImp, .volExp, .volFreq, .volAll').animate().css('background-color', 'black')
@@ -1687,7 +1692,13 @@ function fadeBackground(){
 function unfadeBackground(){
 	map.attr("opacity", 1)
 }
+function fadeStories(){
+	$('.thumb').animate().css('opacity', .1)
+}
 
+function unfadeStories(){
+	$('.thumb').animate().css('opacity', 1)
+}
 
 
 var resetMap = function() {
