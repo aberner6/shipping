@@ -303,22 +303,26 @@ var sizeImp = false;
 $('#eBars').click(function(){
 	eBars = !eBars;
 	if (eBars){
-		$('#eBars').animate().css('background-color','white')
+		// $('#eBars').animate().css('background-color','white')
 	}
 	else {
-		$('#eBars').animate().css('background-color','black')		
+		// $('#eBars').animate().css('background-color','black')		
 	}
-	$('#otherBars').fadeToggle( "slow", function() {
-	})
-	$('#energyBars').fadeToggle( "slow", function() {
-	})
+
+
+	// $('#energyBars').fadeToggle( "slow", function() {
+	// })
 	backgroundFade = !backgroundFade;
 	if (backgroundFade){
+		$('#eBars').animate().css('background-color','white')
 		fadeBackground();
 	}
 	else {
+		$('#eBars').animate().css('background-color','black')		
 		unfadeBackground();
 	}
+		$('.firstGraph').fadeToggle( "slow", function() {
+	})
 });
 
 
@@ -427,16 +431,6 @@ $('.pathFreq').click(function(){
 		$(this).animate().css('background-color', 'white')
 	   		$('.pathAll, .pathExp, .pathImp').animate().css('background-color', 'black')
 })
-
-
-
-function fadeBackground(){
-	map.attr("opacity", .2)
-}
-
-function unfadeBackground(){
-	map.attr("opacity", 1)
-}
 
 
 
@@ -1424,7 +1418,7 @@ var moveToFront = function() {
 d3.select("#storyContainer .nav #closeStories")
 	.on("click", function() {
 		closeStories();
-
+unfadeBackground();
 		// $()
 	});
 
@@ -1518,8 +1512,8 @@ d3.selectAll(".thumb")
 
 d3.selectAll(".thumb")
 	.on("click", function(d, i) {
-
-		stopVideos();
+fadeBackground();
+		// stopVideos();
 
 		//Open story panel, if needed
 		if (!storiesOpen) {
@@ -1537,70 +1531,70 @@ d3.selectAll(".thumb")
 		d3.selectAll(".port.selected").classed("selected", false);
 
 		//Get associated data
-		var source = d3.selectAll(".story")[0][i + 1];
-		var start = source.getAttribute("data-start-port");
-		var end = source.getAttribute("data-end-port");
-		var port = source.getAttribute("data-port");
+		// var source = d3.selectAll(".story")[0][i + 1];
+		// var start = source.getAttribute("data-start-port");
+		// var end = source.getAttribute("data-end-port");
+		// var port = source.getAttribute("data-port");
 
-		//Is this story associated with a specific port?
-		if (port) {
-			//console.log(port);
+		// //Is this story associated with a specific port?
+		// if (port) {
+		// 	//console.log(port);
 
-			port = port.toUpperCase();
+		// 	port = port.toUpperCase();
 
-			//Highlight associated port
-			d3.selectAll(".ports .port")
-				.filter(function(d) {
-					if (d.properties.port.toUpperCase() == port) {
-						return true;
-					}
-					return false;
-				})
-				.classed("selected", true)
-				.each(function(d) {
-					tuckMapUp(d);
-				})
-				.each(moveToFront);
-		}
+		// 	//Highlight associated port
+		// 	d3.selectAll(".ports .port")
+		// 		.filter(function(d) {
+		// 			if (d.properties.port.toUpperCase() == port) {
+		// 				return true;
+		// 			}
+		// 			return false;
+		// 		})
+		// 		.classed("selected", true)
+		// 		.each(function(d) {
+		// 			tuckMapUp(d);
+		// 		})
+		// 		.each(moveToFront);
+		// }
 
-		//Is this story associated with a path?
-		else {
-			//console.log(start + ", " + end);
+		// //Is this story associated with a path?
+		// else {
+		// 	//console.log(start + ", " + end);
 
-			start = start.toUpperCase();
-			end = end.toUpperCase();
+		// 	start = start.toUpperCase();
+		// 	end = end.toUpperCase();
 
-			//Highlight associated path
-			d3.selectAll(".paths path")
-				.filter(function(d) {
-					//console.log(d);
-					if (d.properties.USPt.toUpperCase() == start &&
-						d.properties.FgnPort.toUpperCase() == end) {
-						return true;
-					}
-					return false;
-				})
-				.classed("selected", true)
-				.each(moveToFront);
+		// 	//Highlight associated path
+		// 	d3.selectAll(".paths path")
+		// 		.filter(function(d) {
+		// 			//console.log(d);
+		// 			if (d.properties.USPt.toUpperCase() == start &&
+		// 				d.properties.FgnPort.toUpperCase() == end) {
+		// 				return true;
+		// 			}
+		// 			return false;
+		// 		})
+		// 		.classed("selected", true)
+		// 		.each(moveToFront);
 
-			//Highlight associated port(s)
-			d3.selectAll(".ports .port")
-				.filter(function(d) {
-					if (d.properties.port.toUpperCase() == start ||
-						d.properties.port.toUpperCase() == end) {
-						return true;
-					}
-					return false;
-				})
-				.classed("selected", true)
-				.each(function(d) {
-					if (d.properties.port.toUpperCase() == start) {
-						tuckMapUp(d);
-					}
-				})
-				.each(moveToFront);
+		// 	//Highlight associated port(s)
+		// 	d3.selectAll(".ports .port")
+		// 		.filter(function(d) {
+		// 			if (d.properties.port.toUpperCase() == start ||
+		// 				d.properties.port.toUpperCase() == end) {
+		// 				return true;
+		// 			}
+		// 			return false;
+		// 		})
+		// 		.classed("selected", true)
+		// 		.each(function(d) {
+		// 			if (d.properties.port.toUpperCase() == start) {
+		// 				tuckMapUp(d);
+		// 			}
+		// 		})
+		// 		.each(moveToFront);
 
-		}	
+		// }	
 
 		//Update thumbs' selected status
 		d3.selectAll(".thumb.selected").classed("selected", false);
@@ -1660,7 +1654,7 @@ var openStories = function() {
 	d3.select("#storyContainer")
 		.transition()
 		.duration(2000)
-		.style("height", "500px");
+		.style("height", "630px");
 
 	// d3.selectAll("#prevStory, #nextStory")
 	// 	.transition()
@@ -1680,12 +1674,19 @@ var openStories = function() {
 		})
 		.style("opacity", 1.0);
 
-	tuckMapUp();
+	// tuckMapUp();
 
 	storiesOpen = true;
 
 };
 
+function fadeBackground(){
+	map.attr("opacity", .2)
+}
+
+function unfadeBackground(){
+	map.attr("opacity", 1)
+}
 
 
 
