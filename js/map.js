@@ -233,13 +233,6 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 				ports.features[i].properties.MetricTons		= parseFloat(ports_data[j].MetricTons);
 				ports.features[i].properties.ImportMetTons	= parseFloat(ports_data[j].ImportMetTons);
 				ports.features[i].properties.ExportMetTons	= parseFloat(ports_data[j].ExportMetTons);
-				// ports.features[i].properties.Comm1			= ports_data[j].Comm1;
-				// ports.features[i].properties.Comm2			= ports_data[j].Comm2;
-				// ports.features[i].properties.Comm3			= ports_data[j].Comm3;
-				// ports.features[i].properties.Ship1			= ports_data[j].Ship1;
-				// ports.features[i].properties.Ship2			= ports_data[j].Ship2;
-				// ports.features[i].properties.Ship3			= ports_data[j].Ship3;
-
 			}
 
 		}
@@ -277,15 +270,6 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 				paths.features[i].properties.ImportMetTons	= parseFloat(paths_data[j].ImportMetTons);
 				paths.features[i].properties.ExportMetTons	= parseFloat(paths_data[j].ExportMetTons);
 				// paths.features[i].properties.Freq = parseFloat(ports.features[i].freq);
-
-
-				// paths.features[i].properties.Comm1			= paths_data[j].Comm1;
-				// paths.features[i].properties.Comm2			= paths_data[j].Comm2;
-				// paths.features[i].properties.Comm3			= paths_data[j].Comm3;
-				// paths.features[i].properties.Ship1			= paths_data[j].Ship1;
-				// paths.features[i].properties.Ship2			= paths_data[j].Ship2;
-				// paths.features[i].properties.Ship3			= paths_data[j].Ship3;
-
 			}
 
 		}
@@ -308,6 +292,9 @@ $('#eBars').click(function(){
 	backgroundFade = !backgroundFade;
 	if (backgroundFade){
 		$('#eBars').animate().css('background-color','white')
+		    $('.toggleVolume').animate().css('margin-top', '140px')
+		    $('#animPaths').animate().css('margin-top', '140px')
+
 		fadeBackground();
 		fadeStories();
 	}
@@ -316,19 +303,58 @@ $('#eBars').click(function(){
 		unfadeBackground();
 		unfadeStories();
 	}
+
+ 	// <div class="allTotal" style="top:105px">Volume</div>
+  // 		<div class="oilTotal" style="top:105px">+Oil</div>
+ 	// <div class="productTotal" style="top:130px">Product</div>
+ 	// <div class="byPort" style="top:155px">Ports</div>
+ 	// 	<div class="usPorts" style="top:200px">U.S. Ports</div>
+	 // 	 	<div class="usYearlyPorts" style="top:105px">Matrix</div>
+ 	// 	<div class="foreignPorts" style="top:225px">Foreign Ports</div>
+ 	// 		<div class="foreignYearlyPorts" style="top:105px">Matrix</div>
+
 //show the toggle to show all total graphs
-	$('.allTotal').slideToggle("fast", function(){
+	$('.allTotal, .productTotal, .byPort').slideToggle("fast", function(){
+		// allTotal=true;
+		//move down
+		$('.productTotal, .byPort').animate().css('margin-top', '26px')
+		//show the firstgraph
+		$('.firstGraph').slideDown( "fast", function() {
+			//volume is autoselected
+			$('.allTotal').animate().css('background-color', 'white')
+		})
+		//show oil option
+		$('.oilTotal').slideDown( "fast", function() {
+		})
 	})
+
 
 	$('.allTotal').click(function(){
 		//if show all total graphs is clicked
 		allTotal = !allTotal;
-		// if (allTotal){
-		$('.firstGraph').slideToggle( "slow", function() {
+		oilTotal = !oilTotal;
+		if (allTotal){
+			$('.firstGraph, .oilTotal').slideUp( "slow", function() {
+				$('.allTotal, .oilTotal').animate().css('background-color', 'black')
 			//show the firstgraph
-		})
-		// }
+			})
+		}
+		else{
+			$('.firstGraph').slideDown( "slow", function() {
+			//show the firstgraph
+			})
+		}
 	})
+
+		$('.oilTotal').click(function(){
+				$('.firstGraph').slideUp( "fast", function() {
+				})
+				$('.secondGraph').slideDown( "slow", function() {
+				//show the oilgraph
+				})
+		})
+
+	 // .usPorts, .foreignPorts'
 
 });
 
@@ -1287,7 +1313,7 @@ var updateHoverbox = function(d, type) {
 		var xy = d3.mouse(svg.node());
 		hoverbox.attr("transform", "translate(" + xy[0] + "," + xy[1] + ")");
 
-		hoverbox.select(".title").text(d.USPt + " ↔ " + d.FgnPort);
+		hoverbox.select(".title").text("Route: "+d.USPt + " ↔ " + d.FgnPort);
 
 		var hoverBoxScaleMax = hoverBoxPathScaleMax;
 

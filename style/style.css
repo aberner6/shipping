@@ -5370,13 +5370,15 @@ blockquote .quotation-mark {
 
 
 
-.firstGraph{
+.firstGraph, .secondGraph, .thirdGraph, .fourthGraph, .fifthGraph, .sixthGraph, .seventhGraph{
 	display:none;
 	width:1280px;
 	height:800px;
 }
 
+/* .allTotal, .oilTotal, .energyTotal, .usPorts, .foreignPorts, .usYearlyPorts{
 
+ } */
 div.toggleVolume{
 	cursor:pointer;
 	letter-spacing: 2px;
@@ -5385,21 +5387,35 @@ div.toggleVolume{
 	width: 60px;
 	text-align: center;
 }
-.volImp, .volExp, .volAll, .volFreq{
+.oilTotal{
+	display:none;
+	cursor:pointer;
+	width: 30px;
+	text-align: center;
+  	border: 1px gray dotted;
+  	font: 12px 'Gotham';
+  	text-transform: none;
+  	color: gray;
+  	padding: 5px 5px;
+	margin-left: 5.8%; 
+	position: absolute;
+	background-color: black;	
+}
+.volImp, .volExp, .volAll, .volFreq, .pathAll, .pathExp, .pathImp, .pathFreq, .allTotal, .productTotal, .byPort, .usPorts, .foreignPorts, .usYearlyPorts, .foreignYearlyPorts{
 	display:none;
 	cursor:pointer;
 	width: 60px;
 	text-align: center;
-  border: 1px gray dotted;
-  font: 12px 'Gotham';
-  text-transform: none;
-  color: gray;
-  padding: 5px 5px;
+  	border: 1px gray dotted;
+  	font: 12px 'Gotham';
+  	text-transform: none;
+  	color: gray;
+  	padding: 5px 5px;
 	margin-left: 3.5%; 
 	position: absolute;
 	background-color: black;
 }
-.volImp:hover, .volExp:hover, .volAll:hover, .volFreq:hover{
+.volImp:hover, .volExp:hover, .volAll:hover, .volFreq:hover,.pathAll:hover, .pathExp:hover, .pathImp:hover, .pathFreq:hover, .allTotal:hover, .oilTotal:hover, .productTotal:hover, .byPort:hover, .usPorts:hover, .foreignPorts:hover, .usYearlyPorts:hover, .foreignYearlyPorts{
   -webkit-transform: translate3d(2px, 0, 0);
   -moz-transform: translateX(2px);
   -ms-transform: translateX(2px);
@@ -5413,7 +5429,7 @@ div.toggleVolume{
   opacity: 1;
 }
 
-.pathAll, .pathExp, .pathImp, .pathFreq{
+/*.pathAll, .pathExp, .pathImp, .pathFreq{
 	display:none;
 	cursor:pointer;
 	width: 60px;
@@ -5426,8 +5442,8 @@ div.toggleVolume{
 	margin-left: 3.5%;
 	position: absolute;
 	background-color: black;
-}
-.pathAll:hover, .pathExp:hover, .pathImp:hover, .pathFreq:hover{
+}*/
+/*.pathAll:hover, .pathExp:hover, .pathImp:hover, .pathFreq:hover{
   -webkit-transform: translate3d(2px, 0, 0);
   -moz-transform: translateX(2px);
   -ms-transform: translateX(2px);
@@ -5439,7 +5455,7 @@ div.toggleVolume{
   -o-transition: 150ms all ease-in-out;
   transition: 150ms all ease-in-out;
   opacity: 1;
-}
+}*/
 
 
 
