@@ -264,12 +264,9 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 
 				paths.features[i].properties.USPt			= paths_data[j].USPt;
 				paths.features[i].properties.FgnPort		= paths_data[j].FgnPort;
-				paths.features[i].propzoom
-
 				paths.features[i].properties.MetricTons		= parseFloat(paths_data[j].MetricTons);
 				paths.features[i].properties.ImportMetTons	= parseFloat(paths_data[j].ImportMetTons);
 				paths.features[i].properties.ExportMetTons	= parseFloat(paths_data[j].ExportMetTons);
-				// paths.features[i].properties.Freq = parseFloat(ports.features[i].freq);
 			}
 
 		}
@@ -298,7 +295,7 @@ $('#eBars').click(function(){
 		    $('.toggleVolume').animate().css('margin-top', '140px')
 		    $('#animPaths').animate().css('margin-top', '140px')
 
-		fadeBackground();
+		totalFadeBackground();
 		// fadeStories(); //improve this
 		$('#storyContainer').hide("fast", function(){
 		})
@@ -394,11 +391,6 @@ $('.productTotal').click(function(){
 		$('.productTotal').animate().css('background-color','black')		
 	}
 })
- 	// <div class="byPort" style="top:155px">Ports</div>
- 	// 	<div class="usPorts" style="top:200px">U.S. Ports</div>
-	 // 	 	<div class="usYearlyPorts" style="top:105px">Matrix</div>
- 	// 	<div class="foreignPorts" style="top:225px">Foreign Ports</div>
- 	// 		<div class="foreignYearlyPorts" style="top:105px">Matrix</div>
 
 	$('.byPort').click(function(){
 		//if show all total graphs is clicked
@@ -458,14 +450,6 @@ $('.productTotal').click(function(){
 					})
 				}
 			})
- 	// <div class="byPort" style="top:155px">Ports</div>
- 	// 	<div class="usPorts" style="top:200px">U.S. Ports</div>
-	 // 	 	<div class="usYearlyPorts" style="top:105px">Matrix</div>
- 	// 	<div class="foreignPorts" style="top:225px">Foreign Ports</div>
- 	// 		<div class="foreignYearlyPorts" style="top:105px">Matrix</div>
-
-	 // .usPorts, .foreignPorts'
-
 });
 
 
@@ -598,21 +582,18 @@ $('.pathFreq').click(function(){
 
 	//Shipping Paths
 
-	// var pathGroups = map.append("g")
-	pathGroups = map.append("g")
+	var pathGroups = map.append("g")
+	 // pathGroups = map.append("g")
 		.attr("class", "paths")
 		.selectAll("g")
 		.data(paths.features)
 		.enter()
 		.append("g")
 		.on("mouseover", function(d) {
-			if (backgroundFade){
-
-			}
-			else{
+				console.log("hey")
+				console.log("d.properties"+d.properties)
 			updateHoverbox(d.properties, "path");
 			d3.select(this).each(moveToFront);
-		}
 		})
 		.on("mouseout", function(d) {
 			hideHoverbox();
@@ -647,11 +628,7 @@ $('.pathFreq').click(function(){
 		.append("g")
 		.attr("class", "port")
 		.classed("clickable", function(d) {
-			// console.log(maxMet+"maxmetrictons");
-			// if (d.properties.scalerank == 1) {
 				return true;
-			// }
-			// return false;
 		})
 		.attr("transform", function(d) {
 		var x = proj([d.properties.lon,d.properties.lat])[0];
@@ -680,27 +657,13 @@ console.log("maxImpvolume"+maxImp)
 	d3.selectAll('.port')
 		.on('click', click)
 		.on("mouseover", function(d) {
-			if (backgroundFade){
-
-			}
-			else{
 			updateHoverbox(d.properties, "port");
 			d3.select(this).each(moveToFront);
-				d3.select(this).append("text")
-				.attr("class", "label")
-				.attr("x", "-8")
-				.attr("y", "-3")
-				.attr("opacity", 1)
-				.attr("text-anchor", "end")
-				.text(function(d) { 
-					// return d.properties.port;
-				});
-			}
 		})
 		.on("mouseout", function(d) {
 			hideHoverbox();
-			d3.selectAll('.label')
-			.remove();
+			// d3.selectAll('.label')
+			// .remove();
 		});
 	// In each group, add a circle
 
@@ -1007,16 +970,16 @@ otherBars.append("text")
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-  $('.others').tipsy({ 
-        gravity: 'nw', 
-        html: true, 
-        title: function() {
-          var d = this.__data__;
-		var newNum = Math.round((d.properties.MetricTons) / 1000000);
-		var niceNum = numberWithCommas(newNum)+"MT";
-      	return "Total Volume Shipped Since 2002: "+niceNum;         
-        }
-      });
+  // $('.others').tipsy({ 
+  //       gravity: 'nw', 
+  //       html: true, 
+  //       title: function() {
+  //         var d = this.__data__;
+		// var newNum = Math.round((d.properties.MetricTons) / 1000000);
+		// var niceNum = numberWithCommas(newNum)+"MT";
+  //     	return "Total Volume Shipped Since 2002: "+niceNum;         
+  //       }
+  //     });
 
 	var energyBarsScale = d3.scale.linear()
 		.domain([0, d3.sum(energyBarsData, function(d) { return d[1]; }) ])
@@ -1406,8 +1369,8 @@ var updateHoverbox = function(d, type) {
 
 	//Type is "port" or "path"
 
-	//console.log(d);
-
+	console.log(d+"d");
+	console.log(type+"type");
 	//Special handling for ports
 	if (type == "port") {
 
@@ -1520,14 +1483,6 @@ var imIs = 	10;
 		.text(totalText);
 		//////////////////
 
-
-	// hoverbox.select("#ship1").text(d.Ship1.toUpperCase());
-	// hoverbox.select("#ship2").text(d.Ship2.toUpperCase());
-	// hoverbox.select("#ship3").text(d.Ship3.toUpperCase());
-	// hoverbox.select("#comm1").text(d.Comm1.toUpperCase());
-	// hoverbox.select("#comm2").text(d.Comm2.toUpperCase());
-	// hoverbox.select("#comm3").text(d.Comm3.toUpperCase());
-
 	hoverbox.classed("hidden", false);
 
 };
@@ -1598,6 +1553,8 @@ d3.selectAll(".thumb")
 				})
 				// .attr("stroke-width",20)
 				.each(moveToFront);
+			// updateHoverbox(d.properties, "port");
+			// d3.select(this).each(moveToFront);
 		}
 
 		//Is this story associated with a path?
@@ -1633,6 +1590,8 @@ d3.selectAll(".thumb")
 				.each(function(d) {
 					if (d.properties.port.toUpperCase() == start) {
 						// tuckMapUp(d);
+					// updateHoverbox(d.properties, "path");
+					// d3.select(this).each(moveToFront);
 					}
 				})
 				.each(moveToFront);
@@ -1646,6 +1605,8 @@ d3.selectAll(".thumb")
 .on("mouseout", function(d,i){
 	d3.selectAll("path.selected").classed("selected", false);
 	d3.selectAll(".port.selected").classed("selected", false);
+	hideHoverbox();
+
 });
 
 
@@ -1829,6 +1790,9 @@ function fadeBackground(){
 
 function unfadeBackground(){
 	map.attr("opacity", 1)
+}
+function totalFadeBackground(){
+	map.attr("opacity", 0)
 }
 function fadeStories(){
 	$('.thumb').animate().css('opacity', 0)
