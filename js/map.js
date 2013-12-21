@@ -280,7 +280,10 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 var eBars = false;
 var backgroundFade = false;
 var allTotal = false;
-
+var oilTotal = false;
+var productTotal = false;
+var byPort = false;
+var usYearly = false;
 var noVolume = false;
 var doPaths = false;
 var animatePaths = false;
@@ -296,63 +299,170 @@ $('#eBars').click(function(){
 		    $('#animPaths').animate().css('margin-top', '140px')
 
 		fadeBackground();
-		fadeStories();
+		// fadeStories(); //improve this
+		$('#storyContainer').hide("fast", function(){
+		})
+		//show the toggle to show all total graphs
+		$('.allTotal, .productTotal, .byPort, .oilTotal').show("fast", function(){
+		// allTotal=true;
+		//move down
+		$('.productTotal, .byPort').animate().css('margin-top', '26px')
+
+		//volume is autoselected
+		$('.allTotal').animate().css('background-color', 'white')
+		//show the firstgraph
+		$('.firstGraph').slideDown( "fast", function() {
+			// allTotal = true;
+		})
+		})
 	}
 	else {
 		$('#eBars').animate().css('background-color','black')		
 		unfadeBackground();
-		unfadeStories();
+		$('#storyContainer').show("fast", function(){
+		})
+		// unfadeStories(); 
+		//hide all toggles and graphs
+		$('.allTotal, .productTotal, .byPort, .oilTotal, .usPorts, .usYearlyPorts, .foreignPorts, .foreignYearlyPorts, .firstGraph, .secondGraph, .thirdGraph, .fourthGraph, .fifthGraph, .sixthGraph, .seventhGraph').hide("fast", function(){
+		})
 	}
 
- 	// <div class="allTotal" style="top:105px">Volume</div>
-  // 		<div class="oilTotal" style="top:105px">+Oil</div>
- 	// <div class="productTotal" style="top:130px">Product</div>
+	$('.allTotal').click(function(){
+		//if show all total graphs is clicked
+		allTotal = !allTotal;
+		console.log(allTotal+"allTotal value")
+		if (allTotal){
+			$('.allTotal').animate().css('background-color', 'white')
+			$('.firstGraph').slideDown( "slow", function() {
+			//show the firstgraph
+			})
+			$('.oilTotal, .productTotal, .byPort, .usYearlyPorts').animate().css('background-color', 'black')
+			$('.secondGraph, .thirdGraph, .fourthGraph, .fifthGraph, .sixthGraph, .seventhGraph').slideUp( "fast", function() {
+				oilTotal = false;
+				productTotal = false;
+			//hide the oilgraph
+			})
+		}
+		else{
+			$('.allTotal').animate().css('background-color', 'black')
+			$('.firstGraph').slideUp( "slow", function() {
+			//hide the firstgraph
+			})
+		}
+	})
+
+		$('.oilTotal').click(function(){
+			oilTotal = !oilTotal;
+			console.log(oilTotal+"oilTotal value")
+				if (oilTotal){
+					$('.oilTotal').animate().css('background-color', 'white')
+					$('.allTotal, .productTotal, .byPort, .usYearlyPorts').animate().css('background-color', 'black')
+					$('.firstGraph, .thirdGraph, .fourthGraph, .fifthGraph, .sixthGraph, seventhGraph').slideUp( "fast", function() {
+						allTotal = false;
+						productTotal = false;
+					})
+					$('.secondGraph').slideDown( "slow", function() {
+					})
+				}
+				else {
+					$('.oilTotal').animate().css('background-color', 'black')
+					$('.secondGraph').slideUp( "fast", function() {
+					//hide the oilgraph
+					})
+				}
+			})
+
+$('.productTotal').click(function(){
+	productTotal = !productTotal;
+	if (productTotal){
+		//hide all associated stuff with all volume graph etc.
+		$('.allTotal, .oilTotal, .byPort, .usYearlyPorts').animate().css('background-color', 'black')
+		$('.firstGraph, .secondGraph, .fourthGraph, .fifthGraph, .sixthGraph, .seventhGraph').slideUp( "fast", function() {
+			allTotal = false;
+			oilTotal = false;
+		})
+		//show all associated stuff with product graph etc.
+		$('.thirdGraph').slideDown("slow", function(){
+			//show product graph
+		})
+		$('.productTotal').animate().css('background-color','white')
+	}
+	else {
+		$('.thirdGraph').slideUp("slow", function(){
+			//show product graph
+		})
+		$('.productTotal').animate().css('background-color','black')		
+	}
+})
  	// <div class="byPort" style="top:155px">Ports</div>
  	// 	<div class="usPorts" style="top:200px">U.S. Ports</div>
 	 // 	 	<div class="usYearlyPorts" style="top:105px">Matrix</div>
  	// 	<div class="foreignPorts" style="top:225px">Foreign Ports</div>
  	// 		<div class="foreignYearlyPorts" style="top:105px">Matrix</div>
 
-//show the toggle to show all total graphs
-	$('.allTotal, .productTotal, .byPort').slideToggle("fast", function(){
-		// allTotal=true;
-		//move down
-		$('.productTotal, .byPort').animate().css('margin-top', '26px')
-		//show the firstgraph
-		$('.firstGraph').slideDown( "fast", function() {
-			//volume is autoselected
-			$('.allTotal').animate().css('background-color', 'white')
-		})
-		//show oil option
-		$('.oilTotal').slideDown( "fast", function() {
-		})
-	})
-
-
-	$('.allTotal').click(function(){
+	$('.byPort').click(function(){
 		//if show all total graphs is clicked
-		allTotal = !allTotal;
-		oilTotal = !oilTotal;
-		if (allTotal){
-			$('.firstGraph, .oilTotal').slideUp( "slow", function() {
-				$('.allTotal, .oilTotal').animate().css('background-color', 'black')
-			//show the firstgraph
+		byPort = !byPort;
+		$('.byPort').animate().css('opacity', '.7')
+
+		if (byPort){
+			$('.usPorts, .usYearlyPorts, .foreignPorts, .foreignYearlyPorts').show("fast", function(){
+					//show all the port option tabs
+				})
+			// $('.usPorts, .usYearlyPorts, .foreignPorts, .foreignYearlyPorts').animate().css('margin-top', '75px')
+
+			$('.byPort, .usPorts').animate().css('background-color', 'white')
+
+
+			$('.fourthGraph').slideDown( "slow", function() {
+			//show the us ports graph
+				//and no others
+				$('.firstGraph, .secondGraph, .thirdGraph, .fifthGraph, .sixthGraph, .seventhGraph').slideUp( "fast", function() {
+				oilTotal = false;
+				productTotal = false;
+				allTotal = false;
+				//hide the oilgraph
+				})
 			})
+			$('.oilTotal, .productTotal, .allTotal').animate().css('background-color', 'black')
+
 		}
 		else{
-			$('.firstGraph').slideDown( "slow", function() {
-			//show the firstgraph
+			$('.usPorts, .usYearlyPorts, .foreignPorts, .foreignYearlyPorts').hide("fast", function(){
+					//show all the port option tabs
+				})
+			$('.byPort, .usPorts, .usYearlyPorts, .foreignPorts, .foreignYearlyPorts').animate().css('background-color', 'black')
+			$('.fourthGraph, .fifthGraph, .sixthGraph, .seventhGraph').slideUp( "slow", function() {
+			//hide the firstgraph
 			})
 		}
 	})
 
-		$('.oilTotal').click(function(){
-				$('.firstGraph').slideUp( "fast", function() {
-				})
-				$('.secondGraph').slideDown( "slow", function() {
-				//show the oilgraph
-				})
-		})
+		$('.usYearlyPorts').click(function(){
+			usYearly = !usYearly;
+				if (usYearly){
+					$('.usYearlyPorts').animate().css('background-color', 'white')
+					$('.usPorts').animate().css('background-color', 'black')
+					$('.fourthGraph').slideUp( "fast", function() {
+						usPort = false;
+						//hide the all us ports graph
+					})
+					$('.fifthGraph').slideDown( "slow", function() {
+						//show the us yearly ports graph
+					})
+				}
+				else {
+					$('.usYearlyPorts').animate().css('background-color', 'black')
+					$('.fifthGraph').slideUp( "fast", function() {
+					//hide the us yearly ports graph
+					})
+				}
+			})
+ 	// <div class="byPort" style="top:155px">Ports</div>
+ 	// 	<div class="usPorts" style="top:200px">U.S. Ports</div>
+	 // 	 	<div class="usYearlyPorts" style="top:105px">Matrix</div>
+ 	// 	<div class="foreignPorts" style="top:225px">Foreign Ports</div>
+ 	// 		<div class="foreignYearlyPorts" style="top:105px">Matrix</div>
 
 	 // .usPorts, .foreignPorts'
 
@@ -466,7 +576,9 @@ $('.pathFreq').click(function(){
 
 
 	//START DRAWING
-
+//show story container
+		$('#storyContainer').show("fast", function(){
+		})
 	// use the graticule generator to make a map background and gridlines
 	map.append("path")
 		.datum(graticule.outline)
@@ -1719,7 +1831,7 @@ function unfadeBackground(){
 	map.attr("opacity", 1)
 }
 function fadeStories(){
-	$('.thumb').animate().css('opacity', .1)
+	$('.thumb').animate().css('opacity', 0)
 }
 
 function unfadeStories(){

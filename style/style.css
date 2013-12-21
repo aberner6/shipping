@@ -420,6 +420,7 @@ line-height: 20px;
 	left: 0;
 	width: 100%;
 	height: 100px;
+	display: none;
 	/*overflow: auto;*/
 	cursor: pointer;
 	background-color: rgba(0, 0, 0, 0.9);
@@ -453,16 +454,16 @@ line-height: 20px;
 	padding: 0;
 	width: auto;
 	max-height: 80%;
-	border: solid 10px black;
+	border: solid 5px black;
 	cursor: pointer;
 }
 
 #storyContainer .nav #heading .thumb:hover {
-	border: solid 5px #ff2000;
+	border: solid 2px #ff2000;
 }
 
 #storyContainer .nav #heading .thumb.selected {
-	border: solid 5px #ff2000;
+	border: solid 2px #ff2000;
 }
 
 #storyContainer .nav #prevStory,
@@ -5387,21 +5388,63 @@ div.toggleVolume{
 	width: 60px;
 	text-align: center;
 }
-.oilTotal{
+.oilTotal, .usYearlyPorts, .foreignYearlyPorts{
 	display:none;
 	cursor:pointer;
-	width: 30px;
+	width: 40px;
 	text-align: center;
   	border: 1px gray dotted;
   	font: 12px 'Gotham';
   	text-transform: none;
   	color: gray;
   	padding: 5px 5px;
-	margin-left: 5.8%; 
+	margin-left: 4.9%; 
 	position: absolute;
 	background-color: black;	
 }
-.volImp, .volExp, .volAll, .volFreq, .pathAll, .pathExp, .pathImp, .pathFreq, .allTotal, .productTotal, .byPort, .usPorts, .foreignPorts, .usYearlyPorts, .foreignYearlyPorts{
+.usPorts, .foreignPorts{
+	display:none;
+	cursor:pointer;
+	width: 50px;
+	text-align: center;
+  	border: 1px gray dotted;
+  	font: 12px 'Gotham';
+  	text-transform: none;
+  	color: gray;
+  	padding: 5px 5px;
+	margin-left: 4.2%; 
+	position: absolute;
+	background-color: black;	
+}
+.allTotal, .productTotal{
+	display:none;
+	cursor:pointer;
+	width: 60px;
+	text-align: center;
+  	border: 1px gray dotted;
+  	font: 12px 'Gotham';
+  	text-transform: none;
+  	color: gray;
+  	padding: 5px 5px;
+	margin-left: 3.5%; 
+	position: absolute;
+	background-color: black;
+	}
+.byPort{
+	display:none;
+	cursor:pointer;
+	width: 60px;
+	text-align: center;
+  	border: 1px gray dotted;
+  	font: 12px 'Gotham';
+  	text-transform: none;
+  	color: gray;
+  	padding: 5px 5px;
+	margin-left: 3.5%; 
+	position: absolute;
+	background-color: black;
+	}
+.volImp, .volExp, .volAll, .volFreq, .pathAll, .pathExp, .pathImp, .pathFreq{
 	display:none;
 	cursor:pointer;
 	width: 60px;
@@ -5415,7 +5458,7 @@ div.toggleVolume{
 	position: absolute;
 	background-color: black;
 }
-.volImp:hover, .volExp:hover, .volAll:hover, .volFreq:hover,.pathAll:hover, .pathExp:hover, .pathImp:hover, .pathFreq:hover, .allTotal:hover, .oilTotal:hover, .productTotal:hover, .byPort:hover, .usPorts:hover, .foreignPorts:hover, .usYearlyPorts:hover, .foreignYearlyPorts{
+.volImp:hover, .volExp:hover, .volAll:hover, .volFreq:hover,.pathAll:hover, .pathExp:hover, .pathImp:hover, .pathFreq:hover, .allTotal:hover, .oilTotal:hover, .productTotal:hover, .byPort:hover, .usPorts:hover, .foreignPorts:hover, .usYearlyPorts:hover, .foreignYearlyPorts:hover{
   -webkit-transform: translate3d(2px, 0, 0);
   -moz-transform: translateX(2px);
   -ms-transform: translateX(2px);
@@ -5429,33 +5472,6 @@ div.toggleVolume{
   opacity: 1;
 }
 
-/*.pathAll, .pathExp, .pathImp, .pathFreq{
-	display:none;
-	cursor:pointer;
-	width: 60px;
-	text-align: center;
-  border: 1px gray dotted;
-  font: 12px 'Gotham';
-  text-transform: none;
-  color: gray;
-  padding: 5px 5px;
-	margin-left: 3.5%;
-	position: absolute;
-	background-color: black;
-}*/
-/*.pathAll:hover, .pathExp:hover, .pathImp:hover, .pathFreq:hover{
-  -webkit-transform: translate3d(2px, 0, 0);
-  -moz-transform: translateX(2px);
-  -ms-transform: translateX(2px);
-  -o-transform: translateX(2px);
-  transform: translateX(2px);
-  -moz-transition: 150ms all ease-in-out;
-  -webkit-transition: 150ms all ease-in-out;
-  -ms-transition: 150ms all ease-in-out;
-  -o-transition: 150ms all ease-in-out;
-  transition: 150ms all ease-in-out;
-  opacity: 1;
-}*/
 
 
 
@@ -12078,9 +12094,9 @@ input[type="submit"].btn.btn-mini {
 
 a.thumbnail:hover {
   border-color: #0088cc;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
-     -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
-          box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+  -webkit-box-shadow: 0 1px 1px rgba(0, 105, 214, 0.25);
+     -moz-box-shadow: 0 1px 1px rgba(0, 105, 214, 0.25);
+          box-shadow: 0 1px 1px rgba(0, 105, 214, 0.25);
 }
 
 .thumbnail > img {
@@ -22423,9 +22439,9 @@ input[type="submit"].btn.btn-mini {
 
 a.thumbnail:hover {
   border-color: #0088cc;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
-     -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
-          box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+  -webkit-box-shadow: 0 1px 1px rgba(0, 105, 214, 0.25);
+     -moz-box-shadow: 0 1px 1px rgba(0, 105, 214, 0.25);
+          box-shadow: 0 1px 1px rgba(0, 105, 214, 0.25);
 }
 
 .thumbnail > img {
