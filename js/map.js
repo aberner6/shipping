@@ -280,13 +280,10 @@ var allTotal = false;
 var oilTotal = false;
 var productTotal = false;
 var byPort = false;
+var usPorts = false;
 var usYearly = false;
-var noVolume = false;
-var doPaths = false;
-var animatePaths = false;
-var sizeAll = false;
-var sizeExp = false;
-var sizeImp = false;
+var foreignPorts = false;
+var foreignYearlyPorts = false;
 $('#eBars').click(function(){
 	eBars = !eBars;
 	backgroundFade = !backgroundFade;
@@ -395,14 +392,13 @@ $('.productTotal').click(function(){
 	$('.byPort').click(function(){
 		//if show all total graphs is clicked
 		byPort = !byPort;
-		$('.byPort').animate().css('opacity', '.7')
 
 		if (byPort){
 			$('.usPorts, .usYearlyPorts, .foreignPorts, .foreignYearlyPorts').show("fast", function(){
 					//show all the port option tabs
 				})
 			// $('.usPorts, .usYearlyPorts, .foreignPorts, .foreignYearlyPorts').animate().css('margin-top', '75px')
-
+			$('.byPort').animate().css('opacity', '.7')
 			$('.byPort, .usPorts').animate().css('background-color', 'white')
 
 
@@ -420,6 +416,7 @@ $('.productTotal').click(function(){
 
 		}
 		else{
+			$('.byPort').animate().css('opacity', '1')
 			$('.usPorts, .usYearlyPorts, .foreignPorts, .foreignYearlyPorts').hide("fast", function(){
 					//show all the port option tabs
 				})
@@ -429,14 +426,37 @@ $('.productTotal').click(function(){
 			})
 		}
 	})
-
+		$('.usPorts').click(function(){
+			usPorts = !usPorts;
+				if (usPorts){
+					$('.usPorts').animate().css('background-color', 'white')
+					$('.usYearlyPorts, .foreignPorts, .foreignYearlyPorts').animate().css('background-color', 'black')
+					$('.fifthGraph, .sixthGraph, .seventhGraph').slideUp( "fast", function() {
+						foreignPorts = false;
+						foreignYearlyPorts = false;
+						usYearly = false;
+						//hide the matrix us ports graph
+					})
+					$('.fourthGraph').slideDown( "slow", function() {
+						//show the us yearly ports graph
+					})
+				}
+				else {
+					$('.usPorts').animate().css('background-color', 'black')
+					$('.fourthGraph').slideUp( "fast", function() {
+					//hide the us yearly ports graph
+					})
+				}
+			})
 		$('.usYearlyPorts').click(function(){
 			usYearly = !usYearly;
 				if (usYearly){
 					$('.usYearlyPorts').animate().css('background-color', 'white')
-					$('.usPorts').animate().css('background-color', 'black')
-					$('.fourthGraph').slideUp( "fast", function() {
-						usPort = false;
+					$('.usPorts, .foreignPorts, .foreignYearlyPorts').animate().css('background-color', 'black')
+					$('.fourthGraph, .sixthGraph, .seventhGraph').slideUp( "fast", function() {
+						usPorts = false;
+						foreignPorts = false;
+						foreignYearlyPorts = false;
 						//hide the all us ports graph
 					})
 					$('.fifthGraph').slideDown( "slow", function() {
@@ -450,9 +470,83 @@ $('.productTotal').click(function(){
 					})
 				}
 			})
+		$('.foreignPorts').click(function(){
+			foreignPorts = !foreignPorts;
+				if (foreignPorts){
+					$('.foreignPorts').animate().css('background-color', 'white')
+					$('.usYearlyPorts, .usPorts, .foreignYearlyPorts').animate().css('background-color', 'black')
+					$('.fifthGraph, .fourthGraph, .seventhGraph').slideUp( "fast", function() {
+						usPorts = false;
+						usYearly = false;
+						foreignYearlyPorts = false;					})
+					$('.sixthGraph').slideDown( "slow", function() {
+					})
+				}
+				else {
+					$('.foreignPorts').animate().css('background-color', 'black')
+					$('.sixthGraph').slideUp( "fast", function() {
+					})
+				}
+			})
+		$('.foreignYearlyPorts').click(function(){
+			foreignYearlyPorts = !foreignYearlyPorts;
+				if (foreignYearlyPorts){
+					$('.foreignYearlyPorts').animate().css('background-color', 'white')
+					$('.foreignPorts, .usPorts, .usYearlyPorts').animate().css('background-color', 'black')
+					$('.sixthGraph, .fourthGraph, .fifthGraph').slideUp( "fast", function() {
+						foreignPorts = false;
+						usPorts = false;
+						usYearly = false;
+					})
+					$('.seventhGraph').slideDown( "slow", function() {
+					})
+				}
+				else {
+					$('.foreignYearlyPorts').animate().css('background-color', 'black')
+					$('.seventhGraph').slideUp( "fast", function() {
+					})
+				}
+			})
 });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var noVolume = false;
+var doPaths = false;
+var animatePaths = false;
+var sizeAll = false;
+var sizeExp = false;
+var sizeImp = false;
 $('.toggleVolume').click(function(){
 	noVolume = !noVolume;
 
