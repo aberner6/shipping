@@ -560,12 +560,7 @@ $('.toggleVolume').click(function(){
 	noVolume = !noVolume;
 
 	if (noVolume){
-
-
 eBars = false;
-
-
-
 		$('#eBars').animate().css('background-color','black')
 		$('#eBars').animate().css('opacity','1')
 
@@ -584,19 +579,15 @@ eBars = false;
 		//hide all toggles and graphs
 		$('.allTotal, .productTotal, .byPort, .oilTotal, .usPorts, .usYearlyPorts, .foreignPorts, .foreignYearlyPorts').animate().css('background-color','black')
 
-
-
-
-
-
-
 		$('.toggleVolume').animate().css('background-color', 'white')
 		showPorts();
 		hidePaths();
 	    $('#animPaths, .pathAll, .pathExp, .pathImp, .pathFreq').animate().css('margin-top', '117px')
 	}
-
-	else {
+	if (noVolume && pathAll){
+		showPaths();
+	}
+	else if (!noVolume){
 		$('.toggleVolume').animate().css('background-color', 'black')
 		$('.volImp, .volExp, .volFreq, .volAll').animate().css('background-color', 'black')
 		showPaths();
@@ -640,7 +631,6 @@ $('#animPaths').click(function(){
 
 console.log("pathall")
 eBars = false;
-
 		$('#eBars').animate().css('background-color','black'); $('#eBars').animate().css('opacity','1'); $('.map').show("fast", function(){})
 		$('.allTotal, .productTotal, .byPort, .oilTotal, .usPorts, .usYearlyPorts, .foreignPorts, .foreignYearlyPorts, .firstGraph, .secondGraph, .thirdGraph, .fourthGraph, .fifthGraph, .sixthGraph, .seventhGraph').hide("fast", function(){
 		})
@@ -664,6 +654,13 @@ eBars = false;
 		
 		$('.pathAll, .pathExp, .pathImp, .pathFreq').slideDown("fast", function(){
 		});
+ 		// unOpAllVolumes();	
+		portGroups.selectAll("circle")
+			.attr("class", "newclass")
+			.transition()
+			.duration(500)
+			// .attr("r", radiusSmall)
+			.attr("opacity", ".2");
 	}
 	if (pathAll && noVolume){
 		$('#animPaths').animate().css('background-color', 'white')
@@ -1710,8 +1707,8 @@ d3.selectAll(".thumb")
 				.filter(function(d) {
 					if (d.properties.port.toUpperCase() == port) {
 						// return true;
-						console.log(d.properties+"thisisnormalmouseoveronport");
-						updateHoverbox(port, "port");
+						console.log(d.properties+"thisisinsidethumbmouseoveronport");
+						updateHoverbox(d.properties, "port");
 						d3.select(this).each(moveToFront);
 					}
 					// return false;
@@ -1755,8 +1752,12 @@ d3.selectAll(".thumb")
 				.each(function(d) {
 					if (d.properties.port.toUpperCase() == start) {
 						// tuckMapUp(d);
-					// updateHoverbox(d.properties, "path");
-					// d3.select(this).each(moveToFront);
+
+
+
+
+					updateHoverbox(d.properties, "port");
+					d3.select(this).each(moveToFront);
 					}
 				})
 				.each(moveToFront);
