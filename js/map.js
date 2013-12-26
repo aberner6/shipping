@@ -9,7 +9,7 @@ var animateOpening = false, //not true
 	height = window.innerHeight - padding-200,
 	centered,     // centered variable holds zoom state
 	initialZoom = 190,
-	maxZoom = 2000,
+	maxZoom = 1000,
 	hoverbox,
 	hoverboxMinWidth = 450,
 	// hoverboxHeight = 190,
@@ -735,16 +735,14 @@ $('.pathFreq').click(function(){
 		.selectAll("g")
 		.data(paths.features)
 		.enter()
-		.append("g");
-		// .on("mouseover", function(d) {
-		// 		console.log("hey")
-		// 		console.log("d.properties"+d.properties)
-		// 	updateHoverbox(d.properties, "path");
-		// 	d3.select(this).each(moveToFront);
-		// })
-		// .on("mouseout", function(d) {
-		// 	hideHoverbox();
-		// });
+		.append("g")
+		.on("mouseover", function(d) {
+			updateHoverbox(d.properties, "path");
+			d3.select(this).each(moveToFront);
+		})
+		.on("mouseout", function(d) {
+			hideHoverbox();
+		});  
 
 	//Create background paths (for hover purposes)
 	pathGroups.append("path")
@@ -759,22 +757,11 @@ $('.pathFreq').click(function(){
 		.attr("opacity",1)
 		.attr("stroke-width", ".75")
 		.attr("d", path)
-		.attr("stroke-dasharray", "0, 0.1")
-
-
-
-				.on("mouseover", function(d) {
-				console.log("hey")
-				console.log("d.properties"+d.properties)
-			updateHoverbox(d.properties, "path");
-			d3.select(this).each(moveToFront);
-		})
-		.on("mouseout", function(d) {
-			hideHoverbox();
-		});  //Initially, line is not visible
-
-		d3.selectAll("path")
+		// .attr("stroke-dasharray", "0, 0.1");
+		// d3.selectAll("path")
 			.attr("stroke-dasharray", "none");
+
+
 
 	//Ports
 
@@ -1447,8 +1434,8 @@ console.log(newScale+"newscale");
 		var translate = proj.translate();
 
 		var newTranslate = [];
-
 		newTranslate[0] = translate[0] - coords[0] + width / 2;
+		// newTranslate[0] = translate[0] - coords[0] + width / 2;
 
 		if (storiesOpen) {
 			//Story panel is open, so subtract the 500px height of that panel
@@ -1537,7 +1524,27 @@ var updateHoverbox = function(d, type) {
 	if (type == "port") {
 
 		var xy = proj([d.lon, d.lat]);
-		hoverbox.attr("transform", "translate(" + xy[0] + "," + xy[1] + ")");
+
+
+
+
+
+
+	var mapWidth = d3.select(".map").node().getBBox().width;
+	// console.log(mapWidth+"mapWidth")
+		if (xy[0]>mapWidth/2){
+			// console.log("mapWidth"+mapWidth+"xy[0]"+xy[0])
+			hoverbox.attr("transform", "translate(" + (xy[0]-hoverboxMinWidth) + "," + xy[1] + ")");
+		}
+		else {
+			hoverbox.attr("transform", "translate(" + xy[0] + "," + xy[1] + ")");			
+		}
+
+
+
+
+
+		// hoverbox.attr("transform", "translate(" + xy[0] + "," + xy[1] + ")");
 
 		hoverbox.select(".title").text("Port: "+d.port);
 
@@ -1548,7 +1555,19 @@ var updateHoverbox = function(d, type) {
 	else {
 
 		var xy = d3.mouse(svg.node());
-		hoverbox.attr("transform", "translate(" + xy[0] + "," + xy[1] + ")");
+
+			var mapWidth = d3.select(".map").node().getBBox().width;
+	// console.log(mapWidth+"mapWidth")
+		if (xy[0]>mapWidth/2){
+			// console.log("mapWidth"+mapWidth+"xy[0]"+xy[0])
+			hoverbox.attr("transform", "translate(" + (xy[0]-hoverboxMinWidth) + "," + xy[1] + ")");
+		}
+		else {
+			hoverbox.attr("transform", "translate(" + xy[0] + "," + xy[1] + ")");			
+		}
+
+
+		// hoverbox.attr("transform", "translate(" + xy[0] + "," + xy[1] + ")");
 
 		hoverbox.select(".title").text("Route: "+d.USPt + " ↔ " + d.FgnPort);
 
