@@ -288,12 +288,18 @@ var foreignYearlyPorts = false;
 
 $('#eBars').click(function(){
 	eBars = !eBars;
-	backgroundFade = !backgroundFade;
-	if (backgroundFade){
+	if (eBars){
+		$('.pathAll, .pathExp, .pathImp, .pathFreq, .volAll, .volExp, .volImp, .volFreq').slideUp("fast", function(){
+noVolume = false;
+pathAll = false;
+	});
+
+
 		$('#eBars').animate().css('background-color','white')
 		$('#eBars').animate().css('opacity','.7')
 
-		    $('.toggleVolume, #animPaths, .volAll, .volExp, .volImp, .volFreq, .pathAll, .pathExp, .pathImp').animate().css('margin-top', '101px')
+$('.toggleVolume, #animPaths, .volAll, .volExp, .volImp, .volFreq, .pathAll, .pathExp, .pathImp').animate().css('margin-top', '101px')
+$('.toggleVolume, #animPaths, .volAll, .volExp, .volImp, .volFreq, .pathAll, .pathExp, .pathImp').animate().css('background-color', 'rgba(0, 0, 0, 0.3)')
 
 
 		totalFadeBackground();
@@ -317,11 +323,12 @@ $('#eBars').click(function(){
 		})
 	}
 	else {
-		$('#eBars').animate().css('background-color','black')
-		$('#eBars').animate().css('opacity','1')
+		$('#eBars').animate().css('background-color','rgba(0, 0, 0, 0.3)')
+		// $('#eBars').animate().css('opacity','1')
 
 		$('.map').show("fast", function(){
 		})
+
 		$('.toggleVolume, #animPaths, .volAll, .volExp, .volImp, .volFreq, .pathAll, .pathExp, .pathImp').animate().css('margin-top', '0px')
 
 		$('.allTotal, .productTotal, .byPort, .oilTotal, .usPorts, .usYearlyPorts, .foreignPorts, .foreignYearlyPorts, .firstGraph, .secondGraph, .thirdGraph, .fourthGraph, .fifthGraph, .sixthGraph, .seventhGraph').hide("fast", function(){
@@ -553,25 +560,48 @@ $('.toggleVolume').click(function(){
 	noVolume = !noVolume;
 
 	if (noVolume){
+
+
+eBars = false;
+
+
+
+		$('#eBars').animate().css('background-color','black')
+		$('#eBars').animate().css('opacity','1')
+
+		$('.map').show("fast", function(){
+		})
+
+		$('.toggleVolume, #animPaths, .volAll, .volExp, .volImp, .volFreq').animate().css('margin-top', '0px')
+
+		$('.allTotal, .productTotal, .byPort, .oilTotal, .usPorts, .usYearlyPorts, .foreignPorts, .foreignYearlyPorts, .firstGraph, .secondGraph, .thirdGraph, .fourthGraph, .fifthGraph, .sixthGraph, .seventhGraph').hide("fast", function(){
+		})
+
+		unfadeBackground();
+		$('#storyContainer').show("fast", function(){
+		})
+		// unfadeStories(); 
+		//hide all toggles and graphs
+		$('.allTotal, .productTotal, .byPort, .oilTotal, .usPorts, .usYearlyPorts, .foreignPorts, .foreignYearlyPorts').animate().css('background-color','black')
+
+
+
+
+
+
+
 		$('.toggleVolume').animate().css('background-color', 'white')
 		showPorts();
 		hidePaths();
 	    $('#animPaths, .pathAll, .pathExp, .pathImp, .pathFreq').animate().css('margin-top', '117px')
+	}
 
-	}
-	else if (noVolume && eBars){
-		$('.toggleVolume').animate().css('background-color', 'white')
-		showPorts();
-		hidePaths();
-		$('#animPaths, .pathAll, .pathExp, .pathImp, .pathFreq').animate().css('margin-top', '218px')	
-	}
 	else {
 		$('.toggleVolume').animate().css('background-color', 'black')
 		$('.volImp, .volExp, .volFreq, .volAll').animate().css('background-color', 'black')
 		showPaths();
 		normalizeAllVolumes();
-	    $('#animPaths').animate().css('margin-top', '0px')
-	    $('.pathAll, .pathExp, .pathImp, .pathFreq').animate().css('margin-top', '0px')
+	    $('#animPaths, .pathAll, .pathExp, .pathImp, .pathFreq').animate().css('margin-top', '0px')
 	}
 
 	$('#legendPorts').fadeToggle( "slow", function() {
@@ -606,29 +636,49 @@ var pathAll = false;
 
 $('#animPaths').click(function(){
 	pathAll = !pathAll;
-	if (pathAll && noVolume){
+	if (pathAll){
+
+console.log("pathall")
+eBars = false;
+
+		$('#eBars').animate().css('background-color','black'); $('#eBars').animate().css('opacity','1'); $('.map').show("fast", function(){})
+		$('.allTotal, .productTotal, .byPort, .oilTotal, .usPorts, .usYearlyPorts, .foreignPorts, .foreignYearlyPorts, .firstGraph, .secondGraph, .thirdGraph, .fourthGraph, .fifthGraph, .sixthGraph, .seventhGraph').hide("fast", function(){
+		})
+		unfadeBackground();
+		$('#storyContainer').show("fast", function(){
+		})
+		// unfadeStories(); 
+		//hide all toggles and graphs
+		$('.allTotal, .productTotal, .byPort, .oilTotal, .usPorts, .usYearlyPorts, .foreignPorts, .foreignYearlyPorts').animate().css('background-color','black')
+
+
+
+
+
+
+		$('.toggleVolume, .volAll, .volExp, .volImp, .volFreq, .pathAll, .pathExp, .pathImp').animate().css('margin-top', '0px')
+
 		$('#animPaths').animate().css('background-color', 'white')
 		console.log("novolume //showing ports dropdown is true")
-		$('.pathAll, .pathExp, .pathImp, .pathFreq').animate().css('margin-top', '117px')
+		// $('.pathAll, .pathExp, .pathImp, .pathFreq').animate().css('margin-top', '117px')
 		
 		$('.pathAll, .pathExp, .pathImp, .pathFreq').slideDown("fast", function(){
 		});
 	}
-	if (pathAll && !noVolume){
+	if (pathAll && noVolume){
 		$('#animPaths').animate().css('background-color', 'white')
 		console.log("novolume is false")
  		showPaths();
- 		unOpAllVolumes();
- 		
- 		$('.pathAll, .pathExp, .pathImp, .pathFreq').animate().css('margin-top', '0px')
-		
+ 		unOpAllVolumes();	
+ 		$('#animPaths, .pathAll, .pathExp, .pathImp, .pathFreq').animate().css('margin-top', '117px')	
 		$('.pathAll, .pathExp, .pathImp, .pathFreq').slideDown("fast", function(){
 		});
 	}
 
-	else {
+	else if (!pathAll){
+		console.log("else in animPaths")
 		$('#animPaths').animate().css('background-color', 'black')
-	    $('.pathAll, .pathExp, .pathImp, .pathFreq').animate().css('background-color', 'black')
+	    $('.pathAll, .pathExp, .pathImp, .pathFreq').animate().css('background-color', 'rgba(0, 0, 0, 0.3)')
  		normalizeAllVolumes(); 
 		showPaths();
 		$('.pathAll, .pathExp, .pathImp, .pathFreq').slideUp("fast", function(){
@@ -639,22 +689,22 @@ $('#animPaths').click(function(){
 $('.pathAll').click(function(){
 		pathAllVolumes();
 	    $(this).animate().css('background-color', 'white')
-			$('.pathImp, .pathExp, .pathFreq').animate().css('background-color', 'black')
+			$('.pathImp, .pathExp, .pathFreq').animate().css('background-color', 'rgba(0, 0, 0, 0.3)')
 })
 $('.pathExp').click(function(){
 		pathExpVolumes();
 		$(this).animate().css('background-color', 'white')
-			$('.pathAll, .pathImp, .pathFreq').animate().css('background-color', 'black')
+			$('.pathAll, .pathImp, .pathFreq').animate().css('background-color', 'rgba(0, 0, 0, 0.3)')
 })
 $('.pathImp').click(function(){
 		pathImpVolumes();
 		$(this).animate().css('background-color', 'white')
-	   		$('.pathAll, .pathExp, .pathFreq').animate().css('background-color', 'black')
+	   		$('.pathAll, .pathExp, .pathFreq').animate().css('background-color', 'rgba(0, 0, 0, 0.3)')
 })
 $('.pathFreq').click(function(){
 		pathFreqVolumes();
 		$(this).animate().css('background-color', 'white')
-	   		$('.pathAll, .pathExp, .pathImp').animate().css('background-color', 'black')
+	   		$('.pathAll, .pathExp, .pathImp').animate().css('background-color', 'rgba(0, 0, 0, 0.3)')
 })
 
 
@@ -682,22 +732,22 @@ $('.pathFreq').click(function(){
 
 	//Shipping Paths
 
-	var pathGroups = map.append("g")
+	pathGroups = map.append("g")
 	 // pathGroups = map.append("g")
 		.attr("class", "paths")
 		.selectAll("g")
 		.data(paths.features)
 		.enter()
-		.append("g")
-		.on("mouseover", function(d) {
-				console.log("hey")
-				console.log("d.properties"+d.properties)
-			updateHoverbox(d.properties, "path");
-			d3.select(this).each(moveToFront);
-		})
-		.on("mouseout", function(d) {
-			hideHoverbox();
-		});
+		.append("g");
+		// .on("mouseover", function(d) {
+		// 		console.log("hey")
+		// 		console.log("d.properties"+d.properties)
+		// 	updateHoverbox(d.properties, "path");
+		// 	d3.select(this).each(moveToFront);
+		// })
+		// .on("mouseout", function(d) {
+		// 	hideHoverbox();
+		// });
 
 	//Create background paths (for hover purposes)
 	pathGroups.append("path")
@@ -708,11 +758,23 @@ $('.pathFreq').click(function(){
 	//Create visible paths
 	pathGroups.append("path")
 		.attr("class", "visible")
-		// .attr("stroke","#307074")
+		.attr("stroke","#307074")
 		.attr("opacity",1)
 		.attr("stroke-width", ".75")
 		.attr("d", path)
-		.attr("stroke-dasharray", "0, 0.1");  //Initially, line is not visible
+		.attr("stroke-dasharray", "0, 0.1")
+
+
+
+				.on("mouseover", function(d) {
+				console.log("hey")
+				console.log("d.properties"+d.properties)
+			updateHoverbox(d.properties, "path");
+			d3.select(this).each(moveToFront);
+		})
+		.on("mouseout", function(d) {
+			hideHoverbox();
+		});  //Initially, line is not visible
 
 		d3.selectAll("path")
 			.attr("stroke-dasharray", "none");
@@ -945,13 +1007,15 @@ function pathImpVolumes(){
 var lightImpMap = d3.scale.linear()
 		.domain([0, maxImp/10]) //493829169.9 is max
 		.range([5, 50]);
-
+// console.log(maxImp);
 		pathGroups.selectAll("path")
 			.transition()
 			.duration(1000)
 			.attr("stroke", function(d){
+// console.log(d.properties.ImportMetTons)
+// return "white";
 			return "hsl(180,100,"+lightImpMap(d.properties.ImportMetTons)+")"
-			});
+			})
 }
 
 
@@ -1029,43 +1093,43 @@ ports.features.sort(function(a,b){
 svg.append("g")
 	.attr("id","otherBars")
 
-var otherBars = d3.select("#otherBars")
-.selectAll("g")
-.data(function(d){
-	return ports.features;
-})
-.enter()
-.append("g")
-.attr("transform", "translate("+barsLeftEdge+","+0+")");
+// var otherBars = d3.select("#otherBars")
+// .selectAll("g")
+// .data(function(d){
+// 	return ports.features;
+// })
+// .enter()
+// .append("g")
+// .attr("transform", "translate("+barsLeftEdge+","+0+")");
 
-otherBars.append("rect")
-		.attr("class","others")
-		.attr("x", function(d,i){
-			return 0;
-		})
-		.attr("y", function(d,i){
-			return heightScale(i)
-		})
-		.attr("width", function(d){
-			return widthScale(d.properties.MetricTons);
-		})
-		.attr("fill","gray")
-		.attr("stroke", "white")
-		.attr("opacity",".4")
-		.attr("height", 15);
+// otherBars.append("rect")
+// 		.attr("class","others")
+// 		.attr("x", function(d,i){
+// 			return 0;
+// 		})
+// 		.attr("y", function(d,i){
+// 			return heightScale(i)
+// 		})
+// 		.attr("width", function(d){
+// 			return widthScale(d.properties.MetricTons);
+// 		})
+// 		.attr("fill","gray")
+// 		.attr("stroke", "white")
+// 		.attr("opacity",".4")
+// 		.attr("height", 15);
 
-otherBars.append("text")
-		.attr("class", "barsText")
-		.attr("x", function(d,i){
-			return widthScale(d.properties.MetricTons)+10;
-		})
-		.attr("y", function(d,i){
-			heightScale(i);
-		})
-		.attr("fill","white")
-		.text(function(d){
-			return d.properties.port;
-		});
+// otherBars.append("text")
+// 		.attr("class", "barsText")
+// 		.attr("x", function(d,i){
+// 			return widthScale(d.properties.MetricTons)+10;
+// 		})
+// 		.attr("y", function(d,i){
+// 			heightScale(i);
+// 		})
+// 		.attr("fill","white")
+// 		.text(function(d){
+// 			return d.properties.port;
+// 		});
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -1613,7 +1677,7 @@ var moveToFront = function() {
 
 
 //Story div behavior
-d3.select("#storyContainer .nav #closeStories")
+d3.select("#closeStories")
 	.on("click", function() {
 		closeStories();
 unfadeBackground();
@@ -1858,7 +1922,7 @@ var openStories = function() {
 	d3.select("#storyContainer")
 		.transition()
 		.duration(2000)
-		.style("height", "630px");
+		.style("height", "654px");
 
 	// d3.selectAll("#prevStory, #nextStory")
 	// 	.transition()
