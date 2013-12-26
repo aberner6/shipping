@@ -819,6 +819,7 @@ console.log("maxImpvolume"+maxImp)
 	d3.selectAll('.port')
 		.on('click', click)
 		.on("mouseover", function(d) {
+			console.log(d.properties+"thisisnormalmouseoveronport")
 			updateHoverbox(d.properties, "port");
 			d3.select(this).each(moveToFront);
 		})
@@ -1700,6 +1701,7 @@ d3.selectAll(".thumb")
 		//Is this story associated with a specific port?
 		if (port) {
 			//console.log(port);
+			console.log(port+"thisistheport")
 
 			port = port.toUpperCase();
 
@@ -1707,18 +1709,17 @@ d3.selectAll(".thumb")
 			d3.selectAll(".ports .port")
 				.filter(function(d) {
 					if (d.properties.port.toUpperCase() == port) {
-						return true;
+						// return true;
+						console.log(d.properties+"thisisnormalmouseoveronport");
+						updateHoverbox(port, "port");
+						d3.select(this).each(moveToFront);
 					}
-					return false;
+					// return false;
 				})
 				.classed("selected", true)
-				.each(function(d) {
-					// tuckMapUp(d);
-				})
 				// .attr("stroke-width",20)
 				.each(moveToFront);
-			// updateHoverbox(d.properties, "port");
-			// d3.select(this).each(moveToFront);
+
 		}
 
 		//Is this story associated with a path?
