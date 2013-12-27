@@ -1,13 +1,21 @@
-var imagesArray = ["1.jpg", "2.jpg", "3.jpg"];
-						// <img id="thumb1" src="stories/0/1.jpg">
     var num = Math.floor(Math.random() * 5); // 0...6
+    if (num>0){
 document.getElementById("thumb1").src="stories/0/"+num+".jpg";
 document.getElementById("thumb2").src="stories/1/"+num+".jpg";
 document.getElementById("thumb3").src="stories/2/"+num+".jpg";
 document.getElementById("thumb4").src="stories/3/"+num+".jpg";
 document.getElementById("thumb5").src="stories/4/"+num+".jpg";
 document.getElementById("thumb6").src="stories/5/"+num+".jpg";
-
+}
+else {
+	num = 1;
+document.getElementById("thumb1").src="stories/0/"+num+".jpg";
+document.getElementById("thumb2").src="stories/1/"+num+".jpg";
+document.getElementById("thumb3").src="stories/2/"+num+".jpg";
+document.getElementById("thumb4").src="stories/3/"+num+".jpg";
+document.getElementById("thumb5").src="stories/4/"+num+".jpg";
+document.getElementById("thumb6").src="stories/5/"+num+".jpg";	
+}
 // document.getElementById("thumb1").src="stories/0/"+imagesArray[num]+".jpg";
 
 // var imagesArray = ["dog.jpg", "fox.jpg", "mouse.jpg", "alligator.jpg", "fish.jpg", "parrot.jpg", "cat.jpg"];
