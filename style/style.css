@@ -273,6 +273,8 @@ line-height: 20px;
 
 .paths path.visible {
 	fill: none;
+	stroke: #307074;
+	stroke-width: 0.75;
 }
 
 .paths path.selected {
@@ -5392,6 +5394,7 @@ blockquote .quotation-mark {
 	display:none;
 	width:1280px;
 	height:800px;
+	margin-left: 9%;
 }
 
 /* .allTotal, .oilTotal, .energyTotal, .usPorts, .foreignPorts, .usYearlyPorts{

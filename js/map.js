@@ -711,15 +711,15 @@ $('.pathFreq').click(function(){
 		$('#storyContainer').show("fast", function(){
 		})
 	// use the graticule generator to make a map background and gridlines
-	map.append("path")
-		.datum(graticule.outline)
-		.attr("class", "background")
-		.attr("d", path);
+	// map.append("path")
+	// 	.datum(graticule.outline)
+	// 	.attr("class", "background")
+	// 	.attr("d", path);
 
-	map.append("path")
-		.datum(graticule)
-		.attr("class", "graticule noclicks")
-		.attr("d", path);
+	// map.append("path")
+	// 	.datum(graticule)
+	// 	.attr("class", "graticule noclicks")
+	// 	.attr("d", path);
 
 	// append landforms from world-110m.json
 	map.append("path")
@@ -748,15 +748,14 @@ $('.pathFreq').click(function(){
 	pathGroups.append("path")
 		.attr("class", "background")
 		.attr("d", path)
-		.attr("stroke-dasharray", "0, 0.1");  //Initially, line is not visible
+		.attr("stroke-dasharray", "none");  //Initially, line is not visible
 
 	//Create visible paths
 	pathGroups.append("path")
 		.attr("class", "visible")
-		.attr("stroke","#307074")
-		.attr("opacity",1)
-		.attr("stroke-width", ".75")
 		.attr("d", path)
+		.attr("opacity",1)
+
 		// .attr("stroke-dasharray", "0, 0.1");
 		// d3.selectAll("path")
 			.attr("stroke-dasharray", "none");
