@@ -1,4 +1,19 @@
+var imagesArray = ["1.jpg", "2.jpg", "3.jpg"];
+						// <img id="thumb1" src="stories/0/1.jpg">
+    var num = Math.floor(Math.random() * 7); // 0...6
+document.getElementById("thumb1").src="stories/0/"+num+".jpg";
+// document.getElementById("thumb1").src="stories/0/"+imagesArray[num]+".jpg";
 
+// var imagesArray = ["dog.jpg", "fox.jpg", "mouse.jpg", "alligator.jpg", "fish.jpg", "parrot.jpg", "cat.jpg"];
+
+// function displayImage(){
+//     var num = Math.floor(Math.random() * 7); // 0...6
+//     document.canvas.src = imagesArray[num];
+// }
+
+        // var j = Math.floor(Math.random() * (i + 1));
+
+    // $("#heading").append(a);
 
 var animateOpening = false, //not true
 	padding = 0,
@@ -57,12 +72,6 @@ var proj = d3.geo.mercator()
 
 d3.select("#reset").on("click", resetZoom);
 
-// var scaleAll = d3.scale.linear()
-// 		.domain([0, maxMet])
-// 		.range([1, 100]);
-// var scaleExp = d3.scale.linear()
-// 		.domain([0, maxEx[]])
-// 		.range([1, 100]);
 
 var colorMap = d3.scale.linear()
 		.domain([minMet, maxMet/10]) //493829169.9 is max
@@ -118,47 +127,12 @@ console.log(s+"s is greater than orig");
 	 });
 }
 
-		// pathGroups.selectAll("path")
-		// 	.transition()
-		// 	.duration(1000)
-		// 	.attrTween("stroke-dasharray", function() {
-		// 		var l = this.getTotalLength();
-		// 		var i = d3.interpolateString("0," + l, l + "," + l);
-		// 		return function(t) {
-		// 			return i(t);
-		// 		};
-		// 	})
-		// 	.attr("stroke-dashoffset",.1);
-if (s<initialZoom+10){
-// 	resetZoom();
-// showReset = false;
-
-// }
-// if (s<initialZoom+10){ // || showReset = false
-	showReset = false;
-	console.log(s+"s less than orig");
-	// Reproject everything in the map
-	map.selectAll("path")
-		 .attr("d", path);
-
-	portGroups.attr("transform", function(d) {
-		var x = proj([d.properties.lon,d.properties.lat])[0];
-		var y = proj([d.properties.lon,d.properties.lat])[1];
-		return "translate(" + x + "," + y + ")";
-	 });
-}
-// 			pathGroups.selectAll("path")
-// 			.transition()
-// 			.duration(1000)
-// 			.attrTween("stroke-dasharray", function() {
-// 				var l = this.getTotalLength();
-// 				var i = d3.interpolateString("0," + l, l + "," + l);
-// 				return function(t) {
-// 					return i(t);
-// 				};
-// 			})
-// 			.attr("stroke-dashoffset",.1);
-// }
+// if (s<initialZoom+10){
+// 	showReset = false;
+// 	console.log(s+"s less than orig");
+// 	// Reproject everything in the map
+// 	map.selectAll("path")
+// 		 .attr("d", path);
 
 };
 
@@ -190,7 +164,7 @@ var map = svg.append("g")
 			.attr("class","map")
 			// .attr("width", width)
 			// .attr("height", height)
-			// .attr("clip-path", "url(#map-area)");
+			.attr("clip-path", "url(#map-area)");
 
 
 // load data files; pass the results to ready() when everything is finished.
@@ -647,6 +621,7 @@ eBars = false;
 
 
 		$('.toggleVolume, .volAll, .volExp, .volImp, .volFreq, .pathAll, .pathExp, .pathImp').animate().css('margin-top', '0px')
+		$('#animPaths').animate().css('margin-top', '0px')
 
 		$('#animPaths').animate().css('background-color', 'white')
 		console.log("novolume //showing ports dropdown is true")
@@ -1517,8 +1492,8 @@ var updateHoverbox = function(d, type) {
 
 	//Type is "port" or "path"
 
-	console.log(d+"d");
-	console.log(type+"type");
+	// console.log(d+"d");
+	// console.log(type+"type");
 	//Special handling for ports
 	if (type == "port") {
 
@@ -1552,7 +1527,9 @@ var updateHoverbox = function(d, type) {
 	}
 	//Special handling for paths
 	else {
-
+		// console.log(d3.mouse(svg.node())+"svgnode");
+		// console.log(xy[0]+"xy");
+		// console.log()
 		var xy = d3.mouse(svg.node());
 
 			var mapWidth = d3.select(".map").node().getBBox().width;

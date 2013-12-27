@@ -267,7 +267,7 @@ line-height: 20px;
 .paths path.background {
 	fill: none;
 	stroke: black;
-	stroke-width: 5;
+	stroke-width: 10;
 	opacity: 0.0;
 }
 
@@ -447,7 +447,15 @@ line-height: 20px;
 	line-height: 48px;
 	text-transform: uppercase;
 }
-
+#thumb1 {
+	display: inline;
+	margin: 0;
+	padding: 0;
+	width: auto;
+	max-height: 80%;
+	border: solid 5px black;
+	cursor: pointer;
+}
 #storyContainer .nav #heading .thumb {
 	display: inline;
 	margin: 0;
@@ -5378,7 +5386,7 @@ blockquote .quotation-mark {
 .specify-factor{
 	letter-spacing: 2px;
 	position: absolute;
-	left: 4px;
+	/*left: 4px;*/
 	width: 60px;
 	text-align: center;
 	/*top: 40px;*/
@@ -5404,7 +5412,7 @@ div.toggleVolume{
 	cursor:pointer;
 	letter-spacing: 2px;
 	position: absolute;
-	left: 4px;
+	/*left: 4px;*/
 	width: 60px;
 	text-align: center;
 }
