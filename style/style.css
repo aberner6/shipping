@@ -447,7 +447,7 @@ line-height: 20px;
 	line-height: 48px;
 	text-transform: uppercase;
 }
-#thumb1 {
+#thumb1, #thumb2, #thumb3, #thumb4, #thumb5, #thumb6{
 	display: inline;
 	margin: 0;
 	padding: 0;
