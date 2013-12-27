@@ -25,6 +25,15 @@
 .x.axis path {
   display: none;
 }*/
+img {
+	height:630px;
+  width: auto\9;
+  /*height: auto;*/
+  max-width: 100%;
+  vertical-align: middle;
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+}
 #otherBars{
 	display:none;
 }
@@ -17075,8 +17084,9 @@ sub {
 }
 
 img {
+	height:630px;
   width: auto\9;
-  height: auto;
+  /*height: auto;*/
   max-width: 100%;
   vertical-align: middle;
   border: 0;
