@@ -29,7 +29,7 @@ document.getElementById("thumb6").src="stories/5/"+num+".jpg";
 
     // $("#heading").append(a);
 
-var animateOpening = false, //not true
+var animateOpening = true, //not true
 	padding = 0,
 	// width = 960 - padding,
 	// height = 500 - padding - 75,
@@ -745,12 +745,34 @@ $('.pathFreq').click(function(){
 	pathGroups.append("path")
 		.attr("class", "visible")
 		.attr("d", path)
-		.attr("opacity",1)
-	.attr("stroke", "#307074")
+		.attr("opacity",0)
+		.attr("stroke", "#307074")
+		.attr("stroke-dasharray", "none");
 
-		// .attr("stroke-dasharray", "0, 0.1");
-		// d3.selectAll("path")
-			.attr("stroke-dasharray", "none");
+	if (animateOpening) {
+
+		pathGroups.selectAll("path")
+			.transition()
+			.delay(introDelay4)
+			.duration(5000)
+		.attr("opacity",1)
+
+	} else {
+
+		d3.selectAll("path")
+			.attr("opacity",1);
+			// .attr("stroke-dasharray", "none");
+
+	}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -807,13 +829,41 @@ console.log("maxImpvolume"+maxImp)
 			// .remove();
 		});
 	// In each group, add a circle
+	if (animateOpening) {
 
+		portGroups.append("circle")
+			.attr("class", "point")
+			.attr("cx", 0)
+			.attr("cy", 0)
+			.attr("r", 0.01)
+			.transition()
+			.duration(500)
+			.delay(function(d, i) {
+				return introDelay2 + i * 3;
+			})
+			.attr("r", radiusSmall)
+			.attr("opacity", portOnOpacity);
+
+	} else {
 		portGroups.append("circle")
 			.attr("class", "point")
 			.attr("cx", 0)
 			.attr("cy", 0)
 			.attr("r", radiusSmall)
 			.attr("opacity", portOnOpacity);
+		// portGroups.append("circle")
+		// 	.attr("class", "point")
+		// 	.attr("cx", 0)
+		// 	.attr("cy", 0)
+		// 	.attr("r", function(d) {
+		// 		if (d.properties.scalerank == 1) {
+		// 			return 7;
+		// 		}
+		// 		return 1.5;
+		// 	});
+	
+	}
+
 
 
 

@@ -225,14 +225,15 @@ line-height: 20px;
 .intro .button {
 	display: inline-block;
 	padding: 15px;
-	color: #FFF000;
-	/*font-weight: bold;*/
+	color: #ff2000;
+	font-size: 24px;
+	font-weight: bold;
 	/*background-color: #67CD00;*/
 }
 
 .intro .button:hover {
-	color: #67CD00; 
-	background-color: #FFF000;
+	color: #ff2000;
+	background-color: lightgrey;
 }
 
 
@@ -680,8 +681,8 @@ background-color: rgba(233, 233, 233, 0.64);
 .button:hover {
   text-decoration: none;
 }
-.button.green {
-  color: #19862b;
+.button.orange {
+	color: #ff2000;
 }
 .button.italic {
   border: 1px #c0c0c0 solid;
