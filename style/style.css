@@ -282,7 +282,7 @@ line-height: 20px;
 
 .paths path.visible {
 	fill: none;
-	stroke: #307074;
+	/*stroke: #307074;*/
 	stroke-width: 0.75;
 }
 
@@ -303,8 +303,6 @@ line-height: 20px;
 /* Ports */
 
 .port circle {
-	fill: grey;
-	stroke:white;
 	stroke-width:.25px;
 	stroke-opacity:0;
 	fill-opacity: 0.5;
@@ -465,6 +463,13 @@ line-height: 20px;
 	border: solid 5px black;
 	cursor: pointer;
 }
+#thumb1:hover, #thumb2:hover, #thumb3:hover, #thumb4:hover, #thumb5:hover, #thumb6:hover {
+	border: solid 2px #ff2000;
+}
+/*#thumb1, #thumb2, #thumb3, #thumb4, #thumb5, #thumb6.selected{
+	border: solid 2px #ff2000;
+}*/
+
 #storyContainer .nav #heading .thumb {
 	display: inline;
 	margin: 0;
@@ -475,13 +480,13 @@ line-height: 20px;
 	cursor: pointer;
 }
 
-#storyContainer .nav #heading .thumb:hover {
+/*#storyContainer .nav #heading .thumb:hover {
 	border: solid 2px #ff2000;
-}
+}*/
 
-#storyContainer .nav #heading .thumb.selected {
+/*#storyContainer .nav #heading .thumb.selected {
 	border: solid 2px #ff2000;
-}
+}*/
 
 #storyContainer .nav #prevStory,
 #storyContainer .nav #nextStory {

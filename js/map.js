@@ -46,7 +46,7 @@ var animateOpening = false, //not true
 	hoverBoxPortScaleMax = 500000000,
 	hoverBoxPathScaleMax = 120000000,
 	portGroups,	//Needs to be global
-	pathGroups,
+	// pathGroups,
 	storiesOpen = false,
 	aboutOpen = false,
 	introTextLength = 7000,
@@ -638,7 +638,7 @@ eBars = false;
 		$('#animPaths').animate().css('margin-top', '0px')
 
 		$('#animPaths').animate().css('background-color', 'white')
-		console.log("novolume //showing ports dropdown is true")
+		console.log("showing paths dropdown is true")
 		// $('.pathAll, .pathExp, .pathImp, .pathFreq').animate().css('margin-top', '117px')
 		
 		$('.pathAll, .pathExp, .pathImp, .pathFreq').slideDown("fast", function(){
@@ -648,12 +648,13 @@ eBars = false;
 			.attr("class", "newclass")
 			.transition()
 			.duration(500)
+			// .attr("fill", "grey")
 			// .attr("r", radiusSmall)
 			.attr("opacity", ".2");
 	}
 	if (pathAll && noVolume){
 		$('#animPaths').animate().css('background-color', 'white')
-		console.log("novolume is false")
+		console.log("portsvolume is true")
  		showPaths();
  		unOpAllVolumes();	
  		$('#animPaths, .pathAll, .pathExp, .pathImp, .pathFreq').animate().css('margin-top', '117px')	
@@ -662,7 +663,7 @@ eBars = false;
 	}
 
 	else if (!pathAll){
-		console.log("else in animPaths")
+		console.log("ports volumes is false.")
 		$('#animPaths').animate().css('background-color', 'black')
 	    $('.pathAll, .pathExp, .pathImp, .pathFreq').animate().css('background-color', 'rgba(0, 0, 0, 0.3)')
  		normalizeAllVolumes(); 
@@ -679,6 +680,7 @@ $('.pathAll').click(function(){
 })
 $('.pathExp').click(function(){
 		pathExpVolumes();
+		console.log("clicked exports paths")
 		$(this).animate().css('background-color', 'white')
 			$('.pathAll, .pathImp, .pathFreq').animate().css('background-color', 'rgba(0, 0, 0, 0.3)')
 })
@@ -718,7 +720,7 @@ $('.pathFreq').click(function(){
 
 	//Shipping Paths
 
-	pathGroups = map.append("g")
+	var pathGroups = map.append("g")
 	 // pathGroups = map.append("g")
 		.attr("class", "paths")
 		.selectAll("g")
@@ -744,6 +746,7 @@ $('.pathFreq').click(function(){
 		.attr("class", "visible")
 		.attr("d", path)
 		.attr("opacity",1)
+	.attr("stroke", "#307074")
 
 		// .attr("stroke-dasharray", "0, 0.1");
 		// d3.selectAll("path")
@@ -764,6 +767,9 @@ $('.pathFreq').click(function(){
 		.classed("clickable", function(d) {
 				return true;
 		})
+		.attr("fill", "gray")
+		.attr("stroke", "white")
+
 		.attr("transform", function(d) {
 		var x = proj([d.properties.lon,d.properties.lat])[0];
 		var y = proj([d.properties.lon,d.properties.lat])[1];
@@ -1692,7 +1698,7 @@ unfadeBackground();
 	});
 
 
-d3.selectAll(".thumb")
+d3.selectAll("#thumb1, #thumb2, #thumb3, #thumb4, #thumb5, #thumb6")
 	.on("mouseover", function(d,i){
 		//Unhighlight all paths and ports
 		d3.selectAll("path.selected").classed("selected", false);
@@ -1719,6 +1725,18 @@ d3.selectAll(".thumb")
 						console.log(d.properties+"thisisinsidethumbmouseoveronport");
 						updateHoverbox(d.properties, "port");
 						d3.select(this).each(moveToFront);
+						// d3.select('.ports .port').transition.attr("r", 100);
+
+d3.select(this).select("circle")
+			.transition()
+			.duration(500)
+			.attr("r", 12)
+			.style("fill","#ff2000");
+
+			// .attr("opacity", portOnOpacity);
+
+
+
 					}
 					// return false;
 				})
@@ -1767,6 +1785,15 @@ d3.selectAll(".thumb")
 
 					updateHoverbox(d.properties, "port");
 					d3.select(this).each(moveToFront);
+
+
+		d3.select(this).select("circle")
+			.transition()
+			.duration(500)
+			.attr("r", 12)
+			.style("fill","#ff2000");
+
+
 					}
 				})
 				.each(moveToFront);
@@ -1782,14 +1809,20 @@ d3.selectAll(".thumb")
 	d3.selectAll(".port.selected").classed("selected", false);
 	hideHoverbox();
 
+			d3.selectAll("circle")
+			.transition()
+			.duration(500)
+			.attr("r", radiusSmall)
+			.attr("stroke", "none");
+
 });
 
 
 
 
 
-
-d3.selectAll(".thumb")
+d3.selectAll("#thumb1, #thumb2, #thumb3, #thumb4, #thumb5, #thumb6")
+// d3.selectAll(".thumb")
 	.on("click", function(d, i) {
 fadeBackground();
 		// stopVideos();
@@ -1808,72 +1841,6 @@ fadeBackground();
 		//Unhighlight all paths and ports
 		d3.selectAll("path.selected").classed("selected", false);
 		d3.selectAll(".port.selected").classed("selected", false);
-
-		//Get associated data
-		// var source = d3.selectAll(".story")[0][i + 1];
-		// var start = source.getAttribute("data-start-port");
-		// var end = source.getAttribute("data-end-port");
-		// var port = source.getAttribute("data-port");
-
-		// //Is this story associated with a specific port?
-		// if (port) {
-		// 	//console.log(port);
-
-		// 	port = port.toUpperCase();
-
-		// 	//Highlight associated port
-		// 	d3.selectAll(".ports .port")
-		// 		.filter(function(d) {
-		// 			if (d.properties.port.toUpperCase() == port) {
-		// 				return true;
-		// 			}
-		// 			return false;
-		// 		})
-		// 		.classed("selected", true)
-		// 		.each(function(d) {
-		// 			tuckMapUp(d);
-		// 		})
-		// 		.each(moveToFront);
-		// }
-
-		// //Is this story associated with a path?
-		// else {
-		// 	//console.log(start + ", " + end);
-
-		// 	start = start.toUpperCase();
-		// 	end = end.toUpperCase();
-
-		// 	//Highlight associated path
-		// 	d3.selectAll(".paths path")
-		// 		.filter(function(d) {
-		// 			//console.log(d);
-		// 			if (d.properties.USPt.toUpperCase() == start &&
-		// 				d.properties.FgnPort.toUpperCase() == end) {
-		// 				return true;
-		// 			}
-		// 			return false;
-		// 		})
-		// 		.classed("selected", true)
-		// 		.each(moveToFront);
-
-		// 	//Highlight associated port(s)
-		// 	d3.selectAll(".ports .port")
-		// 		.filter(function(d) {
-		// 			if (d.properties.port.toUpperCase() == start ||
-		// 				d.properties.port.toUpperCase() == end) {
-		// 				return true;
-		// 			}
-		// 			return false;
-		// 		})
-		// 		.classed("selected", true)
-		// 		.each(function(d) {
-		// 			if (d.properties.port.toUpperCase() == start) {
-		// 				tuckMapUp(d);
-		// 			}
-		// 		})
-		// 		.each(moveToFront);
-
-		// }	
 
 		//Update thumbs' selected status
 		d3.selectAll(".thumb.selected").classed("selected", false);
