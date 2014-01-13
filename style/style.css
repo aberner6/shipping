@@ -305,16 +305,22 @@ line-height: 20px;
 
 .port circle {
 	stroke-width:.25px;
-	stroke-opacity:0;
+	stroke-opacity:.2;
 	fill-opacity: 0.5;
 }
 .port .label {
 	font-size: 20px;
 	fill: #ff2000;
 }
-.port:hover circle{
+/*.port:hover circle{
 	stroke: #ff2000;
 	stroke-width:2px;
+}*/
+.port:hover circle {
+	stroke: #ff2000;
+	opacity:1;
+	stroke-width:2px;
+
 }
 .port:hover .label{
 	opacity: 1;

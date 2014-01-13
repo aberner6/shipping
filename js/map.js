@@ -29,7 +29,7 @@ document.getElementById("thumb6").src="stories/5/"+num+".jpg";
 
     // $("#heading").append(a);
 
-var animateOpening = true, //not true
+var animateOpening = false, //not true
 	padding = 0,
 	// width = 960 - padding,
 	// height = 500 - padding - 75,
@@ -77,12 +77,12 @@ var energyBarsData = [
 		[ "Residual Fuel Oil", 	110000000 ],
 		[ "Other", 				210000000 ]
 	];
-// var proj = d3.geo.naturalEarth()
-//     .scale(initialZoom)
-//     .translate([width / 2, height / 2]);
-var proj = d3.geo.mercator()
+var proj = d3.geo.naturalEarth()
     .scale(initialZoom)
     .translate([width / 2, height / 2]);
+// var proj = d3.geo.mercator()
+//     .scale(initialZoom)
+//     .translate([width / 2, height / 2]);
 
 d3.select("#reset").on("click", resetZoom);
 
@@ -1685,10 +1685,13 @@ var imIs = 	10;
 			}
 		}
 		if (d.MetricTons>1000000){
-			totalText += makeNormal(d.MetricTons)+"mil";
+			totalText += makeNormal(d.MetricTons)+" Million Metric Tons";
 		}
-		else {
-			totalText += makeNormal(d.MetricTons)+"k";			
+		if (d.MetricTons<1000){
+			totalText+= d.MetricTons+" Metric Tons"
+		}
+		else if (d.MetricTons>1000&&d.MetricTons<1000000) {
+			totalText += makeNormal(d.MetricTons)+" Thousand Metric Tons";			
 		}
 		////////////////////////////////////////////
 
