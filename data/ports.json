@@ -1605,9 +1605,9 @@
     {
       "properties": {
         "port": "Caucedo",
-        "lon": -69.59856414794922,
+        "lon": -69.98,
         "freq": 5947,
-        "lat": 18.394193649291992
+        "lat": 18.5
       },
       "type": "Feature"
     },

@@ -1163,7 +1163,7 @@ svg.append("g")
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-  // $('.others').tipsy({ 
+  // $('.paths path.visible').tipsy({ 
   //       gravity: 'nw', 
   //       html: true, 
   //       title: function() {
