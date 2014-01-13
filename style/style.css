@@ -283,6 +283,7 @@ line-height: 20px;
 
 .paths path.visible {
 	fill: none;
+
 	/*stroke: #307074;*/
 	stroke-width: 0.75;
 }
@@ -328,8 +329,9 @@ line-height: 20px;
 }
 .port.selected circle {
 	fill: #ff2000;
+	stroke-opacity:.5;
 	stroke: #ff2000;
-	stroke-width: 8px;
+	stroke-width: 12px;
 }
 
 
@@ -705,8 +707,8 @@ background-color: rgba(233, 233, 233, 0.64);
   color: gray;
   padding: 5px 15px;
 margin-left: 2%;
-opacity: .7;
-	background-color: rgba(0, 0, 0, 0.3);
+opacity: 1;
+	background-color: rgba(0, 0, 0, 1);
 }
 
 .button.icon.left {
@@ -1672,8 +1674,8 @@ span {
   color: gray;
   padding: 5px 15px;
 margin-left: 2%;
-opacity: .7;
-	background-color: rgba(0, 0, 0, 0.3);
+opacity: 1;
+	background-color: rgba(0, 0, 0, 1);
 }
 
 .button.icon.left {

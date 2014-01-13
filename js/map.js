@@ -1290,7 +1290,7 @@ function numberWithCommas(x) {
 	hoverbox = svg.append("g")
 		.attr("id", "hoverbox")
 		.attr("class", "hidden")
-		.attr("transform", "translate(0,0)");
+		.attr("transform", "translate(4,4)");
 
 	hoverbox.append("rect")
 		.attr("class", "background")
@@ -1774,30 +1774,20 @@ d3.selectAll("#thumb1, #thumb2, #thumb3, #thumb4, #thumb5, #thumb6")
 			d3.selectAll(".ports .port")
 				.filter(function(d) {
 					if (d.properties.port.toUpperCase() == port) {
-						// return true;
-						console.log(d.properties+"thisisinsidethumbmouseoveronport");
-						updateHoverbox(d.properties, "port");
-						d3.select(this).each(moveToFront);
-						// d3.select('.ports .port').transition.attr("r", 100);
-
-d3.select(this).select("circle")
-			.transition()
-			.duration(500)
-			.attr("r", 12)
-			.style("fill","#ff2000");
-
-			// .attr("opacity", portOnOpacity);
-
-
-
+						return true;						
 					}
-					// return false;
+					return false;
 				})
 				.classed("selected", true)
 				// .attr("stroke-width",20)
+				.each(function(d){
+					if (d.properties.port.toUpperCase()==port){
+					updateHoverbox(d.properties, "port");
+					d3.select(this).each(moveToFront);
+					}
+				})
 				.each(moveToFront);
-
-		}
+				}
 
 		//Is this story associated with a path?
 		else {
@@ -1817,6 +1807,30 @@ d3.select(this).select("circle")
 					return false;
 				})
 				.classed("selected", true)
+
+
+
+
+
+
+				.each(function(d){
+					if (d.properties.USPt.toUpperCase() == start &&
+						d.properties.FgnPort.toUpperCase() == end){ 
+              	d3.select(this).each(moveToFront);
+                d3.select(this).select("path")
+                        .transition()
+                        .duration(500)
+                        .style("stroke","#ff2000");
+                    }
+				})
+
+
+
+
+
+
+
+
 				.each(moveToFront);
 
 			//Highlight associated port(s)
@@ -1831,22 +1845,9 @@ d3.select(this).select("circle")
 				.classed("selected", true)
 				.each(function(d) {
 					if (d.properties.port.toUpperCase() == start) {
-						// tuckMapUp(d);
-
-
-
-
 					updateHoverbox(d.properties, "port");
+					console.log(d.properties+"thisisd.propertiesinsidehighlighting")
 					d3.select(this).each(moveToFront);
-
-
-		d3.select(this).select("circle")
-			.transition()
-			.duration(500)
-			.attr("r", 12)
-			.style("fill","#ff2000");
-
-
 					}
 				})
 				.each(moveToFront);
@@ -1866,6 +1867,7 @@ d3.select(this).select("circle")
 			.transition()
 			.duration(500)
 			.attr("r", radiusSmall)
+			.style("fill","gray")
 			.attr("stroke", "none");
 
 });
