@@ -185,7 +185,7 @@ var map = svg.append("g")
 queue()
 	.defer(d3.json, "data/world-110m.json")
 	.defer(d3.json, "data/ports.json")
-	.defer(d3.json, "data/paths.json")
+	.defer(d3.json, "data/updated_paths.json")
 	.defer(d3.tsv, "data/ports_data.tsv")
 	.defer(d3.tsv, "data/paths_data.tsv")
 	.await(ready);
