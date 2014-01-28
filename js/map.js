@@ -77,12 +77,12 @@ var energyBarsData = [
 		[ "Residual Fuel Oil", 	110000000 ],
 		[ "Other", 				210000000 ]
 	];
-var proj = d3.geo.naturalEarth()
-    .scale(initialZoom)
-    .translate([width / 2, height / 2]);
-// var proj = d3.geo.mercator()
+// var proj = d3.geo.naturalEarth()
 //     .scale(initialZoom)
 //     .translate([width / 2, height / 2]);
+var proj = d3.geo.mercator()
+    .scale(initialZoom)
+    .translate([width / 2, height / 2]);
 
 d3.select("#reset").on("click", resetZoom);
 
@@ -185,7 +185,7 @@ var map = svg.append("g")
 queue()
 	.defer(d3.json, "data/world-110m.json")
 	.defer(d3.json, "data/ports.json")
-	.defer(d3.json, "data/updated_paths.json")
+	.defer(d3.json, "data/pathsOld.json")
 	.defer(d3.tsv, "data/ports_data.tsv")
 	.defer(d3.tsv, "data/paths_data.tsv")
 	.await(ready);
@@ -233,33 +233,39 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 	//Paths
 
 	//console.log(paths);
-	//console.log(paths_data);
+	// console.log(paths_data);
 
 	//Loop through once for each path
 	for (i = 0; i < paths.features.length; i++) {
 
+// console.log(paths.features[i].properties.start.toUpperCase()+"PATHS.JSON");
 		nameAStart = paths.features[i].properties.start.toUpperCase();
 		nameAEnd = paths.features[i].properties.end.toUpperCase();
+// console.log (nameAStart+"nameAStart");
+										console.log(paths.features[5].properties.USPt+"paths above loop");
 
 		//Look for this path's info in paths_data
 		for (j = 0; j < paths_data.length; j++) {
-
+// console.log(paths_data[j].USPt.toUpperCase()+"PATHS_DATA");
 			nameBStart = paths_data[j].USPt.toUpperCase();
 			nameBEnd = paths_data[j].FgnPort.toUpperCase();
-
+// console.log(nameBStart+"nameBStart");
 			//If this is a match…
 			if (nameAStart == nameBStart && nameAEnd == nameBEnd) {
 
-				paths.features[i].properties.USPt			= paths_data[j].USPt;
-				paths.features[i].properties.FgnPort		= paths_data[j].FgnPort;
+				paths.features[i].properties.USPt			= paths_data[j].USPt.toUpperCase();
+				paths.features[i].properties.FgnPort		= paths_data[j].FgnPort.toUpperCase();
 				paths.features[i].properties.MetricTons		= parseFloat(paths_data[j].MetricTons);
 				paths.features[i].properties.ImportMetTons	= parseFloat(paths_data[j].ImportMetTons);
 				paths.features[i].properties.ExportMetTons	= parseFloat(paths_data[j].ExportMetTons);
 			}
 
 		}
+										console.log(paths.features[5].properties.USPt+"paths below ");
+
 
 	}
+
 
 
 var eBars = false;
@@ -728,6 +734,7 @@ $('.pathFreq').click(function(){
 		.enter()
 		.append("g")
 		.on("mouseover", function(d) {
+			console.log(d.properties+"d.properties of pathgroups");
 			updateHoverbox(d.properties, "path");
 			d3.select(this).each(moveToFront);
 		})
@@ -1562,8 +1569,10 @@ var updateHoverbox = function(d, type) {
 
 	//Type is "port" or "path"
 
-	// console.log(d+"d");
-	// console.log(type+"type");
+	console.log(d+"updateHoverbox with d");
+	console.log(type+"updatehoverbox with type");
+	console.log(d.USPt+"d.USPt INSIDE general HOVERBOX");
+
 	//Special handling for ports
 	if (type == "port") {
 
@@ -1614,6 +1623,7 @@ var updateHoverbox = function(d, type) {
 
 
 		// hoverbox.attr("transform", "translate(" + xy[0] + "," + xy[1] + ")");
+			console.log(d.USPt+"d.USPt INSIDE else HOVERBOX");
 
 		hoverbox.select(".title").text("Route: "+d.USPt + " ↔ " + d.FgnPort);
 
@@ -1766,7 +1776,7 @@ d3.selectAll("#thumb1, #thumb2, #thumb3, #thumb4, #thumb5, #thumb6")
 		//Is this story associated with a specific port?
 		if (port) {
 			//console.log(port);
-			console.log(port+"thisistheport")
+			// console.log(port+"thisistheport")
 
 			port = port.toUpperCase();
 
@@ -1846,7 +1856,7 @@ d3.selectAll("#thumb1, #thumb2, #thumb3, #thumb4, #thumb5, #thumb6")
 				.each(function(d) {
 					if (d.properties.port.toUpperCase() == start) {
 					updateHoverbox(d.properties, "port");
-					console.log(d.properties+"thisisd.propertiesinsidehighlighting")
+					// console.log(d.properties+"thisisd.propertiesinsidehighlighting")
 					d3.select(this).each(moveToFront);
 					}
 				})
