@@ -82,12 +82,12 @@ var energyBarsData = [
 		[ "Residual Fuel Oil", 	110000000 ],
 		[ "Other", 				210000000 ]
 	];
-// var proj = d3.geo.naturalEarth()
-//     .scale(initialZoom)
-//     .translate([width / 2, height / 2]);
-var proj = d3.geo.mercator()
+var proj = d3.geo.naturalEarth()
     .scale(initialZoom)
     .translate([width / 2, height / 2]);
+// var proj = d3.geo.mercator()
+//     .scale(initialZoom)
+//     .translate([width / 2, height / 2]);
 
 d3.select("#reset").on("click", resetZoom);
 
@@ -192,7 +192,8 @@ queue()
 	.defer(d3.json, "data/ports.json")
 	.defer(d3.json, "data/updated_paths.json")
 	.defer(d3.tsv, "data/ports_data.tsv")
-	.defer(d3.tsv, "data/paths_data.tsv")
+	.defer(d3.csv, "data/updated_paths_data.csv")
+	// .defer(d3.tsv, "data/paths_data.tsv")
 	.await(ready);
 
 
@@ -260,7 +261,7 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 	console.log(paths_data);
 
 	for (j = 0; j < paths_data.length; j++) {
-		
+
 			nameBStart = paths_data[j].USPt.toUpperCase();
 			nameBEnd = paths_data[j].FgnPort.toUpperCase();
 	//Loop through once for each path
@@ -280,8 +281,8 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 				// paths.features[i].properties.USPt			= paths.features[i].properties.USPt;
 				// paths.features[i].properties.FgnPort		= paths.features[i].properties.FgnPort;
 
-				paths.features[i].properties.USPt			= paths_data[j].USPt.toUpperCase();
-				paths.features[i].properties.FgnPort		= paths_data[j].FgnPort.toUpperCase();
+				paths.features[i].properties.USPt			= paths_data[j].USPt;
+				paths.features[i].properties.FgnPort		= paths_data[j].FgnPort;
 				paths.features[i].properties.MetricTons		= parseFloat(paths_data[j].MetricTons);
 				paths.features[i].properties.ImportMetTons	= parseFloat(paths_data[j].ImportMetTons);
 				paths.features[i].properties.ExportMetTons	= parseFloat(paths_data[j].ExportMetTons);
