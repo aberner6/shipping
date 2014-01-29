@@ -231,13 +231,36 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 		}
 
 	}
+//IDEA
 
+
+		// nameAEnd = paths.features[i].properties.start.toUpperCase();
+		// nameAStart = paths.features[i].properties.end.toUpperCase();
+		// nameAStart = paths.features[i].properties.start.toUpperCase();
+		// nameAEnd = paths.features[i].properties.end.toUpperCase();
+
+		//Look for this path's info in paths_data
+		// for (j = 0; j < paths_data.length; j++) {
+
+		// 	nameBStart = paths_data[j].USPt.toUpperCase();
+		// 	nameBEnd = paths_data[j].FgnPort.toUpperCase();
+
+		// 	//If this is a match…
+		// 	if (nameAStart == nameBStart && nameAEnd == nameBEnd) {
+
+		// 		paths.features[i].properties.USPt			= paths_data[j].USPt;
+		// 		paths.features[i].properties.FgnPort		= paths_data[j].FgnPort;
+		// 		paths.features[i].properties.MetricTons		= parseFloat(paths_data[j].MetricTons);
+		// 		paths.features[i].properties.ImportMetTons	= parseFloat(paths_data[j].ImportMetTons);
+		// 		paths.features[i].properties.ExportMetTons	= parseFloat(paths_data[j].ExportMetTons);
+//IDEA
 	//Paths
 
 	console.log(paths);
 	console.log(paths_data);
 
 	for (j = 0; j < paths_data.length; j++) {
+		
 			nameBStart = paths_data[j].USPt.toUpperCase();
 			nameBEnd = paths_data[j].FgnPort.toUpperCase();
 	//Loop through once for each path
@@ -245,8 +268,10 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 
 	for (i = 0; i < paths.features.length; i++) {
 
-		nameAStart = paths.features[i].properties.start.toUpperCase();
-		nameAEnd = paths.features[i].properties.end.toUpperCase();
+		nameAEnd = paths.features[i].properties.start.toUpperCase();
+		nameAStart = paths.features[i].properties.end.toUpperCase();
+		// nameAStart = paths.features[i].properties.start.toUpperCase();
+		// nameAEnd = paths.features[i].properties.end.toUpperCase();
 
 // console.log(nameAStart);
 			//If this is a match…
