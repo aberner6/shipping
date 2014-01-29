@@ -1,34 +1,3 @@
-    var num = Math.floor(Math.random() * 5); // 0...6
-    if (num>0){
-document.getElementById("thumb1").src="stories/0/"+num+".jpg";
-document.getElementById("thumb2").src="stories/1/"+num+".jpg";
-document.getElementById("thumb3").src="stories/2/"+num+".jpg";
-document.getElementById("thumb4").src="stories/3/"+num+".jpg";
-document.getElementById("thumb5").src="stories/4/"+num+".jpg";
-document.getElementById("thumb6").src="stories/5/"+num+".jpg";
-}
-else {
-	num = 1;
-document.getElementById("thumb1").src="stories/0/"+num+".jpg";
-document.getElementById("thumb2").src="stories/1/"+num+".jpg";
-document.getElementById("thumb3").src="stories/2/"+num+".jpg";
-document.getElementById("thumb4").src="stories/3/"+num+".jpg";
-document.getElementById("thumb5").src="stories/4/"+num+".jpg";
-document.getElementById("thumb6").src="stories/5/"+num+".jpg";	
-}
-// document.getElementById("thumb1").src="stories/0/"+imagesArray[num]+".jpg";
-
-// var imagesArray = ["dog.jpg", "fox.jpg", "mouse.jpg", "alligator.jpg", "fish.jpg", "parrot.jpg", "cat.jpg"];
-
-// function displayImage(){
-//     var num = Math.floor(Math.random() * 7); // 0...6
-//     document.canvas.src = imagesArray[num];
-// }
-
-        // var j = Math.floor(Math.random() * (i + 1));
-
-    // $("#heading").append(a);
-
 var animateOpening = false, //not true
 	padding = 0,
 	// width = 960 - padding,
@@ -66,6 +35,42 @@ var animateOpening = false, //not true
 	margin = {top: 20, right: 30, bottom: 30, left: 40},
 	widthChart = 960- margin.left - margin.right,
 	heightChart = 500- margin.top - margin.bottom;
+
+
+
+
+var num = Math.floor(Math.random() * 5); // 0...6
+    if (num>0){
+document.getElementById("thumb1").src="stories/0/"+num+".jpg";
+document.getElementById("thumb2").src="stories/1/"+num+".jpg";
+document.getElementById("thumb3").src="stories/2/"+num+".jpg";
+document.getElementById("thumb4").src="stories/3/"+num+".jpg";
+document.getElementById("thumb5").src="stories/4/"+num+".jpg";
+document.getElementById("thumb6").src="stories/5/"+num+".jpg";
+}
+else {
+	num = 1;
+document.getElementById("thumb1").src="stories/0/"+num+".jpg";
+document.getElementById("thumb2").src="stories/1/"+num+".jpg";
+document.getElementById("thumb3").src="stories/2/"+num+".jpg";
+document.getElementById("thumb4").src="stories/3/"+num+".jpg";
+document.getElementById("thumb5").src="stories/4/"+num+".jpg";
+document.getElementById("thumb6").src="stories/5/"+num+".jpg";	
+}
+// document.getElementById("thumb1").src="stories/0/"+imagesArray[num]+".jpg";
+
+// var imagesArray = ["dog.jpg", "fox.jpg", "mouse.jpg", "alligator.jpg", "fish.jpg", "parrot.jpg", "cat.jpg"];
+
+// function displayImage(){
+//     var num = Math.floor(Math.random() * 7); // 0...6
+//     document.canvas.src = imagesArray[num];
+// }
+
+        // var j = Math.floor(Math.random() * (i + 1));
+
+    // $("#heading").append(a);
+
+
 
 var formatThousands = d3.format(",");
 
@@ -185,7 +190,7 @@ var map = svg.append("g")
 queue()
 	.defer(d3.json, "data/world-110m.json")
 	.defer(d3.json, "data/ports.json")
-	.defer(d3.json, "data/pathsOld.json")
+	.defer(d3.json, "data/updated_paths.json")
 	.defer(d3.tsv, "data/ports_data.tsv")
 	.defer(d3.tsv, "data/paths_data.tsv")
 	.await(ready);
@@ -227,31 +232,28 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 
 	}
 
-
-
-
 	//Paths
 
-	//console.log(paths);
-	// console.log(paths_data);
+	console.log(paths);
+	console.log(paths_data);
 
-	//Loop through once for each path
-	for (i = 0; i < paths.features.length; i++) {
-
-// console.log(paths.features[i].properties.start.toUpperCase()+"PATHS.JSON");
-		nameAStart = paths.features[i].properties.start.toUpperCase();
-		nameAEnd = paths.features[i].properties.end.toUpperCase();
-// console.log (nameAStart+"nameAStart");
-										console.log(paths.features[5].properties.USPt+"paths above loop");
-
-		//Look for this path's info in paths_data
-		for (j = 0; j < paths_data.length; j++) {
-// console.log(paths_data[j].USPt.toUpperCase()+"PATHS_DATA");
+	for (j = 0; j < paths_data.length; j++) {
 			nameBStart = paths_data[j].USPt.toUpperCase();
 			nameBEnd = paths_data[j].FgnPort.toUpperCase();
-// console.log(nameBStart+"nameBStart");
+	//Loop through once for each path
+	// console.log(nameBStart);
+
+	for (i = 0; i < paths.features.length; i++) {
+
+		nameAStart = paths.features[i].properties.start.toUpperCase();
+		nameAEnd = paths.features[i].properties.end.toUpperCase();
+
+// console.log(nameAStart);
 			//If this is a match…
 			if (nameAStart == nameBStart && nameAEnd == nameBEnd) {
+				console.log("yes");
+				// paths.features[i].properties.USPt			= paths.features[i].properties.USPt;
+				// paths.features[i].properties.FgnPort		= paths.features[i].properties.FgnPort;
 
 				paths.features[i].properties.USPt			= paths_data[j].USPt.toUpperCase();
 				paths.features[i].properties.FgnPort		= paths_data[j].FgnPort.toUpperCase();
@@ -261,10 +263,53 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 			}
 
 		}
-										console.log(paths.features[5].properties.USPt+"paths below ");
-
 
 	}
+	// console.log(nameAStart+"nameAStart");
+	// console.log(nameBStart+"nameBStart");
+	// console.log(nameAEnd+"nameAEnd");
+	// console.log(nameBEnd+"nameBEnd");
+
+
+// 	//Paths
+
+// 	console.log(paths);
+// 	console.log(paths_data);
+
+// 	//Loop through once for each path
+// 	for (i = 0; i < paths.features.length; i++) {
+
+// // console.log(paths.features[i].properties.start.toUpperCase()+"PATHS.JSON");
+// 		nameAStart = paths.features[i].properties.start.toUpperCase();
+// 		nameAEnd = paths.features[i].properties.end.toUpperCase();
+// // console.log (nameAStart+"nameAStart");
+// // console.log(paths.features[5].properties.USPt+"paths above loop");
+
+// 		//Look for this path's info in paths_data
+// 		for (j = 0; j < paths_data.length; j++) {
+// // console.log(paths_data[j].USPt.toUpperCase()+"PATHS_DATA");
+// 			nameBStart = paths_data[j].USPt.toUpperCase();
+// 			nameBEnd = paths_data[j].FgnPort.toUpperCase();
+// 			//If this is a match…
+// 			if (nameAStart == nameBStart && nameAEnd == nameBEnd) {
+// 				console.log("yes");
+// 				// paths.features[i].properties.USPt			= paths.features[i].properties.USPt;
+// 				// paths.features[i].properties.FgnPort		= paths.features[i].properties.FgnPort;
+
+// 				paths.features[i].properties.USPt			= paths_data[j].USPt.toUpperCase();
+// 				paths.features[i].properties.FgnPort		= paths_data[j].FgnPort.toUpperCase();
+// 				paths.features[i].properties.MetricTons		= parseFloat(paths_data[j].MetricTons);
+// 				paths.features[i].properties.ImportMetTons	= parseFloat(paths_data[j].ImportMetTons);
+// 				paths.features[i].properties.ExportMetTons	= parseFloat(paths_data[j].ExportMetTons);
+// 			}
+
+// 		}
+// 		// console.log(nameBStart+"nameBStart");
+
+// 										// console.log(nameAStart+"nameAStart below");
+
+
+// 	}
 
 
 
