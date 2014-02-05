@@ -30,7 +30,7 @@ var animateOpening = true, //not true
 	introDelay7 = 36500,
 	maxMet = 493829170,
 	minMet = 0,
-	radiusSmall = 3,
+	radiusSmall = 2,
 	radiusTiny = 1,
 	radiusLarge = 30,
 	portOnOpacity = .7,
@@ -718,6 +718,7 @@ eBars = false;
 
 	else if (!pathAll){
 		console.log("ports volumes is false.")
+							$('.volAll, .volImp, .volExp, .volFreq').animate().css('background-color', 'black')
 		$('#animPaths').animate().css('background-color', 'black')
 	    $('.pathAll, .pathExp, .pathImp, .pathFreq').animate().css('background-color', 'black')
  		normalizeAllVolumes(); 
