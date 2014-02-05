@@ -1,8 +1,10 @@
-var animateOpening = false, //not true
+
+// $('.vim').hide();
+
+var animateOpening = true, //not true
+			readyForPorts = false,
+			readyForPaths = false,
 	padding = 0,
-	// width = 960 - padding,
-	// height = 500 - padding - 75,
-	// width = window.innerWidth - padding,
 	width = window.outerWidth - padding,
 	height = window.innerHeight - padding-200,
 	centered,     // centered variable holds zoom state
@@ -20,12 +22,12 @@ var animateOpening = false, //not true
 	aboutOpen = false,
 	introTextLength = 7000,
 	introDelay1 = 0,
-	introDelay2 = 7000,
-	introDelay3 = 10000,
-	introDelay4 = 16500,
-	introDelay5 = 20500,
-	introDelay6 = 27500,
-	introDelay7 = 29500,
+	introDelay2 = 14000,
+	introDelay3 = 18000,
+	introDelay4 = 23500,
+	introDelay5 = 27500,
+	introDelay6 = 36500,
+	introDelay7 = 36500,
 	maxMet = 493829170,
 	minMet = 0,
 	radiusSmall = 3,
@@ -57,19 +59,6 @@ document.getElementById("thumb4").src="stories/3/"+num+".jpg";
 document.getElementById("thumb5").src="stories/4/"+num+".jpg";
 document.getElementById("thumb6").src="stories/5/"+num+".jpg";	
 }
-// document.getElementById("thumb1").src="stories/0/"+imagesArray[num]+".jpg";
-
-// var imagesArray = ["dog.jpg", "fox.jpg", "mouse.jpg", "alligator.jpg", "fish.jpg", "parrot.jpg", "cat.jpg"];
-
-// function displayImage(){
-//     var num = Math.floor(Math.random() * 7); // 0...6
-//     document.canvas.src = imagesArray[num];
-// }
-
-        // var j = Math.floor(Math.random() * (i + 1));
-
-    // $("#heading").append(a);
-
 
 
 var formatThousands = d3.format(",");
@@ -91,7 +80,6 @@ var proj = d3.geo.naturalEarth()
 
 d3.select("#reset").on("click", resetZoom);
 
-
 var colorMap = d3.scale.linear()
 		.domain([minMet, maxMet/10]) //493829169.9 is max
 		.range([180, 360]);
@@ -112,9 +100,6 @@ var zoom = d3.behavior.zoom()
 	.on("zoom", function(){
 		var t = d3.event.translate;
 		var s = d3.event.scale;
-
-		//console.log(t);
-		//console.log(s);
 		
 		zoomInOut(t, s);
 	})
@@ -145,13 +130,6 @@ console.log(s+"s is greater than orig");
 		return "translate(" + x + "," + y + ")";
 	 });
 }
-
-// if (s<initialZoom+10){
-// 	showReset = false;
-// 	console.log(s+"s less than orig");
-// 	// Reproject everything in the map
-// 	map.selectAll("path")
-// 		 .attr("d", path);
 
 };
 
@@ -232,33 +210,10 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 		}
 
 	}
-//IDEA
 
 
-		// nameAEnd = paths.features[i].properties.start.toUpperCase();
-		// nameAStart = paths.features[i].properties.end.toUpperCase();
-		// nameAStart = paths.features[i].properties.start.toUpperCase();
-		// nameAEnd = paths.features[i].properties.end.toUpperCase();
-
-		//Look for this path's info in paths_data
-		// for (j = 0; j < paths_data.length; j++) {
-
-		// 	nameBStart = paths_data[j].USPt.toUpperCase();
-		// 	nameBEnd = paths_data[j].FgnPort.toUpperCase();
-
-		// 	//If this is a match…
-		// 	if (nameAStart == nameBStart && nameAEnd == nameBEnd) {
-
-		// 		paths.features[i].properties.USPt			= paths_data[j].USPt;
-		// 		paths.features[i].properties.FgnPort		= paths_data[j].FgnPort;
-		// 		paths.features[i].properties.MetricTons		= parseFloat(paths_data[j].MetricTons);
-		// 		paths.features[i].properties.ImportMetTons	= parseFloat(paths_data[j].ImportMetTons);
-		// 		paths.features[i].properties.ExportMetTons	= parseFloat(paths_data[j].ExportMetTons);
-//IDEA
-	//Paths
-
-	console.log(paths);
-	console.log(paths_data);
+	// console.log(paths);
+	// console.log(paths_data);
 
 	for (j = 0; j < paths_data.length; j++) {
 
@@ -271,16 +226,10 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 
 		nameAEnd = paths.features[i].properties.start.toUpperCase();
 		nameAStart = paths.features[i].properties.end.toUpperCase();
-		// nameAStart = paths.features[i].properties.start.toUpperCase();
-		// nameAEnd = paths.features[i].properties.end.toUpperCase();
 
-// console.log(nameAStart);
 			//If this is a match…
 			if (nameAStart == nameBStart && nameAEnd == nameBEnd) {
-				console.log("yes");
-				// paths.features[i].properties.USPt			= paths.features[i].properties.USPt;
-				// paths.features[i].properties.FgnPort		= paths.features[i].properties.FgnPort;
-
+				// console.log("yes");
 				paths.features[i].properties.USPt			= paths_data[j].USPt;
 				paths.features[i].properties.FgnPort		= paths_data[j].FgnPort;
 				paths.features[i].properties.MetricTons		= parseFloat(paths_data[j].MetricTons);
@@ -291,52 +240,6 @@ function ready(error, world, ports, paths, ports_data, paths_data) {
 		}
 
 	}
-	// console.log(nameAStart+"nameAStart");
-	// console.log(nameBStart+"nameBStart");
-	// console.log(nameAEnd+"nameAEnd");
-	// console.log(nameBEnd+"nameBEnd");
-
-
-// 	//Paths
-
-// 	console.log(paths);
-// 	console.log(paths_data);
-
-// 	//Loop through once for each path
-// 	for (i = 0; i < paths.features.length; i++) {
-
-// // console.log(paths.features[i].properties.start.toUpperCase()+"PATHS.JSON");
-// 		nameAStart = paths.features[i].properties.start.toUpperCase();
-// 		nameAEnd = paths.features[i].properties.end.toUpperCase();
-// // console.log (nameAStart+"nameAStart");
-// // console.log(paths.features[5].properties.USPt+"paths above loop");
-
-// 		//Look for this path's info in paths_data
-// 		for (j = 0; j < paths_data.length; j++) {
-// // console.log(paths_data[j].USPt.toUpperCase()+"PATHS_DATA");
-// 			nameBStart = paths_data[j].USPt.toUpperCase();
-// 			nameBEnd = paths_data[j].FgnPort.toUpperCase();
-// 			//If this is a match…
-// 			if (nameAStart == nameBStart && nameAEnd == nameBEnd) {
-// 				console.log("yes");
-// 				// paths.features[i].properties.USPt			= paths.features[i].properties.USPt;
-// 				// paths.features[i].properties.FgnPort		= paths.features[i].properties.FgnPort;
-
-// 				paths.features[i].properties.USPt			= paths_data[j].USPt.toUpperCase();
-// 				paths.features[i].properties.FgnPort		= paths_data[j].FgnPort.toUpperCase();
-// 				paths.features[i].properties.MetricTons		= parseFloat(paths_data[j].MetricTons);
-// 				paths.features[i].properties.ImportMetTons	= parseFloat(paths_data[j].ImportMetTons);
-// 				paths.features[i].properties.ExportMetTons	= parseFloat(paths_data[j].ExportMetTons);
-// 			}
-
-// 		}
-// 		// console.log(nameBStart+"nameBStart");
-
-// 										// console.log(nameAStart+"nameAStart below");
-
-
-// 	}
-
 
 
 var eBars = false;
@@ -350,6 +253,10 @@ var usPorts = false;
 var usYearly = false;
 var foreignPorts = false;
 var foreignYearlyPorts = false;
+$('#animation').click(function(){
+	$('.overlay').toggle();
+	$('.vim').toggle();
+})
 
 $('#eBars').click(function(){
 	eBars = !eBars;
@@ -417,7 +324,6 @@ $('.toggleVolume, #animPaths, .volAll, .volExp, .volImp, .volFreq, .pathAll, .pa
 			//show the firstgraph
 			})
 			$('.oilTotal, .productTotal, .byPort, .usPorts, .foreignYearlyPorts, .foreignPorts, .usYearlyPorts').animate().css('background-color', 'black')
-			// oilTotal, productTotal, usPorts, foreignPorts, foreignYearlyPorts, usYearlyPorts = false;
 allTotal = false;			
 			$('.secondGraph, .thirdGraph, .fourthGraph, .fifthGraph, .sixthGraph, .seventhGraph').slideUp( "fast", function() {
 			})
@@ -588,33 +494,6 @@ foreignYearlyPorts = false;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var noVolume = false;
 var doPaths = false;
 var animatePaths = false;
@@ -688,6 +567,9 @@ $('.volFreq').click(function(){
 			$('.volAll, .volExp, .volImp').animate().css('background-color', 'black')
 })
 
+
+
+
 var pathAll = false;
 
 $('#animPaths').click(function(){
@@ -708,6 +590,7 @@ eBars = false;
 
 
 
+			$('.volAll, .volImp, .volExp, .volFreq').animate().css('background-color', 'black');
 
 
 
@@ -730,6 +613,8 @@ eBars = false;
 			.attr("opacity", ".2");
 	}
 	if (pathAll && noVolume){
+					$('.volAll, .volImp, .volExp, .volFreq').animate().css('background-color', 'black')
+
 		$('#animPaths').animate().css('background-color', 'white')
 		console.log("portsvolume is true")
  		showPaths();
@@ -806,8 +691,10 @@ $('.pathFreq').click(function(){
 		.append("g")
 		.on("mouseover", function(d) {
 			console.log(d.properties+"d.properties of pathgroups");
+			if (animateOpening==false){
 			updateHoverbox(d.properties, "path");
 			d3.select(this).each(moveToFront);
+		}
 		})
 		.on("mouseout", function(d) {
 			hideHoverbox();
@@ -827,17 +714,17 @@ $('.pathFreq').click(function(){
 		.attr("stroke", "#307074")
 		.attr("stroke-dasharray", "none");
 
-	if (animateOpening) {
+	if (readyForPaths) {
 
 		pathGroups.selectAll("path")
 			.transition()
-			.delay(introDelay4)
-			.duration(5000)
+			// .delay(introDelay4)
+			.duration(500)
 		.attr("opacity",1)
 
 	} else {
 
-		d3.selectAll("path")
+		d3.selectAll(".land")
 			.attr("opacity",1);
 			// .attr("stroke-dasharray", "none");
 
@@ -887,9 +774,9 @@ var maxImp = d3.max(ports.features, function(d){
 var maxFreq = d3.max(ports.features, function(d){
 	return d.properties.freq;
 })
-console.log("maxexpvolume"+maxExp)
-console.log("maxallports"+maxAll)
-console.log("maxImpvolume"+maxImp)
+// console.log("maxexpvolume"+maxExp)
+// console.log("maxallports"+maxAll)
+// console.log("maxImpvolume"+maxImp)
 
 
 	// Clickable ports get the click handler
@@ -897,9 +784,11 @@ console.log("maxImpvolume"+maxImp)
 	d3.selectAll('.port')
 		.on('click', click)
 		.on("mouseover", function(d) {
+			if (animateOpening==false){
 			console.log(d.properties+"thisisnormalmouseoveronport")
 			updateHoverbox(d.properties, "port");
 			d3.select(this).each(moveToFront);
+		}
 		})
 		.on("mouseout", function(d) {
 			hideHoverbox();
@@ -907,7 +796,7 @@ console.log("maxImpvolume"+maxImp)
 			// .remove();
 		});
 	// In each group, add a circle
-	if (animateOpening) {
+	if (readyForPorts) {
 
 		portGroups.append("circle")
 			.attr("class", "point")
@@ -916,9 +805,9 @@ console.log("maxImpvolume"+maxImp)
 			.attr("r", 0.01)
 			.transition()
 			.duration(500)
-			.delay(function(d, i) {
-				return introDelay2 + i * 3;
-			})
+			// .delay(function(d, i) {
+			// 	return introDelay2 + i * 3;
+			// })
 			.attr("r", radiusSmall)
 			.attr("opacity", portOnOpacity);
 
@@ -927,18 +816,8 @@ console.log("maxImpvolume"+maxImp)
 			.attr("class", "point")
 			.attr("cx", 0)
 			.attr("cy", 0)
-			.attr("r", radiusSmall)
-			.attr("opacity", portOnOpacity);
-		// portGroups.append("circle")
-		// 	.attr("class", "point")
-		// 	.attr("cx", 0)
-		// 	.attr("cy", 0)
-		// 	.attr("r", function(d) {
-		// 		if (d.properties.scalerank == 1) {
-		// 			return 7;
-		// 		}
-		// 		return 1.5;
-		// 	});
+			.attr("r", 0)
+			.attr("opacity", 0);
 	
 	}
 
@@ -1172,15 +1051,6 @@ function showPaths(){
 	var mapWidth = d3.select(".map").node().getBBox().width;
 	var barsLeftEdge = (width - mapWidth) / 2;
 
-	// map.append("defs")
-	// 	.append("clipPath")
-	// 	.attr("id", "map-area")
-	// 	.append("rect")
-	// 	// .attr("x", barsLeftEdge)
-	// 	.attr("x",0)
-	// 	.attr("y", 0)
-	// 	.attr("width", mapWidth)
-	// 	.attr("height", height);
 
 var otherBarsScale = d3.scale.linear()
 .domain([0,maxMet])
@@ -1200,58 +1070,38 @@ ports.features.sort(function(a,b){
 svg.append("g")
 	.attr("id","otherBars")
 
-// var otherBars = d3.select("#otherBars")
-// .selectAll("g")
-// .data(function(d){
-// 	return ports.features;
-// })
-// .enter()
-// .append("g")
-// .attr("transform", "translate("+barsLeftEdge+","+0+")");
-
-// otherBars.append("rect")
-// 		.attr("class","others")
-// 		.attr("x", function(d,i){
-// 			return 0;
-// 		})
-// 		.attr("y", function(d,i){
-// 			return heightScale(i)
-// 		})
-// 		.attr("width", function(d){
-// 			return widthScale(d.properties.MetricTons);
-// 		})
-// 		.attr("fill","gray")
-// 		.attr("stroke", "white")
-// 		.attr("opacity",".4")
-// 		.attr("height", 15);
-
-// otherBars.append("text")
-// 		.attr("class", "barsText")
-// 		.attr("x", function(d,i){
-// 			return widthScale(d.properties.MetricTons)+10;
-// 		})
-// 		.attr("y", function(d,i){
-// 			heightScale(i);
-// 		})
-// 		.attr("fill","white")
-// 		.text(function(d){
-// 			return d.properties.port;
-// 		});
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-  // $('.paths path.visible').tipsy({ 
-  //       gravity: 'nw', 
+  // $('#eBars').tipsy({ 
+  //       gravity: 'w', 
   //       html: true, 
+  //       delayIn: 500, 
   //       title: function() {
-  //         var d = this.__data__;
-		// var newNum = Math.round((d.properties.MetricTons) / 1000000);
-		// var niceNum = numberWithCommas(newNum)+"MT";
-  //     	return "Total Volume Shipped Since 2002: "+niceNum;         
+  // //         var d = this.__data__;
+		// // var newNum = Math.round((d.properties.MetricTons) / 1000000);
+		// // var niceNum = numberWithCommas(newNum)+"MT";
+  //     	// return "Total Volume Shipped Since 2002: "+niceNum;         
+  //     	return "Click to view detailed charts for the major ports over time.";         
   //       }
   //     });
-
+  // $('#volPorts').tipsy({ 
+  //       gravity: 'w', 
+  //       html: true, 
+  //        delayIn: 500, 
+  //       title: function() {      
+  //     	return "Click to view volume shipped projected on each port.";         
+  //       }
+  //     });
+  //   $('#animPaths').tipsy({ 
+  //       gravity: 'w', 
+  //       html: true, 
+  //        delayIn: 500, 
+  //       title: function() {      
+  //     	return "Click to view volume shipping projected on each path.";         
+  //       }
+  //     });
 	var energyBarsScale = d3.scale.linear()
 		.domain([0, d3.sum(energyBarsData, function(d) { return d[1]; }) ])
 		.range([0, mapWidth+100]);
@@ -1437,69 +1287,72 @@ function numberWithCommas(x) {
 		.text("total");
 
 	if (animateOpening) {
-
 		d3.select("#intro1")
 			.style("display", "block")
-			.transition()
-			.delay(introDelay1)
-			.duration(1500)
-			.style("opacity", 1.0)
-			.each("end", function() {
-				d3.select(this)
-					.transition()
-					.delay(4000)
-					.duration(1500)
-					.style("opacity", 0.0)
-					.each("end", function() {
-						d3.select(this).style("display", "none");
-					});
-			});
+			// .transition()
+			// .delay(introDelay1)
+			// .duration(1500)
+			.style("opacity", 1.0);
+		d3.select(".introNav")
+			.style("display","block")
+			.style("opacity",1.0);
 
-		d3.select("#intro2")
-			.style("display", "block")
-			.transition()
-			.delay(introDelay3)
-			.duration(1500)
-			.style("opacity", 1.0)
-			.each("end", function() {
-				d3.select(this)
-					.transition()
-					.delay(4000)
-					.duration(1500)
-					.style("opacity", 0.0)
-					.each("end", function() {
-						d3.select(this).style("display", "none");
-					});
-			});
 
-		d3.select("#intro3")
-			.style("display", "block")
-			.transition()
-			.delay(introDelay5)
-			.duration(1500)
-			.style("opacity", 1.0)
-			.each("end", function() {
-				d3.select(this)
-					.transition()
-					.delay(4000)
-					.duration(1500)
-					.style("opacity", 0.0)
-					.each("end", function() {
-						d3.select(this).style("display", "none");
-					});
-			});
 
-		d3.select("#storyContainer")
+
+	$('.introNav').on("click", function(){
+		i++;
+		if (i==201){
+					d3.select("#intro1").transition().style("opacity", 0.0).style("display", "none");
+					d3.select("#intro2").style("display", "block").transition().duration(1000).style("opacity", 1.0);
+			portGroups.append("circle")
+			.attr("class", "point")
+			.attr("cx", 0)
+			.attr("cy", 0)
+			.attr("r", 0.01)
 			.transition()
-			.delay(introDelay6)
-			.each("start", function() {
+			.duration(5000)
+			.attr("r", radiusSmall)
+			.attr("opacity", portOnOpacity);
+		}
+		console.log(i+"intronav clicking")
+		if (i==202){
+					d3.select("#intro2").transition().style("opacity", 0.0).style("display", "none");
+					d3.select("#intro3").style("display", "block").transition().duration(1000).style("opacity", 1.0);
+			readyForPorts = true;
+			readyForPaths = true;
+
+		pathGroups.selectAll("path")
+			.transition()
+			.duration(5000)
+			.attr("opacity",1)
+
+		}
+		if (i==203){
+					d3.select("#intro3").transition().duration(1000).style("opacity", 0.0).style("display", "none");
+					d3.select("#intro4").style("display", "block").transition().duration(1000).style("opacity", 1.0);
+
+				$('.fadeBottom').fadeOut("fast");
+				$('.fadeLeft').hide();
+			// })
+			d3.select("#storyContainer")
+			.transition();
+
 				d3.select(this)
 					.select(".thumb")
 					.classed("selected", true);
 				openStories();
-			});
-
-		d3.select("#intro4")
+				$('.introNav').fadeOut("fast");
+			}
+		// if (i==204){
+		// 			d3.select("#intro4").style("display", "block").transition().style("opacity", 1.0);
+		// }
+		// if (i==205){
+		// 			d3.select("").style("display", "block").transition().style("opacity", 1.0);
+		// }
+	})
+		// d3.select(".intro .button") 
+		d3.select("#intro4") 
 			.on("click", function() {
 
 				d3.select(this)
@@ -1509,22 +1362,178 @@ function numberWithCommas(x) {
 					.each("end", function() {
 						d3.select(this).style("display", "none");
 					});
+				$('#skip').fadeOut("fast");
 
 				closeStories();
+				animateOpening = false;
+				$('.fadeBottom').fadeOut("fast");
+				$('.fadeLeft').hide();
 
-				//Slow reveal of port names
-				portGroups.selectAll("text.label")
-					.transition()
-					.delay(2000)
-					.duration(2000)
-					.attr("opacity", 1.0);
+			});
+			// .style("display", "block")
+			// .transition()
+			// .delay(introDelay7+5000)
+			// .duration(1500)
+			// .style("opacity", 1.0);
 
-			})
-			.style("display", "block")
+		d3.select("#skip") 
+			.on("click", function() {
+				$('.introNav').fadeOut("fast");
+
+				$('#intro1, #intro2, #intro3, #intro4, #skip').fadeOut("fast");
+
+
+				// d3.select("#intro1, #intro2, #intro3, #intro4, #skip")
+				// 	.transition()
+				// 	.duration(200)
+				// 	.style("opacity", 0.0)
+				// 	.style("display", "none");
+
+				closeStories();
+				animateOpening = false;
+			readyForPorts = true;
+			readyForPaths = true;
+
+		pathGroups.selectAll("path")
 			.transition()
-			.delay(introDelay7)
-			.duration(1500)
-			.style("opacity", 1.0);
+			.duration(5000)
+			.attr("opacity",1)
+		
+		portGroups.append("circle")
+			.attr("class", "point")
+			.attr("cx", 0)
+			.attr("cy", 0)
+			.attr("r", 0.01)
+			.transition()
+			.duration(5000)
+			.attr("r", radiusSmall)
+			.attr("opacity", portOnOpacity);
+
+				$('.fadeBottom').fadeOut("fast");
+				$('.fadeLeft').hide();
+
+			});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		// d3.select("#intro2").transition().style("opacity", 1.0);
+		// d3.select("#intro3").transition().style("opacity", 1.0);
+		// d3.select("#intro4").transition().style("opacity", 1.0);
+
+
+
+		// d3.select("#intro1")
+		// 	.style("display", "block")
+		// 	.transition()
+		// 	.delay(introDelay1)
+		// 	.duration(1500)
+		// 	.style("opacity", 1.0)
+		// 	.each("end", function() {
+		// 		d3.select(this)
+		// 			.transition()
+		// 			.delay(12000)
+		// 			.duration(1500)
+		// 			.style("opacity", 0.0)
+		// 			.each("end", function() {
+		// 				d3.select(this).style("display", "none");
+		// 			});
+		// 	});
+
+		// d3.select("#intro2")
+		// 	.style("display", "block")
+		// 	.transition()
+		// 	.delay(introDelay3)
+		// 	.duration(1500)
+		// 	.style("opacity", 1.0)
+		// 	.each("end", function() {
+		// 		d3.select(this)
+		// 			.transition()
+		// 			.delay(9000)
+		// 			.duration(1500)
+		// 			.style("opacity", 0.0)
+		// 			.each("end", function() {
+		// 				d3.select(this).style("display", "none");
+		// 			});
+		// 	});
+
+		// d3.select("#intro3")
+		// 	.style("display", "block")
+		// 	.transition()
+		// 	.delay(introDelay5+3000)
+		// 	.duration(1500)
+		// 	.style("opacity", 1.0)
+		// 	.each("end", function() {
+		// 		d3.select(this)
+		// 			.transition()
+		// 			.delay(6000)
+		// 			.duration(1500)
+		// 			.style("opacity", 0.0)
+		// 			.each("end", function() {
+		// 				d3.select(this).style("display", "none");
+		// 			});
+		// 					// $('.fadeBottom').fadeOut("slow");
+		// 	});
+
+
+		// d3.select("#storyContainer")
+		// 	.transition()
+		// 	.delay(introDelay6+5000)
+		// 	.each("start", function() {
+		// 		$('.fadeBottom').fadeOut("fast");
+
+		// 		d3.select(this)
+		// 			.select(".thumb")
+		// 			.classed("selected", true);
+		// 		openStories();
+		// 	});
+
+
+
+// 		d3.select("#intro4")
+// 			.on("click", function() {
+
+// 				d3.select(this)
+// 					.transition()
+// 					.duration(1500)
+// 					.style("opacity", 0.0)
+// 					.each("end", function() {
+// 						d3.select(this).style("display", "none");
+// 					});
+
+// 				closeStories();
+// animateOpening = false;
+// 				$('.fadeBottom').fadeOut("fast");
+
+// 				$('.fadeLeft').hide();
+// 	// d3.selectAll("path.selected").classed("selected", false);
+// 	// d3.selectAll(".port.selected").classed("selected", false);
+// 	// hideHoverbox();
+// 				//Slow reveal of port names
+// 				portGroups.selectAll("text.label")
+// 					.transition()
+// 					.delay(2000)
+// 					.duration(2000)
+// 					.attr("opacity", 1.0);
+
+// 			})
+// 			.style("display", "block")
+// 			.transition()
+// 			.delay(introDelay7+5000)
+// 			.duration(1500)
+// 			.style("opacity", 1.0);
 
 	} 
 
@@ -1539,7 +1548,11 @@ function numberWithCommas(x) {
 
 
 function click(d) {
-
+			showReset = true;
+	if (showReset==true){
+	$('#reset').slideDown( "slow", function() {
+})
+}
 
 	// if there is data, and if you aren't already zoomed onto the object clicked
 	if (d && centered !== d) {
@@ -1980,7 +1993,7 @@ fadeBackground();
 
 		//Update thumbs' selected status
 		d3.selectAll(".thumb.selected").classed("selected", false);
-		d3.select(this).classed("selected", true);
+		d3.select(abdsdasdasdasd).classed("selected", true);
 
 	});
 
@@ -1993,7 +2006,7 @@ var closeStories = function() {
 	d3.select("#storyContainer")
 		.transition()
 		.duration(2000)
-		.style("height", "100px");
+		.style("height", "90px");
 
 	d3.selectAll(".thumb.selected").classed("selected", false);
 
@@ -2036,7 +2049,7 @@ var openStories = function() {
 	d3.select("#storyContainer")
 		.transition()
 		.duration(2000)
-		.style("height", "654px");
+		.style("height", "679px");
 
 	// d3.selectAll("#prevStory, #nextStory")
 	// 	.transition()

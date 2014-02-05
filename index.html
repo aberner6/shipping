@@ -3,16 +3,29 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Ports</title>
-		
-		<!-- <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"> -->
-		<link rel="stylesheet" href="style/tipsy.css">
+
 
 		<link rel="stylesheet" href="style/style.css">
  	</script>
+ 	<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-47764808-1', 'spatialinformationdesignlab.org');
+  ga('send', 'pageview');
+
+</script>
  	</head>
 	<body>
 
 <center>
+	<div id="skip">Skip Intro</div>
+
+	  <div class="fadeLeft"></div>
+	  <div class="fadeBottom"></div>
+
 		<div id="header">
 			<h1>PORT TO PORT</h1>
 			<p id="oneliner">A visual exploration of energy shipping routes around the world.</p>
@@ -20,14 +33,14 @@
 			<div id="aboutContent">
 				<p>The visualizations here are mainly based on the PIERS dataset, which includes every single U.S. waterborne import and export. </p><p>Specifically, we used energy related shipments between 2006 and 2012. These shipments include the following products:</p><p>
 Crude Petroleum, Refined Petroleum, Residual Fuel Oil, Natural Gas and Liquid Methane, Ethane, Propane, Butane, Other Gas Mixtures (Derived from Petroleum), Gases (NOS), Gasoline, Jet Fuel (Naphtha and Kerosene), Motor Fuel (NOS), Kerosene, Naphthas, Medicinal Mineral Oil, Lubricating Oils, Lubricating Grease, Liquid Petroleum Mixtures, Non Liquid Petroleum (Petrolatum), Petroleum Additives.</p>
-<!-- 				<p>Earl of Grantham shouted, “We were together and... he's dead.” Miss Patmore called to my Lord. Christmas killed the village. “Which we never believed,” informed Miss Parks. Mr. Mason frustrated the cutlery.</p>
-				<p>Charles Carson shouted, “Because I want to leave service. I want to be a secretary.” “What about you? What about your heart,” cried John Drake. Charles Carson exclaimed, “Why are the papers ironed?” The doctor controlled Christmas. “So, have you decided whether or not to marry cousin Matthew? Oh there's no secret Cora can keep for more than a month,” muttered Duke of Crowborough.</p> -->
+
 			</div>
 		</div>
 </center>
-<div id="reset">RESET MAP</div>
 
- <div class="specify-factor button icon left" id="eBars" style="top: 75px; height: 18px;">BARS</div>
+<div id="reset">RESET MAP</div>
+<div id="animation">Animation</div>
+ <div class="specify-factor button icon left" id="eBars" style="top: 75px; height: 18px;">CHARTS</div>
  	<div class="allTotal" style="top:105px">Volume</div>
   		<div class="oilTotal" style="top:130px">$ Oil</div>
  	
@@ -62,41 +75,37 @@ Crude Petroleum, Refined Petroleum, Residual Fuel Oil, Natural Gas and Liquid Me
  <div class ="pathAll" style="top:161px">All Volume</div>
    <div class ="pathExp" style="top: 200px;">Exports</div>
   <div class = "pathImp" style="top: 225px"> Imports</div> 
- 			<!-- <div class="foreignYearlyPorts" style="top:280px">Matrix</div> -->
+
+<center>
+	   <!-- <div class="overlay" style="display:none"></div> -->
+
+<iframe id ="tide" class="vim" style="display: none; z-index:10; padding-bottom:5px" src="//player.vimeo.com/video/85736529?title=0&amp;byline=0&amp;portrait=0&amp;color=ffffff" width="1004" height="565" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+</center>
 
 		<div id="container">
 
 			<div class="intro" id="intro1">
 				<p>90% of all goods worldwide are moved by ship, but shipping is mostly invisible.</p>
-				<p>xxx Metric Tons of energy are shipped in and out of the United States each year, by xxxx ships.</p>
+				<p>More than 300 million Metric Tons of energy are shipped in and out of the United States each year, in 60,000 shipments.</p>
 			</div>
 
 			<div class="intro" id="intro2">
-				<p>This map represents the ports and paths of the xxxB Metric Tons of energy shipped through xxx US ports from 2002 - 2012.</p>
+				<p>This map represents the ports and paths of the 2.7 billion Metric Tons of energy shipped through more than 90 US ports from 2002 - 2012.</p>
 			</div>
 
 			<div class="intro" id="intro3">
-				<p>These are 150 most common energy shipping paths to and from the US.</p>
+				<p>These are the 200 most common energy shipping paths to and from the US.</p>
 			</div>
 
 			<div class="intro" id="intro4">
-				<p>Every port has a story. xxx Metric Tons of oil is moved through Houston alone, connecting Houston to xxx ports worldwide.</p>
+				<p>Every port has a story. 460 million Metric Tons of oil is moved through Houston alone, connecting Houston to more than 600 ports worldwide.</p>
 				<center><p class="button">Explore the Map</p></center>
 			</div>
 
+					<div class="introNav">
+					<p>	&gt;</p>
+					</div>
 			<div id="storyContainer">
-
-<!-- 				<div class="nav">
-					<p id="heading">
-						<img class="thumb" src="stories/0/1.jpg">
-						<img class="thumb" src="stories/1/1.jpg">
-						<img class="thumb" src="stories/2/1.jpg">
-						<img class="thumb" src="stories/3/1.jpg">
-						<img class="thumb" src="stories/4/1.jpg">
-						<img class="thumb" src="stories/5/1.jpg">
-
-					</p>
-				</div> -->
 
 				<div class="nav">
 					<p id="heading">
@@ -410,13 +419,12 @@ Crude Petroleum, Refined Petroleum, Residual Fuel Oil, Natural Gas and Liquid Me
 		</div>
 
 		<script type="text/javascript" src="js/queue.js"></script>
-		<script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
-		<script type="text/javascript" src="js/jquery.cycle2.min.js"></script>
+				<script type="text/javascript" src="js/this.js"></script>
+
 		<script type="text/javascript" src="js/d3.v3.js"></script>
 		 <script src="http://d3js.org/d3.geo.projection.v0.min.js" charset="utf-8"></script>
 		<script type="text/javascript" src="js/topojson.js"></script>
 		<script type="text/javascript" src="js/map.js"></script>
-		<script type="text/javascript" src="js/jquery.tipsy.js"></script>
 
 	</body>
 </html>
