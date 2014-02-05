@@ -61,8 +61,13 @@ document.getElementById("thumb6").src="stories/5/"+num+".jpg";
 }
 
 
-var formatThousands = d3.format(",");
 
+
+
+var formatThousands = d3.format(",");
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 //Metric tons
 var energyBarsData = [
 		[ "Crude Petroleum", 	1650000000 ],
@@ -155,6 +160,77 @@ var svg = d3.select("#container").append("svg")
 			.call(zoom);
 
 console.log(width+"thisiswidth");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+svg.append("g")
+	.attr("id","legendPorts")
+
+var legendPorts = d3.select("#legendPorts")
+// .selectAll("g")
+// .append("g");
+
+var legendX = 65;
+var legendY = 500;
+legendPorts.append("circle")
+		.attr("class","legendB")
+		.attr("cx", legendX)
+		.attr("cy",legendY)
+		.attr("r", radiusLarge)
+		.attr("fill","gray")
+		.attr("opacity",".4");
+legendPorts.append("circle")
+		.attr("class","legendS")
+		.attr("cx", legendX)
+		.attr("cy",legendY)
+		.attr("r", radiusSmall)
+		.attr("fill","gray")
+		.attr("opacity",".4");
+legendPorts.append("text")
+		.attr("class","legendText")
+		.attr("x", legendX+5)
+		.attr("y", legendY-5)
+		.attr("fill", "gray")
+		.text("Scale: 0 - "+ numberWithCommas(Math.round(466786572/1000000))+"mil"); 
+	//draw three circles and text to say how big they are in the bottom left corner
+	//activated when port volumes clicked
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // append a group to the svg to hold the map
 var map = svg.append("g")
@@ -254,9 +330,21 @@ var usYearly = false;
 var foreignPorts = false;
 var foreignYearlyPorts = false;
 $('#animation').click(function(){
-	$('.overlay').toggle();
+	           //  d3.select('.section')
+            // .text('D3 was here');
+	// d3.select('#animation').text('CLOSE')
 	$('.vim').toggle();
+	// d3.select(".thumb").animate().css('margin-bottom','-30%');
+	$('#closeVid').toggle();
+	$('.fadeBottom').toggle();
+
 })
+$('#closeVid').click(function(){
+	$('.vim').fadeOut("fast");
+$('#closeVid').fadeOut("fast");
+	$('.fadeBottom').fadeOut("fast");
+})
+
 
 $('#eBars').click(function(){
 	eBars = !eBars;
@@ -271,7 +359,7 @@ pathAll = false;
 		$('#eBars').animate().css('opacity','.7')
 
 $('.toggleVolume, #animPaths, .volAll, .volExp, .volImp, .volFreq, .pathAll, .pathExp, .pathImp').animate().css('margin-top', '101px')
-$('.toggleVolume, #animPaths, .volAll, .volExp, .volImp, .volFreq, .pathAll, .pathExp, .pathImp').animate().css('background-color', 'rgba(0, 0, 0, 0.3)')
+$('.toggleVolume, #animPaths, .volAll, .volExp, .volImp, .volFreq, .pathAll, .pathExp, .pathImp').animate().css('background-color', 'black')
 
 
 		totalFadeBackground();
@@ -295,7 +383,7 @@ $('.toggleVolume, #animPaths, .volAll, .volExp, .volImp, .volFreq, .pathAll, .pa
 		})
 	}
 	else {
-		$('#eBars').animate().css('background-color','rgba(0, 0, 0, 0.3)')
+		$('#eBars').animate().css('background-color','black')
 		// $('#eBars').animate().css('opacity','1')
 
 		$('.map').show("fast", function(){
@@ -502,8 +590,10 @@ var sizeExp = false;
 var sizeImp = false;
 $('.toggleVolume').click(function(){
 	noVolume = !noVolume;
+	   		$('.pathAll, .pathExp, .pathImp, .pathFreq').animate().css('background-color', 'black')
 
 	if (noVolume){
+			$('#legendPorts').fadeIn("fast");
 eBars = false;
 		$('#eBars').animate().css('background-color','black')
 		$('#eBars').animate().css('opacity','1')
@@ -530,6 +620,7 @@ eBars = false;
 	}
 	if (noVolume && pathAll){
 		showPaths();
+		$('#legendPorts').fadeIn("fast");
 	}
 	else if (!noVolume){
 		$('.toggleVolume').animate().css('background-color', 'black')
@@ -537,10 +628,11 @@ eBars = false;
 		showPaths();
 		normalizeAllVolumes();
 	    $('#animPaths, .pathAll, .pathExp, .pathImp, .pathFreq').animate().css('margin-top', '0px')
+
+	    	$('#legendPorts').fadeOut("fast");
 	}
 
-	$('#legendPorts').fadeToggle( "slow", function() {
-	})
+
 
 	$('.volAll, .volExp, .volImp, .volFreq').slideToggle("fast", function(){
 	});
@@ -627,7 +719,7 @@ eBars = false;
 	else if (!pathAll){
 		console.log("ports volumes is false.")
 		$('#animPaths').animate().css('background-color', 'black')
-	    $('.pathAll, .pathExp, .pathImp, .pathFreq').animate().css('background-color', 'rgba(0, 0, 0, 0.3)')
+	    $('.pathAll, .pathExp, .pathImp, .pathFreq').animate().css('background-color', 'black')
  		normalizeAllVolumes(); 
 		showPaths();
 		$('.pathAll, .pathExp, .pathImp, .pathFreq').slideUp("fast", function(){
@@ -638,23 +730,23 @@ eBars = false;
 $('.pathAll').click(function(){
 		pathAllVolumes();
 	    $(this).animate().css('background-color', 'white')
-			$('.pathImp, .pathExp, .pathFreq').animate().css('background-color', 'rgba(0, 0, 0, 0.3)')
+			$('.pathImp, .pathExp, .pathFreq').animate().css('background-color', 'black')
 })
 $('.pathExp').click(function(){
 		pathExpVolumes();
 		console.log("clicked exports paths")
 		$(this).animate().css('background-color', 'white')
-			$('.pathAll, .pathImp, .pathFreq').animate().css('background-color', 'rgba(0, 0, 0, 0.3)')
+			$('.pathAll, .pathImp, .pathFreq').animate().css('background-color', 'black')
 })
 $('.pathImp').click(function(){
 		pathImpVolumes();
 		$(this).animate().css('background-color', 'white')
-	   		$('.pathAll, .pathExp, .pathFreq').animate().css('background-color', 'rgba(0, 0, 0, 0.3)')
+	   		$('.pathAll, .pathExp, .pathFreq').animate().css('background-color', 'black')
 })
 $('.pathFreq').click(function(){
 		pathFreqVolumes();
 		$(this).animate().css('background-color', 'white')
-	   		$('.pathAll, .pathExp, .pathImp').animate().css('background-color', 'rgba(0, 0, 0, 0.3)')
+	   		$('.pathAll, .pathExp, .pathImp').animate().css('background-color', 'black')
 })
 
 
@@ -775,7 +867,7 @@ var maxFreq = d3.max(ports.features, function(d){
 	return d.properties.freq;
 })
 // console.log("maxexpvolume"+maxExp)
-// console.log("maxallports"+maxAll)
+console.log("maxallports"+maxAll)
 // console.log("maxImpvolume"+maxImp)
 
 
@@ -824,37 +916,7 @@ var maxFreq = d3.max(ports.features, function(d){
 
 
 
-svg.append("g")
-	.attr("id","legendPorts")
 
-var legendPorts = d3.select("#legendPorts")
-// .selectAll("g")
-.append("g");
-
-var legendX = 65;
-var legendY = 500;
-legendPorts.append("circle")
-		.attr("class","legendB")
-		.attr("cx", legendX)
-		.attr("cy",legendY)
-		.attr("r", radiusLarge)
-		.attr("fill","gray")
-		.attr("opacity",".4");
-legendPorts.append("circle")
-		.attr("class","legendS")
-		.attr("cx", legendX)
-		.attr("cy",legendY)
-		.attr("r", radiusSmall)
-		.attr("fill","gray")
-		.attr("opacity",".4");
-legendPorts.append("text")
-		.attr("class","legendText")
-		.attr("x", legendX+5)
-		.attr("y", legendY-5)
-		.attr("fill", "gray")
-		.text("Scale: 0 - "+ numberWithCommas(Math.round(maxAll/1000000))+"mil"); 
-	//draw three circles and text to say how big they are in the bottom left corner
-	//activated when port volumes clicked
 
 function sizeAllVolumes(){
 console.log("in all")
@@ -1071,9 +1133,7 @@ svg.append("g")
 	.attr("id","otherBars")
 
 
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+
   // $('#eBars').tipsy({ 
   //       gravity: 'w', 
   //       html: true, 
@@ -1296,6 +1356,7 @@ function numberWithCommas(x) {
 		d3.select(".introNav")
 			.style("display","block")
 			.style("opacity",1.0);
+		$('#skip').fadeIn("slow");
 
 
 
@@ -1329,8 +1390,8 @@ function numberWithCommas(x) {
 
 		}
 		if (i==203){
-					d3.select("#intro3").transition().duration(1000).style("opacity", 0.0).style("display", "none");
-					d3.select("#intro4").style("display", "block").transition().duration(1000).style("opacity", 1.0);
+					d3.select("#intro3").transition().duration(1000).style("opacity", 0.0).style("display", "none"); 
+					d3.select("#intro4").style("display", "block").transition().duration(1000).style("background-color","rgba(0,0,0,1)").style("opacity", 1.0);
 
 				$('.fadeBottom').fadeOut("fast");
 				$('.fadeLeft').hide();
