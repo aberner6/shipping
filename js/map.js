@@ -878,6 +878,9 @@ console.log("maxallports"+maxAll)
 		.on('click', click)
 		.on("mouseover", function(d) {
 			if (animateOpening==false){
+
+		d3.select(this).transition().attr("stroke","#ff2000").attr("stroke-width",4);
+
 			console.log(d.properties+"thisisnormalmouseoveronport")
 			updateHoverbox(d.properties, "port");
 			d3.select(this).each(moveToFront);
@@ -885,6 +888,9 @@ console.log("maxallports"+maxAll)
 		})
 		.on("mouseout", function(d) {
 			hideHoverbox();
+
+
+		d3.select(this).transition().attr("stroke","none").attr("stroke-width",	.25);
 			// d3.selectAll('.label')
 			// .remove();
 		});

@@ -365,7 +365,7 @@ margin-bottom: 10px;
 .port:hover circle {
 	stroke: #ff2000;
 	opacity:1;
-	stroke-width:2px;
+	stroke-width:4px;
 
 }
 .port:hover .label{
