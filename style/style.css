@@ -318,6 +318,12 @@ margin-bottom: 10px;
 
 
 /* Shipping Paths */
+#volPorts, #eBars, #animation, #animPaths{
+display:none;
+}
+.thumb{
+display:none;
+}
 
 .paths path.background {
 	fill: none;
@@ -335,7 +341,7 @@ margin-bottom: 10px;
 
 .paths path.selected {
 	stroke:#ff2000; 
-	stroke-width: 1;
+	/*stroke-width: 1;*/
 }
 
 .paths path.selected:hover{
@@ -354,30 +360,30 @@ margin-bottom: 10px;
 	stroke-opacity:.2;
 	fill-opacity: 0.5;
 }
-.port .label {
+/*.port .label {
 	font-size: 20px;
 	fill: #ff2000;
-}
+}*/
 /*.port:hover circle{
 	stroke: #ff2000;
 	stroke-width:2px;
 }*/
-.port:hover circle {
+/*.port:hover circle {
 	stroke: #ff2000;
 	opacity:1;
 	stroke-width:4px;
 
-}
-.port:hover .label{
+}*/
+/*.port:hover .label{
 	opacity: 1;
 	font-size: 20px;
-}
-.port.selected circle {
+}*/
+/*.port.selected circle {
 	fill: #ff2000;
 	stroke-opacity:.5;
 	stroke: #ff2000;
 	stroke-width: 12px;
-}
+}*/
 
 
 /* Energy Bars */

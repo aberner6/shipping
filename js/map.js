@@ -76,12 +76,12 @@ var energyBarsData = [
 		[ "Residual Fuel Oil", 	110000000 ],
 		[ "Other", 				210000000 ]
 	];
-var proj = d3.geo.naturalEarth()
-    .scale(initialZoom)
-    .translate([width / 2, height / 2]);
-// var proj = d3.geo.mercator()
+// var proj = d3.geo.naturalEarth()
 //     .scale(initialZoom)
 //     .translate([width / 2, height / 2]);
+var proj = d3.geo.mercator()
+    .scale(initialZoom)
+    .translate([width / 2, height / 2]);
 
 d3.select("#reset").on("click", resetZoom);
 
@@ -95,8 +95,8 @@ var lightMap = d3.scale.linear()
 		.range([5, 50]);
 
 var strokeMap = d3.scale.linear()
-		.domain([minMet, maxMet/10]) //493829169.9 is max
-		.range([1, 5]);
+		.domain([minMet, maxMet]) //493829169.9 is max
+		.range([2, 40]);
 
 var zoom = d3.behavior.zoom()
 	.translate(proj.translate())
@@ -336,13 +336,18 @@ $('#animation').click(function(){
 	$('.vim').toggle();
 	// d3.select(".thumb").animate().css('margin-bottom','-30%');
 	$('#closeVid').toggle();
-	$('.fadeBottom').toggle();
+		$('#storyContainer').toggle();
+
+	$('.nav').toggle();
+	// $('.fadeBottom').toggle();
 
 })
 $('#closeVid').click(function(){
 	$('.vim').fadeOut("fast");
 $('#closeVid').fadeOut("fast");
-	$('.fadeBottom').fadeOut("fast");
+		$('.nav').show();
+			$('#storyContainer').show();
+	// $('.fadeBottom').fadeOut("fast");
 })
 
 
@@ -805,6 +810,7 @@ $('.pathFreq').click(function(){
 		.attr("d", path)
 		.attr("opacity",0)
 		.attr("stroke", "#307074")
+		.attr("stroke-width",1)
 		.attr("stroke-dasharray", "none");
 
 	if (readyForPaths) {
@@ -858,6 +864,11 @@ $('.pathFreq').click(function(){
 var maxAll = d3.max(ports.features, function(d){
 	return d.properties.MetricTons;
 })
+var minAll = d3.min(ports.features, function(d){
+	return d.properties.MetricTons;
+})
+	console.log(minAll+"thisismin")
+
 var maxExp = d3.max(ports.features, function(d){
 	return d.properties.ExportMetTons;
 })
@@ -867,9 +878,47 @@ var maxImp = d3.max(ports.features, function(d){
 var maxFreq = d3.max(ports.features, function(d){
 	return d.properties.freq;
 })
+
+var maxPath = d3.max(paths.features, function(d){ 
+	return d.properties.MetricTons+"this is max"; 
+});
+console.log(maxPath+"thisismaxpath")
 // console.log("maxexpvolume"+maxExp)
 console.log("maxallports"+maxAll)
 // console.log("maxImpvolume"+maxImp)
+// portAndPath("New York");
+function portAndPath(thing){
+	console.log("port and path")
+		pathGroups.selectAll("path")
+			.transition()
+			.duration(100)
+		.attr("stroke", function(d){
+			if (d.properties.start==thing || d.properties.end==thing){
+			// console.log(d.properties);
+			return "hsl(180,100,50)"
+			}
+			else {
+			// console.log(d.properties.start);
+			return "hsl(180,100,5)"
+			}
+		})
+		.attr("stroke-width", function(d){
+			if (d.properties.start==thing || d.properties.end==thing){
+			return strokeMap(d.properties.MetricTons);
+			}
+			else {
+			return 1;
+			}			
+		})
+}
+function undoPortAndPath(thing){
+	console.log("port and path")
+		pathGroups.selectAll("path")
+		.transition()
+		.duration(100)
+		.attr("stroke", "#307074")
+		.attr("stroke-width",1)
+}
 
 
 	// Clickable ports get the click handler
@@ -878,8 +927,8 @@ console.log("maxallports"+maxAll)
 		.on('click', click)
 		.on("mouseover", function(d) {
 			if (animateOpening==false){
-
-		d3.select(this).transition().attr("stroke","#ff2000").attr("stroke-width",4);
+				// portAndPath(d.properties.port);
+		d3.select(this).transition().attr("stroke","#ff2000").attr("stroke-width",4).attr("r",radiusLarge);
 
 			console.log(d.properties+"thisisnormalmouseoveronport")
 			updateHoverbox(d.properties, "port");
@@ -887,6 +936,7 @@ console.log("maxallports"+maxAll)
 		}
 		})
 		.on("mouseout", function(d) {
+			// undoPortAndPath();
 			hideHoverbox();
 
 
@@ -1032,30 +1082,7 @@ var lightExpMap = d3.scale.linear()
 			return "hsl(180,100,"+lightExpMap(d.properties.ExportMetTons)+")"
 			});
 }
-function pathFreqVolumes(){
-// var lightFreqMap = d3.scale.linear()
-// 		.domain([0, maxFreq]) //493829169.9 is max
-// 		.range([5, 50]);
 
-// pathGroups.exit();
-// pathGroups.selectAll("path")
-// .data(ports.features)
-// .enter()
-// .append("path")
-
-  // pathGroups.exit().remove();
-
-
-
-		// pathGroups.selectAll("path")
-	//Shipping Paths
-// 			.transition()
-// 			.duration(1000)
-// 		.attr("stroke", function(d){
-// console.log(d.properties.freq+"d.properties.freq");
-// 			return "hsl(180,100,"+lightFreqMap(d.properties.freq)+")"
-// 			});
-}
 function pathImpVolumes(){
 	console.log("in path imports")
 
@@ -1072,8 +1099,6 @@ var lightImpMap = d3.scale.linear()
 			return "hsl(180,100,"+lightImpMap(d.properties.ImportMetTons)+")"
 			})
 }
-
-
 
 function hidePorts(){
 	console.log("hide ports")
@@ -1354,6 +1379,9 @@ svg.append("g")
 		.text("total");
 
 	if (animateOpening) {
+		$('#volPorts, #eBars, #animation, #animPaths').hide();
+		$('#storyContainer').hide();
+		$('.nav').hide();
 		d3.select("#intro1")
 			.style("display", "block")
 			// .transition()
@@ -1400,8 +1428,10 @@ svg.append("g")
 					d3.select("#intro3").transition().duration(1000).style("opacity", 0.0).style("display", "none"); 
 					d3.select("#intro4").style("display", "block").transition().duration(1000).style("background-color","rgba(0,0,0,1)").style("opacity", 1.0);
 
-				$('.fadeBottom').fadeOut("fast");
-				$('.fadeLeft').hide();
+				$('.nav').fadeIn("fast");
+		$('#storyContainer').show();
+				// $('.fadeBottom').fadeOut("fast");
+				$('#volPorts, #eBars, #animation, #animPaths').show();
 			// })
 			d3.select("#storyContainer")
 			.transition();
@@ -1434,8 +1464,11 @@ svg.append("g")
 
 				closeStories();
 				animateOpening = false;
-				$('.fadeBottom').fadeOut("fast");
-				$('.fadeLeft').hide();
+				// $('.fadeBottom').fadeOut("fast");
+		$('.nav').show();
+		$('#storyContainer').show();
+				// $('.fadeLeft').hide();
+		$('#volPorts, #eBars, #animation, #animPaths').show();
 
 			});
 			// .style("display", "block")
@@ -1476,9 +1509,11 @@ svg.append("g")
 			.duration(5000)
 			.attr("r", radiusSmall)
 			.attr("opacity", portOnOpacity);
-
-				$('.fadeBottom').fadeOut("fast");
-				$('.fadeLeft').hide();
+		$('.nav').show();
+		$('#storyContainer').show();
+				// $('.fadeBottom').fadeOut("fast");
+				// $('.fadeLeft').hide();
+		$('#volPorts, #eBars, #animation, #animPaths').show();
 
 			});
 
@@ -1935,7 +1970,7 @@ d3.selectAll("#thumb1, #thumb2, #thumb3, #thumb4, #thumb5, #thumb6")
 			//Highlight associated port
 			d3.selectAll(".ports .port")
 				.filter(function(d) {
-					if (d.properties.port.toUpperCase() == port) {
+					if (d.properties.port.toUpperCase() == port || d.properties.port.toUpperCase() == start|| d.properties.port.toUpperCase() == end) {
 						return true;						
 					}
 					return false;
@@ -1943,7 +1978,7 @@ d3.selectAll("#thumb1, #thumb2, #thumb3, #thumb4, #thumb5, #thumb6")
 				.classed("selected", true)
 				// .attr("stroke-width",20)
 				.each(function(d){
-					if (d.properties.port.toUpperCase()==port){
+					if (d.properties.port.toUpperCase() == port || d.properties.port.toUpperCase() == start|| d.properties.port.toUpperCase() == end) {
 					updateHoverbox(d.properties, "port");
 					d3.select(this).each(moveToFront);
 					}
@@ -1952,68 +1987,68 @@ d3.selectAll("#thumb1, #thumb2, #thumb3, #thumb4, #thumb5, #thumb6")
 				}
 
 		//Is this story associated with a path?
-		else {
-			//console.log(start + ", " + end);
+		// else {
+		// 	//console.log(start + ", " + end);
 
-			start = start.toUpperCase();
-			end = end.toUpperCase();
+		// 	start = start.toUpperCase();
+		// 	end = end.toUpperCase();
 
-			//Highlight associated path
-			d3.selectAll(".paths path")
-				.filter(function(d) {
-					//console.log(d);
-					if (d.properties.USPt.toUpperCase() == start &&
-						d.properties.FgnPort.toUpperCase() == end) {
-						return true;
-					}
-					return false;
-				})
-				.classed("selected", true)
-
-
-
-
-
-
-				.each(function(d){
-					if (d.properties.USPt.toUpperCase() == start &&
-						d.properties.FgnPort.toUpperCase() == end){ 
-              	d3.select(this).each(moveToFront);
-                d3.select(this).select("path")
-                        .transition()
-                        .duration(500)
-                        .style("stroke","#ff2000");
-                    }
-				})
+		// 	//Highlight associated path
+		// 	d3.selectAll(".paths path")
+		// 		.filter(function(d) {
+		// 			//console.log(d);
+		// 			if (d.properties.USPt.toUpperCase() == start &&
+		// 				d.properties.FgnPort.toUpperCase() == end) {
+		// 				return true;
+		// 			}
+		// 			return false;
+		// 		})
+		// 		.classed("selected", true)
 
 
 
 
 
 
+		// 		.each(function(d){
+		// 			if (d.properties.USPt.toUpperCase() == start &&
+		// 				d.properties.FgnPort.toUpperCase() == end){ 
+  //             	d3.select(this).each(moveToFront);
+  //               d3.select(this).select("path")
+  //                       .transition()
+  //                       .duration(500)
+  //                       .style("stroke","#ff2000");
+  //                   }
+		// 		})
 
 
-				.each(moveToFront);
 
-			//Highlight associated port(s)
-			d3.selectAll(".ports .port")
-				.filter(function(d) {
-					if (d.properties.port.toUpperCase() == start ||
-						d.properties.port.toUpperCase() == end) {
-						return true;
-					}
-					return false;
-				})
-				.classed("selected", true)
-				.each(function(d) {
-					if (d.properties.port.toUpperCase() == start) {
-					updateHoverbox(d.properties, "port");
-					// console.log(d.properties+"thisisd.propertiesinsidehighlighting")
-					d3.select(this).each(moveToFront);
-					}
-				})
-				.each(moveToFront);
-		}	
+
+
+
+
+
+		// 		.each(moveToFront);
+
+		// 	//Highlight associated port(s)
+		// 	d3.selectAll(".ports .port")
+		// 		.filter(function(d) {
+		// 			if (d.properties.port.toUpperCase() == start ||
+		// 				d.properties.port.toUpperCase() == end) {
+		// 				return true;
+		// 			}
+		// 			return false;
+		// 		})
+		// 		.classed("selected", true)
+		// 		.each(function(d) {
+		// 			if (d.properties.port.toUpperCase() == start) {
+		// 			updateHoverbox(d.properties, "port");
+		// 			// console.log(d.properties+"thisisd.propertiesinsidehighlighting")
+		// 			d3.select(this).each(moveToFront);
+		// 			}
+		// 		})
+		// 		.each(moveToFront);
+		// }	
 
 		//Update thumbs' selected status
 		// d3.selectAll(".thumb.selected").classed("selected", false);
